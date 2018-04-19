@@ -283,15 +283,17 @@
 		public static float Berp(float start, float end, float value)
 		{
 			value = Mathf.Clamp01(value);
-			value = (Mathf.Sin(value * Mathf.PI * (0.2f + (2.5f * value * value * value))) * Mathf.Pow(1f - value, 2.2f) + value) * (1f + (1.2f * (1f - value)));
-			return start + (end - start) * value;
+			float val = Mathf.Sin(value * Mathf.PI * (0.2f + (2.5f * value * value * value)));
+			float val2 = Mathf.Pow(1f - value, 2.2f);
+			value = ((val * val2) + value) * (1f + (1.2f * (1f - value)));
+			return start + ((end - start) * value);
 		}
 		public static float SmoothStep(float x, float min, float max)
 		{
 			x = Mathf.Clamp(x, min, max);
 			float v1 = (x - min) / (max - min);
 			float v2 = (x - min) / (max - min);
-			return -2 * v1 * v1 * v1 + 3 * v2 * v2;
+			return (-2 * v1 * v1 * v1) + (3 * v2 * v2);
 		}
 		public static float GetYRotFromVec(Vector3 v1, Vector3 v2)
 		{
