@@ -49,7 +49,6 @@
 			hoverTimer =
 				hoverFloored = 0;
 			StartCoroutine(ExitHoverDelay());
-
 		}
 
 		public virtual void Tap()

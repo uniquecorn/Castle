@@ -19,7 +19,7 @@
 			{
 				castleFont = new CastleFont();
 				castleFont.LoadFont(font);
-				for(int i = 0; i < castleFont.glyphs.Length;i++)
+				for(int i = 0; i < castleFont.glyphs.Length; i++)
 				{
 					CreateGlyph(i).sprite = castleFont.glyphs[i].sprite;
 				}
@@ -29,7 +29,7 @@
 
 		SpriteRenderer CreateGlyph(int x)
 		{
-			return Instantiate(glyph, transform.position + Vector3.right * x, Quaternion.identity).GetComponent<SpriteRenderer>();
+			return Instantiate(glyph, transform.position + (Vector3.right * x), Quaternion.identity).GetComponent<SpriteRenderer>();
 		}
 		void Update()
 		{

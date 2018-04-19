@@ -46,6 +46,7 @@
 			tempTransition.exitTime = _exitTime;
 			tempTransition.duration = _duration;
 		}
+
 		static void AddTransition(AnimatorState start, AnimatorState end, string condition, float _duration = 0)
 		{
 			AnimatorStateTransition tempTransition = start.AddExitTransition();
@@ -54,7 +55,6 @@
 			tempTransition.AddCondition(AnimatorConditionMode.If, 0, condition);
 			tempTransition.duration = _duration;
 		}
-
 		
 		static AnimatorState AddState(AnimatorController control, string clipName, bool loop = false, bool addParam = false, bool defaultState = false)
 		{
@@ -84,11 +84,6 @@
 		static void AddParam(AnimatorController control, string clipName)
 		{
 			control.AddParameter(clipName, AnimatorControllerParameterType.Trigger);
-		}
-		// Update is called once per frame
-		void Update()
-		{
-
 		}
 	}
 }
