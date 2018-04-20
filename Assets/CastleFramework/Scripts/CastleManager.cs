@@ -36,9 +36,6 @@
 		}
 
 		public static CastleInputMode inputMode;
-
-		[HideInInspector]
-		public static List<CastleFont> castleFonts;
 		
 		/// <summary>
 		/// Initialises your input;

@@ -85,5 +85,26 @@
 		{
 			control.AddParameter(clipName, AnimatorControllerParameterType.Trigger);
 		}
+		//[MenuItem("CONTEXT/Font/Create CastleFont")]
+		//static CastleFont CreateCastleFont(MenuCommand command)
+		//{
+		//	Font font = (Font)command.context;
+		//	CastleFont castleFont = CreateInstance<CastleFont>();
+		//	AssetDatabase.CreateAsset(castleFont, "Assets/Fonts/" + font.name + ".asset");
+		//	int size = font.characterInfo.Length;
+		//	castleFont.glyphs = new CastleFont.Glyph[size];
+		//	for(int i = 0; i < size; i++)
+		//	{
+		//		Rect _uv = new Rect(font.characterInfo[i].uvTopLeft.x, font.characterInfo[i].uvTopLeft.y, font.characterInfo[i].glyphWidth, font.characterInfo[i].glyphHeight);
+		//		CastleFont.Glyph g = new CastleFont.Glyph();
+		//		//g.uv = font.characterInfo[i]
+		//		g.index = font.characterInfo[i].index;
+		//	}
+		//	string path = AssetDatabase.GetAssetPath(font);
+		//	Texture2D tex = AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D)) as Texture2D;
+		//	castleFont.sprite_texture = tex;
+		//	EditorUtility.SetDirty(castleFont);
+		//	return castleFont;
+		//}
 	}
 }
