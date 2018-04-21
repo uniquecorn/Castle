@@ -40,6 +40,7 @@
 		Vector2[] uv;
 		Color[] colors;
 		Vector3 caretPos;
+		Vector3 alignedVec;
 		int caretLine;
 		List<float> lineLengths;
 		// Update is called once per frame
@@ -50,6 +51,10 @@
 			meshFilter.mesh = mesh;
 			meshRenderer = GetComponent<MeshRenderer>();
 			meshRenderer.material = font.material;
+			lineLengths = new List<float>()
+			{
+				0
+			};
 			RebuildMesh();
 		}
 
@@ -71,10 +76,8 @@
 			font.RequestCharactersInTexture(text, internalFontSize);
 			
 			mesh.MarkDynamic();
-			lineLengths = new List<float>()
-			{
-				0
-			};
+			lineLengths.Clear();
+			lineLengths.Add(0);
 			vertices = new Vector3[internalText.Length * 4];
 			triangles = new int[internalText.Length * 6];
 			uv = new Vector2[internalText.Length * 4];
@@ -162,9 +165,11 @@
 				}
 				else
 				{
-					Vector3 alignedVec = Vector3.zero;
 					switch (internalAlignment)
 					{
+						case Alignment.LEFT:
+							alignedVec = Vector3.zero;
+							break;
 						case Alignment.CENTER:
 							alignedVec = Vector3.right * ((lineLengths[currentLine] * internalScale) / 2);
 							break;
