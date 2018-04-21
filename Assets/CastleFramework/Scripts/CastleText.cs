@@ -1,6 +1,5 @@
 ﻿namespace Castle
 {
-	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
 
@@ -29,22 +28,24 @@
 		public Alignment alignment;
 		private Alignment internalAlignment;
 
-		[Range(0,1)]
-		public float progress;
 		Mesh mesh;
 		MeshFilter meshFilter;
 		MeshRenderer meshRenderer;
 
-		Vector3[] vertices;
-		int[] triangles;
-		Vector2[] uv;
-		Color[] colors;
+		[HideInInspector]
+		public Vector3[] vertices;
+		[HideInInspector]
+		public int[] triangles;
+		[HideInInspector]
+		public Vector2[] uv;
+		[HideInInspector]
+		public Color[] colors;
 		Vector3 caretPos;
 		Vector3 alignedVec;
 		int caretLine;
 		List<float> lineLengths;
 		// Update is called once per frame
-		protected override void Start()
+		void Awake()
 		{
 			mesh = new Mesh();
 			meshFilter = GetComponent<MeshFilter>();
@@ -74,7 +75,7 @@
 			internalFontSize = fontSize;
 			internalColor = textColor;
 			font.RequestCharactersInTexture(text, internalFontSize);
-			
+			//realAnimationTime = duration + (internalText.Length * delay);
 			mesh.MarkDynamic();
 			lineLengths.Clear();
 			lineLengths.Add(0);
@@ -183,6 +184,21 @@
 					vertices[(4 * i) + 3] -= alignedVec;
 				}
 			}
+		}
+
+		public void SetVertices(Vector3[] verts, int index)
+		{
+			for(int i = 0; i < 4; i++)
+			{
+				//verts[i] 
+			}
+			mesh.vertices = verts;
+		}
+
+		public void SetVertice(Vector3 vert, int index)
+		{
+			vertices[index] = vert;
+			mesh.vertices = vertices;
 		}
 
 		void Update()
