@@ -36,6 +36,15 @@
 			AddExit(tap, hold);
 			AddExit(release, normal);
 			castleButton.anim.runtimeAnimatorController = control;
+			Selection.activeGameObject = castleButton.gameObject;
+		}
+
+		[MenuItem("Castle/Create/CastleText")]
+		static void CreateText()
+		{
+			Object prefabObject = AssetDatabase.LoadAssetAtPath<Object>("Assets/CastleFramework/Primitives/CastleText.prefab");
+			CastleText castleText = ((GameObject)PrefabUtility.InstantiatePrefab(prefabObject)).GetComponent<CastleText>();
+			Selection.activeGameObject = castleText.gameObject;
 		}
 
 		static void AddExit(AnimatorState start, AnimatorState end, float _exitTime = 1, float _duration = 0)

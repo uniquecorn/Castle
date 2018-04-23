@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public struct CharacterData
 {
 	public enum CharacterType
@@ -12,7 +11,6 @@ public struct CharacterData
 		NEWLINE
 	}
 	public CharacterType charType;
-	[SerializeField]
 	private float progress;
 
 	public float Progress
@@ -45,9 +43,13 @@ public struct CharacterData
 	public void UpdateTime(float time)
 	{
 		if (time < startingTime)
-			return;
-
-		progress = (time - startingTime) / totalAnimationTime;
+		{
+			progress = 0;
+		}
+		else
+		{
+			progress = (time - startingTime) / totalAnimationTime;
+		}
 	}
 }
 

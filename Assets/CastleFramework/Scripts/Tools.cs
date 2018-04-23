@@ -436,6 +436,28 @@
 		{
 			return new Vector3(vector.x, vector.y, z);
 		}
+		public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+		{
+			return RotatePointAroundPivot(point, pivot, Quaternion.Euler(angles));
+		}
+		public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
+		{
+			return rotation * (point - pivot) + pivot;
+		}
+		public static Vector3 CenterOfVectors(Vector3[] vectors)
+		{
+			Vector3 sum = Vector3.zero;
+			if (vectors == null || vectors.Length == 0)
+			{
+				return sum;
+			}
+
+			foreach (Vector3 vec in vectors)
+			{
+				sum += vec;
+			}
+			return sum / vectors.Length;
+		}
 		public static void WriteTextFile(string sFilePathAndName, string sTextContents)
 		{
 			StreamWriter sw = new StreamWriter(sFilePathAndName);

@@ -4,15 +4,20 @@
 	using UnityEngine;
 
 	[ExecuteInEditMode]
+	[RequireComponent(typeof(MeshFilter))]
+	[RequireComponent(typeof(MeshRenderer))]
 	public class CastleText : CastleObject
 	{
 		[TextArea(3, 10)]
 		public string text;
 		private string internalText;
-		public int fontSize;
+		public int fontSize = 20;
 		private int internalFontSize;
-		public float scale;
+		public float scale = 1;
 		private float internalScale;
+		[SortingLayer]
+		public string sortingLayer = "Default";
+		public int sortingOrder;
 
 		public Font font;
 
@@ -67,7 +72,7 @@
 			meshFilter = GetComponent<MeshFilter>();
 			meshFilter.mesh = mesh;
 			meshRenderer = GetComponent<MeshRenderer>();
-			meshRenderer.material = font.material;
+			meshRenderer.sharedMaterial = font.material;
 			lineLengths = new List<float>()
 			{
 				0
@@ -75,6 +80,16 @@
 			charData = new CharacterData[1];
 
 			RebuildMesh();
+		}
+
+		protected override void Start()
+		{
+			if(playOnAwake)
+			{
+				isPlaying = true;
+				progress = 0;
+				internalTime = 0;
+			}
 		}
 
 		void OnFontTextureRebuilt(Font changedFont)
@@ -89,7 +104,7 @@
 		{
 			internalText = text;
 			realAnimationTime = duration + (internalText.Length * delay);
-			internalScale = scale;
+			internalScale = scale * 0.01f;
 			internalAlignment = alignment;
 			internalFontSize = fontSize;
 			internalColor = textColor;
@@ -183,6 +198,7 @@
 			for(int i = 0; i < colors.Length; i++)
 			{
 				colors[i] = internalColor;
+
 			}
 			mesh.colors = colors;
 		}
@@ -255,7 +271,20 @@
 				{
 					internalTime += Time.deltaTime;
 				}
-				
+				if(internalTime >= realAnimationTime)
+				{
+					if (!loop)
+					{
+						isPlaying = false;
+						internalTime = 0;
+						progress = 0;
+					}
+					else
+					{
+						internalTime = realAnimationTime;
+						progress = 1;
+					}
+				}
 			}
 			for (int i = 0; i < charData.Length; i++)
 			{
@@ -268,24 +297,27 @@
 			for(int i = 0; i < charData.Length; i++)
 			{
 				charData[i].vertexPos.ResetModified();
-				for(int j = 0; j < modifiers.Length;j++)
+				for(int j = 0; j < modifiers.Length; j++)
 				{
 					modifiers[j].Apply(charData[i]);
 				}
 				AnimateVertices(charData[i]);
 			}
-			SetMesh();
 		}
 
 		void Update()
 		{
 #if UNITY_EDITOR
-			if(!UnityEditor.EditorApplication.isPlaying)
-			{
-				modifiers = GetComponents<TextModifier>();
-			}
+			//if(!UnityEditor.EditorApplication.isPlaying)
+			//{
+			//	modifiers = GetComponents<TextModifier>();
+			//}
 #endif
-			if (text != internalText || alignment != internalAlignment || scale != internalScale || fontSize != internalFontSize)
+			if(meshRenderer.sharedMaterial != font.material)
+			{
+				meshRenderer.sharedMaterial = font.material;
+			}
+			if (text != internalText || alignment != internalAlignment || scale != (internalScale * 100) || fontSize != internalFontSize || charData.Length != text.Length)
 			{
 				RebuildMesh();
 			}
@@ -298,6 +330,9 @@
 			{
 				Animate();
 			}
+			meshRenderer.sortingOrder = sortingOrder;
+			meshRenderer.sortingLayerName = sortingLayer;
+			SetMesh();
 		}
 	}
 }
