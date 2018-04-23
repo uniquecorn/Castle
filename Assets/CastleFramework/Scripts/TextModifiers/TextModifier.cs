@@ -6,12 +6,10 @@
 	public class TextModifier : MonoBehaviour
 	{
 		public AnimationCurve curve;
-		[HideInInspector]
-		public Vector3[] vertices;
 
-		public virtual void Apply(TextAnimator.CharacterData characterData, ref Mesh characterMesh)
+		public virtual void Apply(CharacterData characterData)
 		{
-
+			//APPLY CHANGES TO CHARACTERDATA HERE
 		}
 	}
 }

@@ -40,10 +40,26 @@
 		public Vector2[] uv;
 		[HideInInspector]
 		public Color[] colors;
+		
+		public CharacterData[] charData;
 		Vector3 caretPos;
 		Vector3 alignedVec;
 		int caretLine;
 		List<float> lineLengths;
+
+		[Range(0, 1)]
+		public float progress;
+		private float internalProgress;
+		public float delay; 
+		public float duration = 1;
+		public float realAnimationTime;
+		public float internalTime;
+		public bool playOnAwake;
+		public bool loop;
+		public bool isPlaying;
+		public bool unscaledTime;
+
+		public TextModifier[] modifiers;
 		// Update is called once per frame
 		void Awake()
 		{
@@ -56,6 +72,8 @@
 			{
 				0
 			};
+			charData = new CharacterData[1];
+
 			RebuildMesh();
 		}
 
@@ -70,6 +88,7 @@
 		void RebuildMesh()
 		{
 			internalText = text;
+			realAnimationTime = duration + (internalText.Length * delay);
 			internalScale = scale;
 			internalAlignment = alignment;
 			internalFontSize = fontSize;
@@ -79,6 +98,7 @@
 			mesh.MarkDynamic();
 			lineLengths.Clear();
 			lineLengths.Add(0);
+			charData = new CharacterData[internalText.Length];
 			vertices = new Vector3[internalText.Length * 4];
 			triangles = new int[internalText.Length * 6];
 			uv = new Vector2[internalText.Length * 4];
@@ -89,8 +109,14 @@
 			{
 				AddChar(internalText[i],i);
 			}
+
 			Align();
-			
+
+			SetMesh();
+		}
+
+		void SetMesh()
+		{
 			mesh.Clear();
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
@@ -105,34 +131,40 @@
 
 			if (_char == '\n')
 			{
+				charData[characterPosition] = new CharacterData(delay * characterPosition, duration, characterPosition, new VertexPos(Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero));
+				charData[characterPosition].charType = CharacterData.CharacterType.NEWLINE;
 				NewLine();
 			}
 			else
 			{
-				int vertexPos = 4 * characterPosition;
+				Vector3 pos1 = (caretPos + new Vector3(ch.minX, ch.maxY, 0)) * internalScale;
+				Vector3 pos2 = (caretPos + new Vector3(ch.maxX, ch.maxY, 0)) * internalScale;
+				Vector3 pos3 = (caretPos + new Vector3(ch.maxX, ch.minY, 0)) * internalScale;
+				Vector3 pos4 = (caretPos + new Vector3(ch.minX, ch.minY, 0)) * internalScale;
+				VertexPos vecPos = new VertexPos(pos1,pos2,pos3,pos4);
+				charData[characterPosition] = new CharacterData(delay * characterPosition, duration, characterPosition,vecPos);
+				int charPos = 4 * characterPosition;
 				int triPos = 6 * characterPosition;
-				vertices[vertexPos] = (caretPos + new Vector3(ch.minX, ch.maxY, 0)) * internalScale;
-				vertices[vertexPos + 1] = (caretPos + new Vector3(ch.maxX, ch.maxY, 0)) * internalScale;
-				vertices[vertexPos + 2] = (caretPos + new Vector3(ch.maxX, ch.minY, 0)) * internalScale;
-				vertices[vertexPos + 3] = (caretPos + new Vector3(ch.minX, ch.minY, 0)) * internalScale;
+				SetVertices(charData[characterPosition]);
 
-				colors[vertexPos] =
-					colors[vertexPos + 1] =
-					colors[vertexPos + 2] =
-					colors[vertexPos + 3] = internalColor;
+				colors[charPos] =
+					colors[charPos + 1] =
+					colors[charPos + 2] =
+					colors[charPos + 3] = internalColor;
 
-				uv[vertexPos] = ch.uvTopLeft;
-				uv[vertexPos + 1] = ch.uvTopRight;
-				uv[vertexPos + 2] = ch.uvBottomRight;
-				uv[vertexPos + 3] = ch.uvBottomLeft;
+				uv[charPos] = ch.uvTopLeft;
+				uv[charPos + 1] = ch.uvTopRight;
+				uv[charPos + 2] = ch.uvBottomRight;
+				uv[charPos + 3] = ch.uvBottomLeft;
 
-				triangles[triPos] = vertexPos;
-				triangles[triPos + 1] = vertexPos + 1;
-				triangles[triPos + 2] = vertexPos + 2;
+				triangles[triPos] = charPos;
+				triangles[triPos + 1] = charPos + 1;
+				triangles[triPos + 2] = charPos + 2;
 
-				triangles[triPos + 3] = vertexPos;
-				triangles[triPos + 4] = vertexPos + 2;
-				triangles[triPos + 5] = vertexPos + 3;
+				triangles[triPos + 3] = charPos;
+				triangles[triPos + 4] = charPos + 2;
+				triangles[triPos + 5] = charPos + 3;
+				
 			}
 			lineLengths[caretLine] += ch.advance;
 			caretPos += (Vector3.right * ch.advance);
@@ -178,21 +210,26 @@
 							alignedVec = Vector3.right * (lineLengths[currentLine] * internalScale);
 							break;
 					}
-					vertices[4 * i] -= alignedVec;
-					vertices[(4 * i) + 1] -= alignedVec;
-					vertices[(4 * i) + 2] -= alignedVec;
-					vertices[(4 * i) + 3] -= alignedVec;
+					charData[i].vertexPos.MoveBaseVertex(-alignedVec);
+					SetVertices(charData[i]);
 				}
 			}
 		}
 
-		public void SetVertices(Vector3[] verts, int index)
+		public void SetVertices(CharacterData charData)
 		{
 			for(int i = 0; i < 4; i++)
 			{
-				//verts[i] 
+				vertices[(4 * charData.Order) + i] = charData.vertexPos.basePositions[i];
 			}
-			mesh.vertices = verts;
+		}
+
+		public void AnimateVertices(CharacterData charData)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				vertices[(4 * charData.Order) + i] = charData.vertexPos.modifiedPositions[i];
+			}
 		}
 
 		public void SetVertice(Vector3 vert, int index)
@@ -201,15 +238,65 @@
 			mesh.vertices = vertices;
 		}
 
+		void UpdateTime()
+		{
+			if (!isPlaying)
+			{
+				internalTime = progress * realAnimationTime;
+			}
+			else
+			{
+				progress = internalTime / realAnimationTime;
+				if(unscaledTime)
+				{
+					internalTime += Time.unscaledDeltaTime;
+				}
+				else
+				{
+					internalTime += Time.deltaTime;
+				}
+				
+			}
+			for (int i = 0; i < charData.Length; i++)
+			{
+				charData[i].UpdateTime(internalTime);
+			}
+		}
+
+		void Animate()
+		{
+			for(int i = 0; i < charData.Length; i++)
+			{
+				charData[i].vertexPos.ResetModified();
+				for(int j = 0; j < modifiers.Length;j++)
+				{
+					modifiers[j].Apply(charData[i]);
+				}
+				AnimateVertices(charData[i]);
+			}
+			SetMesh();
+		}
+
 		void Update()
 		{
-			if(text != internalText || alignment != internalAlignment || scale != internalScale || fontSize != internalFontSize)
+#if UNITY_EDITOR
+			if(!UnityEditor.EditorApplication.isPlaying)
+			{
+				modifiers = GetComponents<TextModifier>();
+			}
+#endif
+			if (text != internalText || alignment != internalAlignment || scale != internalScale || fontSize != internalFontSize)
 			{
 				RebuildMesh();
 			}
 			if(textColor != internalColor)
 			{
 				SetColors();
+			}
+			UpdateTime();
+			if(modifiers.Length > 0)
+			{
+				Animate();
 			}
 		}
 	}
