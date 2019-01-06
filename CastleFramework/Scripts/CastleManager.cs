@@ -368,50 +368,54 @@
 				selectedObject.Tap();
 				return;
 			}
-			if (Input.GetMouseButtonDown(0))
-			{
-				selectedObject = _object;
-				if(selectedObject)
-				{
-					selectedObject.Tap();
-				}
-			}
-			else if (Input.GetMouseButton(0))
-			{
-				if (selectedObject)
-				{
-					if(inputMode == CastleInputMode.PERSPECTIVE)
-					{
-						if(CheckObject(selectedObject.coll3D))
-						{
-							selectedObject.Hold();
-						}
-						else
-						{
-							selectedObject.DragOff();
-						}
-					}
-					else
-					{
-						if(CheckObject(selectedObject.coll))
-						{
-							selectedObject.Hold();
-						}
-						else
-						{
-							selectedObject.DragOff();
-						}
-					}
-				}
-			}
-			else if (Input.GetMouseButtonUp(0))
-			{
-				if (selectedObject)
-				{
-					selectedObject.Release();
-					selectedObject = null;
-				}
-			}
+            HandleInput(_object);
 		}
-	}
+        static void HandleInput(CastleObject _object)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                selectedObject = _object;
+                if (selectedObject)
+                {
+                    selectedObject.Tap();
+                }
+            }
+            else if(Input.GetMouseButton(0))
+            {
+                if (selectedObject)
+                {
+                    if (inputMode == CastleInputMode.PERSPECTIVE)
+                    {
+                        if (CheckObject(selectedObject.coll3D))
+                        {
+                            selectedObject.Hold();
+                        }
+                        else
+                        {
+                            selectedObject.DragOff();
+                        }
+                    }
+                    else
+                    {
+                        if (CheckObject(selectedObject.coll))
+                        {
+                            selectedObject.Hold();
+                        }
+                        else
+                        {
+                            selectedObject.DragOff();
+                        }
+                    }
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (selectedObject)
+                {
+                    selectedObject.Release();
+                    selectedObject = null;
+                }
+            }
+        }
+    }
 }

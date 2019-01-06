@@ -13,6 +13,5 @@
 				characterData.vertexPos.modifiedPositions[i] = CastleTools.RotatePointAroundPivot(characterData.vertexPos.modifiedPositions[i], pivot, Quaternion.Euler(0, 0, curve.Evaluate(characterData.Progress)));
 			}
 		}
-		
 	}
 }
