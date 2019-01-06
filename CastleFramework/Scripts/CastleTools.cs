@@ -20,7 +20,6 @@ public class CastleTools : MonoBehaviour
 	{
 		return Instantiate(RandomObject(assets), Vector3.zero, Quaternion.identity);
 	}
-
 	public static IEnumerator LoadImageIOS(string fileName, System.Action<Texture2D> result)
 	{
 		WWW imageToLoadPath = new WWW(fileName);
@@ -39,7 +38,6 @@ public class CastleTools : MonoBehaviour
 		}
 		result(imageToLoadPath.texture);
 	}
-
 	public static Texture2D LoadImage(string fileName)
 	{
 		if(fileName.EndsWith(".png"))
@@ -55,7 +53,6 @@ public class CastleTools : MonoBehaviour
 			throw new System.Exception("Not a png or tga file");
 		}
 	}
-
 	public static Texture2D LoadPNG(byte[] imageData)
 	{
 		Texture2D tex = new Texture2D(4, 4, TextureFormat.ARGB32, true)
@@ -67,7 +64,6 @@ public class CastleTools : MonoBehaviour
 		tex.Apply();
 		return tex;
 	}
-
 	public static Texture2D LoadTGA(string fileName)
 	{
 		using (FileStream imageFile = File.OpenRead(fileName))
@@ -75,7 +71,6 @@ public class CastleTools : MonoBehaviour
 			return LoadTGA(imageFile);
 		}
 	}
-	
 	public static Texture2D LoadTGA(Stream TGAStream)
 	{
 		using (BinaryReader r = new BinaryReader(TGAStream))
@@ -130,12 +125,8 @@ public class CastleTools : MonoBehaviour
 	}
 	public static System.TimeSpan CalculateHoursDifference(string datetime1, string datetime2)
 	{
-		//print(System.DateTime.Now.ToString());
 		System.DateTime date1 = System.DateTime.Parse(datetime1);
 		System.DateTime date2 = System.DateTime.Parse(datetime2);
-
-		//print(date2.CompareTo(date1));
-
 		return date2.Subtract(date1);
 	}
 	public static AudioSource PlayClipAt(AudioClip clip, Vector3 pos, float volume = 1)
@@ -509,7 +500,7 @@ public class CastleTools : MonoBehaviour
 	}
 	public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Quaternion rotation)
 	{
-		return rotation * (point - pivot) + pivot;
+		return (rotation * (point - pivot)) + pivot;
 	}
 	public static Vector3 CenterOfVectors(Vector3[] vectors)
 	{
@@ -543,7 +534,6 @@ public class CastleTools : MonoBehaviour
         {
             Process.Start("open", "-R " + itemPath);
         }
-
     }
 	public static Color ClearColor(Color _color)
 	{
@@ -552,22 +542,5 @@ public class CastleTools : MonoBehaviour
 	public static Color FullColor(Color _color)
 	{
 		return new Color(_color.r,_color.g,_color.b,1);
-	}
-}
-
-
-public static class IEnumerableExtension
-{
-	public static IEnumerable<T> Safe<T>(this IEnumerable<T> source)
-	{
-		if (source == null)
-		{
-			yield break;
-		}
-
-		foreach (var item in source)
-		{
-			yield return item;
-		}
 	}
 }

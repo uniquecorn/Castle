@@ -168,7 +168,6 @@
 			}
 			else
 			{
-				
 				Vector3 pos1 = (caretPos + new Vector3(ch.minX, ch.maxY, 0)) * internalScale;
 				Vector3 pos2 = (caretPos + new Vector3(ch.maxX, ch.maxY, 0)) * internalScale;
 				Vector3 pos3 = (caretPos + new Vector3(ch.maxX, ch.minY, 0)) * internalScale;
@@ -196,7 +195,6 @@
 				triangles[triPos + 3] = charPos;
 				triangles[triPos + 4] = charPos + 2;
 				triangles[triPos + 5] = charPos + 3;
-				
 			}
 			lineLengths[caretLine] += ch.advance;
 			caretPos += (Vector3.right * ch.advance);
@@ -215,7 +213,6 @@
 			for(int i = 0; i < colors.Length; i++)
 			{
 				colors[i] = internalColor;
-
 			}
 			mesh.colors = colors;
 		}
