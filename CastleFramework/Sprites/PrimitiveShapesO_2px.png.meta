@@ -133,10 +133,10 @@ TextureImporter:
       name: rectO_2px
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
+        x: 129
+        y: 129
+        width: 126
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 16, y: 16, z: 16, w: 16}

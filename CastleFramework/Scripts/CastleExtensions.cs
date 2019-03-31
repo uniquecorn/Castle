@@ -1,8 +1,10 @@
-﻿public static class CastleExtensions
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public static class CastleExtensions
 {
     public static List<T> Move<T>(this List<T> list, int oldIndex, int newIndex)
     {
-
         // exit if possitions are equal or outside array
         if ((oldIndex == newIndex) || (0 > oldIndex) || (oldIndex >= list.Count) || (0 > newIndex) ||
             (newIndex >= list.Count)) return list;
@@ -28,6 +30,10 @@
         // put element from position 1 to destination
         list[newIndex] = tmp;
         return list;
+    }
+    public static Color Percent(this Color _color,float percent)
+    {
+        return new Color(_color.r, _color.g, _color.b, percent);
     }
     public static Color Clear(this Color _color)
     {

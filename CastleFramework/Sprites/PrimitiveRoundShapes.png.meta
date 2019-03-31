@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 90772c22bc76d4ba8a0c9c7d71a8a709
+guid: 51d9eb969510549a6aee6162fe0dc81b
 TextureImporter:
   fileIDToRecycleName:
-    21300000: circleO_4px
-    21300002: rectO_4px
-    21300004: roundedRectO_4px
-    21300006: diamondO_4px
+    21300000: roundedRectC0
+    21300002: roundedRectC1
+    21300004: roundedRectC2
+    21300006: roundedRectC3
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -110,27 +110,27 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: circleO_4px
+      name: roundedRectC0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 128
-        height: 128
+        x: 1
+        y: 129
+        width: 126
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 64, y: 64, z: 64, w: 64}
+      border: {x: 16, y: 16, z: 16, w: 16}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd6153a1346004ad29aad76b014063e9
+      spriteID: cb493ba09d7c049ef8d2fd0a32ca680a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rectO_4px
+      name: roundedRectC1
       rect:
         serializedVersion: 2
         x: 129
@@ -144,19 +144,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff2b477f153d5498f96a898ab0faec0c
+      spriteID: 64ca6d5c005dd46c88cc710f1b471252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roundedRectO_4px
+      name: roundedRectC2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 1
+        y: 1
+        width: 126
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 16, y: 16, z: 16, w: 16}
@@ -164,27 +164,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 566553877eb10466e94282f1a5d0c8f0
+      spriteID: a66148bcd0ebd4d61a4f5be7a5ac1f03
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: diamondO_4px
+      name: roundedRectC3
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
+        x: 129
+        y: 1
+        width: 126
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 16, y: 16, z: 16, w: 16}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 454fb2e6cb3134ac1ab226869148f2f9
+      spriteID: 0bb7d24f01b9844b6b9fef6b55366b41
       vertices: []
       indices: 
       edges: []
@@ -192,7 +192,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: b3c91d1ed4e294110b33b7faa37ab48b
+    spriteID: 5126a2485a3824456aa468b842214f15
     vertices: []
     indices: 
     edges: []
