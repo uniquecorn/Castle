@@ -6,7 +6,7 @@ public static class CastleExtensions
     public static List<T> Move<T>(this List<T> list, int oldIndex, int newIndex)
     {
         // exit if possitions are equal or outside array
-        if ((oldIndex == newIndex) || (0 > oldIndex) || (oldIndex >= list.Count) || (0 > newIndex) ||
+        if ((oldIndex == newIndex) || (oldIndex < 0) || (oldIndex >= list.Count) || (newIndex < 0) ||
             (newIndex >= list.Count)) return list;
         // local variables
         var i = 0;
