@@ -15,6 +15,8 @@
 		private float holdFloored;
 
 		protected float hoverTimer;
+        private Vector2 holdOffset;
+        protected Vector2 holdDelta;
 		private float hoverFloored;
 
 		protected CastleManager.HoverState hoverState;
@@ -76,6 +78,8 @@
 			selectedState = CastleManager.SelectedState.Tap;
 			holdTimer =
 				holdFloored = 0;
+            holdDelta = Vector2.zero;
+            holdOffset = CastleManager.tapPosition;
 		}
 
 		public virtual void Hold()
@@ -90,6 +94,7 @@
 				}
 			}
 			holdTimer += Time.deltaTime;
+            holdDelta = holdOffset - CastleManager.tapPosition;
 		}
 
 		public virtual void Release()
@@ -101,6 +106,7 @@
 			selectedState = CastleManager.SelectedState.Release;
 			holdTimer =
 				holdFloored = 0;
+            holdDelta = holdOffset = Vector2.zero;
 			StartCoroutine(ReleaseDelay());
 		}
 

@@ -392,7 +392,7 @@ public class CastleTools : MonoBehaviour
 		return ((Mathf.Abs(val - about) < range));
 	}
 	// test if a Vector3 is close to another Vector3 (due to floating point inprecision)
-	// compares the square of the distance to the square of the range as this 
+	// compares the square of the distance to the square of the range as this
 	// avoids calculating a square root which is much slower than squaring the range
 	public static bool Approx(Vector3 val, Vector3 about, float range)
 	{
@@ -534,5 +534,14 @@ public class CastleTools : MonoBehaviour
         {
             Process.Start("open", "-R " + itemPath);
         }
+    }
+		public static string SlugKey(string s)
+    {
+        s = s.ToLower();
+        string genString = " ";
+        s = s.Replace(genString, "");
+        s = s.Replace("\n", "");
+        s = s.Replace(".", "");
+        return s;
     }
 }
