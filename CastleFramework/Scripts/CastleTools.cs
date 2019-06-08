@@ -22,21 +22,18 @@ public class CastleTools : MonoBehaviour
 	}
 	public static IEnumerator LoadImageIOS(string fileName, System.Action<Texture2D> result)
 	{
-		WWW imageToLoadPath = new WWW(fileName);
-		float elapsedTime = 0.0f;
-		while (!imageToLoadPath.isDone)
-		{
-			elapsedTime += Time.deltaTime;
-			if (elapsedTime >= 10.0f) break;
-			yield return null;
-		}
-
-		if (!imageToLoadPath.isDone || !string.IsNullOrEmpty(imageToLoadPath.error))
-		{
-			result(null);
-			yield break;
-		}
-		result(imageToLoadPath.texture);
+		UnityWebRequest imageToLoad = UnityWebRequestTexture.GetTexture(GetURIPath(fileName));
+        yield return imageToLoad.SendWebRequest();
+        if(imageToLoad.isNetworkError || imageToLoad.isHttpError)
+        {
+            UnityEngine.Debug.LogError(imageToLoad.error);
+            result(null);
+        }
+        else
+        {
+            Texture tex = ((DownloadHandlerTexture)imageToLoad.downloadHandler).texture;
+            result((Texture2D)tex);
+        }
 	}
 	public static Texture2D LoadImage(string fileName)
 	{
@@ -535,7 +532,7 @@ public class CastleTools : MonoBehaviour
             Process.Start("open", "-R " + itemPath);
         }
     }
-		public static string SlugKey(string s)
+	public static string SlugKey(string s)
     {
         s = s.ToLower();
         string genString = " ";
