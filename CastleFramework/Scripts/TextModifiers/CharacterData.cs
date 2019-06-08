@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public struct CharacterData
 {
 	public enum CharacterType
@@ -11,6 +11,7 @@ public struct CharacterData
 		NEWLINE
 	}
 	public CharacterType charType;
+    public string charUsed;
 	private float progress;
 
 	public float Progress
@@ -38,6 +39,7 @@ public struct CharacterData
 		order = targetOrder;
 		vertexPos = vertPos;
 		charType = CharacterType.CHARACTER;
+        charUsed = "";
 	}
 
 	public void UpdateTime(float time)
@@ -53,10 +55,11 @@ public struct CharacterData
 	}
 }
 
-public struct VertexPos
+public class VertexPos
 {
 	public Vector3[] basePositions;
 	public Vector3[] modifiedPositions;
+    public Vector3 middlePos;
 	public VertexPos(Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4)
 	{
 		basePositions = new Vector3[4];
@@ -65,6 +68,7 @@ public struct VertexPos
 		basePositions[1] = modifiedPositions[1] = pos2;
 		basePositions[2] = modifiedPositions[2] = pos3;
 		basePositions[3] = modifiedPositions[3] = pos4;
+        middlePos = CastleTools.CenterOfVectors(basePositions);
 	}
 	public void MoveBaseVertex(Vector3 vert)
 	{

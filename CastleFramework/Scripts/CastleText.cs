@@ -1,273 +1,109 @@
 ﻿namespace Castle
 {
+    using TMPro;
 	using System.Collections.Generic;
 	using UnityEngine;
-
-	[ExecuteInEditMode]
-	[RequireComponent(typeof(MeshFilter))]
-	[RequireComponent(typeof(MeshRenderer))]
-	public class CastleText : CastleObject
+    using NaughtyAttributes;
+    [ExecuteInEditMode]
+    [RequireComponent(typeof(TextMeshProUGUI))]
+	public class CastleText : MonoBehaviour
 	{
-		[TextArea(3, 10)]
-		public string text;
-		private string internalText;
-		public int fontSize = 20;
-		private int internalFontSize;
-		public float scale = 1;
-		private float internalScale;
-		[SortingLayer]
-		public string sortingLayer = "Default";
-		public int sortingOrder;
-
-		public Font font;
-
-		public Color textColor;
-		private Color internalColor;
-		
-		public enum Alignment
-		{
-			LEFT,
-			CENTER,
-			RIGHT
-		}
-		public Alignment alignment;
-		private Alignment internalAlignment;
-
-		Mesh mesh;
-		MeshFilter meshFilter;
-		MeshRenderer meshRenderer;
-
-		[HideInInspector]
-		public Vector3[] vertices;
-		[HideInInspector]
-		public int[] triangles;
-		[HideInInspector]
-		public Vector2[] uv;
-		[HideInInspector]
-		public Color[] colors;
-		
-		public CharacterData[] charData;
-		Vector3 caretPos;
-		Vector3 alignedVec;
-		int caretLine;
-		List<float> lineLengths;
-
-		[Range(0, 1)]
+        private TextMeshProUGUI textComponent;
+        public TextMeshProUGUI TextComponent
+        {
+            get
+            {
+                if(!textComponent)
+                {
+                    textComponent = GetComponent<TextMeshProUGUI>();
+                }
+                return textComponent;
+            }
+        }
+		private CharacterData[] charData;
+		[OnValueChanged("SyncToTextMesh"),Range(0, 1)]
 		public float progress;
-		private float internalProgress;
 		public float delay; 
 		public float duration = 1;
-		public float realAnimationTime;
-		public float internalTime;
+		private float realAnimationTime;
+		private float internalTime;
 		public bool playOnAwake;
-		public bool loop;
-		public bool isPlaying;
+        public LoopMode loop;
+        [ShowIf("IsPlayForever")]
+        public bool prewarm;
+		private bool isPlaying;
 		public bool unscaledTime;
 
+        public enum LoopMode
+        {
+            STOP,
+            LOOP,
+            PLAYFOREVER
+        }
+
 		public TextModifier[] modifiers;
-		// Update is called once per frame
-		public override void Awake()
+        private void Reset()
+        {
+            SyncToTextMesh();
+        }
+        // Update is called once per frame
+        public void SyncToTextMesh()
+        {
+            TextComponent.ForceMeshUpdate();
+            charData = new CharacterData[TextComponent.text.Length];
+            realAnimationTime = duration + (charData.Length * delay);
+            int charCount = 0;
+            for (int meshNum = 0; meshNum < TextComponent.textInfo.meshInfo.Length; meshNum++)
+            {
+                int numOfMeshCharacters = 0;
+                for (int characterNum = 0; characterNum < charData.Length * 4; characterNum += 4, numOfMeshCharacters++,++charCount)
+                {
+                    VertexPos vertPos = new VertexPos(TextComponent.textInfo.meshInfo[meshNum].vertices[characterNum], TextComponent.textInfo.meshInfo[meshNum].vertices[characterNum + 1], TextComponent.textInfo.meshInfo[meshNum].vertices[characterNum + 2], TextComponent.textInfo.meshInfo[meshNum].vertices[characterNum + 3]);
+                    charData[charCount] = new CharacterData(delay * charCount, duration, charCount, vertPos)
+                    {
+                        charUsed = TextComponent.text[charCount].ToString()
+                    };
+                }
+            }
+        }
+        bool IsPlayForever()
+        {
+            if(loop == LoopMode.PLAYFOREVER)
+            {
+                return true;
+            }
+            return false;
+        }
+        void Start()
 		{
-			base.Awake();
-			mesh = new Mesh();
-			meshFilter = GetComponent<MeshFilter>();
-			meshFilter.mesh = mesh;
-			meshRenderer = GetComponent<MeshRenderer>();
-			meshRenderer.sharedMaterial = font.material;
-			lineLengths = new List<float>()
-			{
-				0
-			};
-			charData = new CharacterData[1];
-
-			RebuildMesh();
-		}
-
-		public override void Tap()
-		{
-			base.Tap();
-		}
-
-		void Start()
-		{
+            SyncToTextMesh();
 			if(playOnAwake)
 			{
-				isPlaying = true;
-				progress = 0;
-				internalTime = 0;
+                Play();
 			}
 		}
-
-		void OnFontTextureRebuilt(Font changedFont)
-		{
-			if (changedFont != font)
-				return;
-
-			RebuildMesh();
-		}
-
-		void RebuildMesh()
-		{
-			internalText = text;
-			if(internalText == "" || string.IsNullOrEmpty(internalText))
-			{
-				return;
-			}
-			else
-			{
-				realAnimationTime = duration + (internalText.Length * delay);
-			}
-			
-			internalScale = scale * 0.01f;
-			internalAlignment = alignment;
-			internalFontSize = fontSize;
-			internalColor = textColor;
-			font.RequestCharactersInTexture(text, internalFontSize);
-			//realAnimationTime = duration + (internalText.Length * delay);
-			mesh.MarkDynamic();
-			lineLengths.Clear();
-			lineLengths.Add(0);
-			charData = new CharacterData[internalText.Length];
-			vertices = new Vector3[internalText.Length * 4];
-			triangles = new int[internalText.Length * 6];
-			uv = new Vector2[internalText.Length * 4];
-			colors = new Color[internalText.Length * 4];
-			caretPos = Vector3.zero;
-			caretLine = 0;
-			for (int i = 0; i < internalText.Length; i++)
-			{
-				AddChar(internalText[i],i);
-			}
-
-			Align();
-
-			SetMesh();
-		}
-
-		void SetMesh()
-		{
-			mesh.Clear();
-			mesh.vertices = vertices;
-			mesh.triangles = triangles;
-			mesh.uv = uv;
-			mesh.colors = colors;
-		}
-
-		void AddChar(char _char, int characterPosition)
-		{
-			CharacterInfo ch;
-			font.GetCharacterInfo(_char, out ch, internalFontSize);
-
-			if (_char == '\n')
-			{
-				charData[characterPosition] = new CharacterData(delay * characterPosition, duration, characterPosition, new VertexPos(Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero))
-				{
-					charType = CharacterData.CharacterType.NEWLINE
-				};
-				NewLine();
-			}
-			else
-			{
-				Vector3 pos1 = (caretPos + new Vector3(ch.minX, ch.maxY, 0)) * internalScale;
-				Vector3 pos2 = (caretPos + new Vector3(ch.maxX, ch.maxY, 0)) * internalScale;
-				Vector3 pos3 = (caretPos + new Vector3(ch.maxX, ch.minY, 0)) * internalScale;
-				Vector3 pos4 = (caretPos + new Vector3(ch.minX, ch.minY, 0)) * internalScale;
-				VertexPos vecPos = new VertexPos(pos1,pos2,pos3,pos4);
-				charData[characterPosition] = new CharacterData(delay * characterPosition, duration, characterPosition,vecPos);
-				int charPos = 4 * characterPosition;
-				int triPos = 6 * characterPosition;
-				SetVertices(charData[characterPosition]);
-
-				colors[charPos] =
-					colors[charPos + 1] =
-					colors[charPos + 2] =
-					colors[charPos + 3] = internalColor;
-
-				uv[charPos] = ch.uvTopLeft;
-				uv[charPos + 1] = ch.uvTopRight;
-				uv[charPos + 2] = ch.uvBottomRight;
-				uv[charPos + 3] = ch.uvBottomLeft;
-
-				triangles[triPos] = charPos;
-				triangles[triPos + 1] = charPos + 1;
-				triangles[triPos + 2] = charPos + 2;
-
-				triangles[triPos + 3] = charPos;
-				triangles[triPos + 4] = charPos + 2;
-				triangles[triPos + 5] = charPos + 3;
-			}
-			lineLengths[caretLine] += ch.advance;
-			caretPos += (Vector3.right * ch.advance);
-		}
-
-		void NewLine()
-		{
-			caretLine++;
-			lineLengths.Add(0);
-			caretPos = new Vector3(0, -fontSize * caretLine, 0);
-		}
-
-		void SetColors()
-		{
-			internalColor = textColor;
-			for(int i = 0; i < colors.Length; i++)
-			{
-				colors[i] = internalColor;
-			}
-			mesh.colors = colors;
-		}
-
-		void Align()
-		{
-			int currentLine = 0;
-			for (int i = 0; i < internalText.Length; i++)
-			{
-				if (internalText[i] == '\n')
-				{
-					currentLine++;
-				}
-				else
-				{
-					switch (internalAlignment)
-					{
-						case Alignment.LEFT:
-							alignedVec = Vector3.zero;
-							break;
-						case Alignment.CENTER:
-							alignedVec = Vector3.right * ((lineLengths[currentLine] * internalScale) / 2);
-							break;
-						case Alignment.RIGHT:
-							alignedVec = Vector3.right * (lineLengths[currentLine] * internalScale);
-							break;
-					}
-					charData[i].vertexPos.MoveBaseVertex(-alignedVec);
-					SetVertices(charData[i]);
-				}
-			}
-		}
-
-		public void SetVertices(CharacterData charData)
-		{
-			for(int i = 0; i < 4; i++)
-			{
-				vertices[(4 * charData.Order) + i] = charData.vertexPos.basePositions[i];
-			}
-		}
-
-		public void AnimateVertices(CharacterData charData)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				vertices[(4 * charData.Order) + i] = charData.vertexPos.modifiedPositions[i];
-			}
-		}
-
-		public void SetVertice(Vector3 vert, int index)
-		{
-			vertices[index] = vert;
-			mesh.vertices = vertices;
-		}
-
+        [Button]
+        public void Play()
+        {
+            isPlaying = true;
+            internalTime = progress = 0;
+            if(prewarm && IsPlayForever())
+            {
+                progress = 1;
+                internalTime = realAnimationTime;
+            }
+        }
+        [Button]
+        public void Pause()
+        {
+            isPlaying = false;
+        }
+        [Button]
+        public void Stop()
+        {
+            isPlaying = false;
+            internalTime = progress = 0;
+        }
 		void UpdateTime()
 		{
 			if (!isPlaying)
@@ -287,17 +123,18 @@
 				}
 				if(internalTime >= realAnimationTime)
 				{
-					if (!loop)
-					{
-						isPlaying = false;
-						internalTime = 0;
-						progress = 0;
-					}
-					else
-					{
-						internalTime = realAnimationTime;
-						progress = 1;
-					}
+                    switch(loop)
+                    {
+                        case LoopMode.STOP:
+                            isPlaying = false;
+                            internalTime = realAnimationTime;
+                            progress = 1;
+                            break;
+                        case LoopMode.LOOP:
+                            internalTime = 0;
+                            progress = 0;
+                            break;
+                    }
 				}
 			}
 			for (int i = 0; i < charData.Length; i++)
@@ -306,47 +143,61 @@
 			}
 		}
 
-		void Animate()
-		{
-			for(int i = 0; i < charData.Length; i++)
-			{
-				charData[i].vertexPos.ResetModified();
-				for(int j = 0; j < modifiers.Length; j++)
-				{
-					modifiers[j].Apply(charData[i]);
-				}
-				AnimateVertices(charData[i]);
-			}
-		}
-
+        void Animate()
+        {
+            for (int j = 0; j < charData.Length; j++)
+            {
+                charData[j].vertexPos.ResetModified();
+            }
+            if (modifiers != null)
+            {
+                for (int i = 0; i < modifiers.Length; i++)
+                {
+                    for(int j = 0; j < charData.Length; j++)
+                    {
+                        modifiers[i].Apply(charData[j]);
+                    }
+                }
+            }
+            int charCount = 0;
+            for (int meshNum = 0; meshNum < TextComponent.textInfo.meshInfo.Length; meshNum++)
+            {
+                int numOfMeshCharacters = 0;
+                for (int characterNum = 0; characterNum < charData.Length * 4; characterNum += 4, numOfMeshCharacters++, ++charCount)
+                {
+                    for(int vertIndex = 0; vertIndex < 4; vertIndex++)
+                    {
+                        TextComponent.textInfo.meshInfo[meshNum].vertices[characterNum + vertIndex] = charData[charCount].vertexPos.modifiedPositions[vertIndex];
+                    }
+                }
+            }
+            TextComponent.UpdateVertexData();
+        }
 		void Update()
 		{
 #if UNITY_EDITOR
-			//if(!UnityEditor.EditorApplication.isPlaying)
-			//{
-			//	modifiers = GetComponents<TextModifier>();
-			//}
+            if (!UnityEditor.EditorApplication.isPlaying)
+            {
+                modifiers = GetComponents<TextModifier>();
+                if ((progress * realAnimationTime) != internalTime)
+                {
+                    internalTime = progress * realAnimationTime;
+                    for (int j = 0; j < charData.Length; j++)
+                    {
+                        charData[j].UpdateTime(internalTime);
+                    }
+                    Animate();
+                }
+            }
 #endif
-			if(meshRenderer.sharedMaterial != font.material)
-			{
-				meshRenderer.sharedMaterial = font.material;
-			}
-			if (text != internalText || alignment != internalAlignment || scale != (internalScale * 100) || fontSize != internalFontSize || charData.Length != text.Length)
-			{
-				RebuildMesh();
-			}
-			if(textColor != internalColor)
-			{
-				SetColors();
-			}
-			UpdateTime();
-			if(modifiers.Length > 0)
-			{
-				Animate();
-			}
-			meshRenderer.sortingOrder = sortingOrder;
-			meshRenderer.sortingLayerName = sortingLayer;
-			SetMesh();
+            if(Application.isPlaying)
+            {
+                UpdateTime();
+                if (modifiers.Length > 0)
+                {
+                    Animate();
+                }
+            }
 		}
 	}
 }
