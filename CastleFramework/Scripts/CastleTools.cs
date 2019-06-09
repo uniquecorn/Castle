@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class CastleTools : MonoBehaviour
 {
@@ -35,7 +36,18 @@ public class CastleTools : MonoBehaviour
             result((Texture2D)tex);
         }
 	}
-	public static Texture2D LoadImage(string fileName)
+    public static string GetURIPath(string path)
+    {
+        if (path.StartsWith("file://"))
+        {
+            return path;
+        }
+        else
+        {
+            return "file://" + path;
+        }
+    }
+    public static Texture2D LoadImage(string fileName)
 	{
 		if(fileName.EndsWith(".png"))
 		{
