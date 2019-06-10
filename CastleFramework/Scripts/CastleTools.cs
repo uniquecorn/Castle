@@ -13,6 +13,26 @@ using UnityEngine.Networking;
 public class CastleTools : MonoBehaviour
 {
 	public static string[] letters = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+    public static System.DateTime CastleTime
+    {
+        get
+        {
+#if UNITY_EDITOR
+            if(simulatedTime)
+            {
+                return castleTime;
+            }
+            else
+            {
+                return System.DateTime.Now;
+            }
+#else
+            return System.DateTime.Now;
+#endif
+        }
+    }
+    public static bool simulatedTime;
+    private static System.DateTime castleTime;
 	public static T RandomObject<T>(T[] assets)
 	{
 		return assets[Random.Range(0, assets.Length)];
@@ -518,7 +538,6 @@ public class CastleTools : MonoBehaviour
 		{
 			return sum;
 		}
-
 		foreach (Vector3 vec in vectors)
 		{
 			sum += vec;
@@ -553,4 +572,21 @@ public class CastleTools : MonoBehaviour
         s = s.Replace(".", "");
         return s;
     }
+#if UNITY_EDITOR
+    public static List<T> FindAssetsByType<T>() where T : Object
+    {
+        List<T> assets = new List<T>();
+        string[] guids = UnityEditor.AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+            T asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
+            if (asset != null)
+            {
+                assets.Add(asset);
+            }
+        }
+        return assets;
+    }
+#endif
 }

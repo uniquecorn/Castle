@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public static class CastleExtensions
 {
+    public static Vector3 ZeroZ(this Vector3 vec)
+    {
+        return new Vector3(vec.x, vec.y, 0);
+    }
     public static List<T> Move<T>(this List<T> list, int oldIndex, int newIndex)
     {
         // exit if possitions are equal or outside array
