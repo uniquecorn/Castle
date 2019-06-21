@@ -48,6 +48,14 @@ public static class CastleExtensions
 			list[n] = value;
 		}
 	}
+    public static bool IsSafe<T>(this IList<T> list)
+    {
+        if (list == null)
+            return false;
+        if (list.Count == 0)
+            return false;
+        return true;
+    }
     public static Color Percent(this Color _color,float percent)
     {
         return new Color(_color.r, _color.g, _color.b, percent);

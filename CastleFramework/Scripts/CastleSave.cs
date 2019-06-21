@@ -45,11 +45,11 @@ public static class CastleSave
         {
             get
             {
-                return System.DateTime.FromOADate(save.firstSaved);
+                return System.DateTime.FromOADate(firstSaved);
             }
             set
             {
-                save.firstSaved = (float)value.ToOADate();
+                firstSaved = (float)value.ToOADate();
             }
         }
         public System.DateTime LastCloudSave
@@ -188,7 +188,14 @@ public static class CastleSave
     {
         if (!LoadFromJSON<T>())
         {
-            LoadFromCloud<T>();
+            if(!LoadFromCloud<T>())
+            {
+                Debug.Log("No save doesn't exist.");
+            }
+            else
+            {
+                Debug.Log("Loaded from Cloud.");
+            }
         }
         else
         {
@@ -226,6 +233,7 @@ public static class CastleSave
         if(save == null)
         {
             NewSave<T>();
+            SaveGame<T>();
         }
         else
         {
@@ -245,6 +253,7 @@ public static class CastleSave
     {
         string jsonSave = JsonUtility.ToJson(save);
         PlayerPrefs.SetString("save", jsonSave);
+        Debug.Log("Saved to JSON!");
     }
     public static void SaveToCloud<T>() where T : Save
     {
@@ -257,7 +266,6 @@ public static class CastleSave
         T _save = (T)System.Activator.CreateInstance(typeof(T), new object[] { });
         _save.Init();
         save = _save;
-        SaveGame<T>();
     }
     public static T GetSave<T>() where T : Save
     {

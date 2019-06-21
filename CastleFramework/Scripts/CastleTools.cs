@@ -588,5 +588,10 @@ public class CastleTools : MonoBehaviour
         }
         return assets;
     }
+    [UnityEditor.MenuItem("Tools/DeleteAllPlayerPrefs")]
+    static public void DeleteAllPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 #endif
 }
