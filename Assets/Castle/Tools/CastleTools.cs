@@ -101,10 +101,7 @@ namespace Castle.Tools
     
         public static void CopyStringToClipboard(string s)
         {
-            var te = new TextEditor
-            {
-                text = s
-            };
+            var te = new TextEditor {text = s};
             te.SelectAll();
             te.Copy();
         }

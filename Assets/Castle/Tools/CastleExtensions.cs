@@ -12,6 +12,21 @@ namespace Castle.Tools
 {
     public static class CastleExtensions
     {
+        public static bool GetParentComponent<T>(this Transform transform, out T component) where T : Object
+        {
+            var p = transform.parent;
+            while (p != null)
+            {
+                if (p.TryGetComponent<T>(out var x))
+                {
+                    component = x;
+                    return true;
+                }
+                p = p.parent;
+            }
+            component = null;
+            return false;
+        }
         public static bool Check(this CastleValueRange.ConditionCheck check, bool param) => check == CastleValueRange.ConditionCheck.Less ? !param : param;
 
         public static bool Check(this CastleValueRange.ConditionCheck check, int param,int value) =>
@@ -122,7 +137,6 @@ namespace Castle.Tools
     
     public static class SpriteRendererExtensions
     {
-        
         public static void SetSorting(this SpriteRenderer spriteRenderer, int sortingLayerID, int sortingOrder)
         {
             spriteRenderer.sortingLayerID = sortingLayerID;
@@ -404,13 +418,26 @@ namespace Castle.Tools
 
     public static class UIExtensions
     {
-        
+#if UNITY_EDITOR
         [UnityEditor.MenuItem("CONTEXT/LayoutGroup/Set Size", false, 1)]
         public static void SetSize(UnityEditor.MenuCommand command)
         {
-            LayoutGroup RT = ((LayoutGroup)command.context);
-            RT.SetSize();
+            var layoutGroup = (LayoutGroup)command.context;
+            layoutGroup.SetSize();
         }
+        [UnityEditor.MenuItem("CONTEXT/RectTransform/Fill Rect", false, 1)]
+        public static void FillRect(UnityEditor.MenuCommand command)
+        {
+            var rectTransform = (RectTransform)command.context;
+            rectTransform.FillRect();
+        }
+#endif
+        public static void FillRect(this RectTransform rectTransform)
+        {
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.anchorMin = rectTransform.sizeDelta = Vector2.zero;
+        }
+       
         public static void SetSize(this LayoutGroup layoutGroup)
         {
             if (layoutGroup.TryGetComponent<RectTransform>(out var rt))

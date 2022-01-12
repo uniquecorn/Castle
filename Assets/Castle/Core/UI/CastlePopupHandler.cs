@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Castle.Tools;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace Castle.Core.UI
@@ -9,17 +13,19 @@ namespace Castle.Core.UI
     {
         public Canvas canvas;
         public CastlePopup[] popups;
-        private Queue<CastlePopup> openedPopups;
+        private void Update()
+        {
+            HandlerUpdate();
+            CastlePopup.HandleBackButton();
+        }
 
         public virtual void HandlerUpdate()
         {
             if (!popups.IsSafe()) return;
             for (var i = 0; i < popups.Length; i++)
             {
-                //popups[i].UIUpdate();
+                popups[i].UIUpdate();
             }
-
-            HandleBackButton();
         }
 
         public T GetPopup<T>() where T : CastlePopup
@@ -28,21 +34,35 @@ namespace Castle.Core.UI
             {
                 if (popups[i] is T popup)
                 {
-
                     return popup;
                 }
             }
 
             return null;
         }
-
-        public virtual void HandleBackButton()
+#if UNITY_EDITOR
+#if ODIN_INSPECTOR
+        [Button]
+#else
+        [UnityEditor.MenuItem("Get Popups")]
+#endif
+        public virtual void GetPopups()
         {
-            if (openedPopups != null && openedPopups.Count > 0 && Input.GetKeyDown(KeyCode.Escape))
+            var uiPopups = new List<CastlePopup>();
+            if (popups != null)
             {
-                var l = openedPopups.Peek();
-
+                uiPopups.AddRange(popups.ClearNullEntries());
             }
+            var p = GetComponentsInChildren<CastlePopup>();
+            for (var i = 0; i < p.Length; i++)
+            {
+                if (uiPopups.Contains(p[i])) continue;
+                if(p[i].Handler != this) continue;
+                p[i].handler = this;
+                uiPopups.Add(p[i]);
+            }
+            popups = uiPopups.ToArray();
         }
+#endif
     }
 }
