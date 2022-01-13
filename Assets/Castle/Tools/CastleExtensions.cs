@@ -12,6 +12,23 @@ namespace Castle.Tools
 {
     public static class CastleExtensions
     {
+        public static bool GetParentWith(this Transform transform, System.Func<Transform, bool> trait,out Transform parent)
+        {
+            var p = transform.parent;
+            while (p != null)
+            {
+                if (trait(p))
+                {
+                    parent = p;
+                    return true;
+                }
+                p = p.parent;
+            }
+
+            parent = null;
+            return false;
+
+        }
         public static bool GetParentComponent<T>(this Transform transform, out T component) where T : Object
         {
             var p = transform.parent;
