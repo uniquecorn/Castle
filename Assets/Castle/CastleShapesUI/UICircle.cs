@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteInEditMode,RequireComponent(typeof(CanvasRenderer))]
-public class UICircle<T> : MaskableGraphic // Changed to maskableGraphic so it can be masked with RectMask2D
+public class UICircle : MaskableGraphic // Changed to maskableGraphic so it can be masked with RectMask2D
 {
     [SerializeField]
     Texture m_Texture;

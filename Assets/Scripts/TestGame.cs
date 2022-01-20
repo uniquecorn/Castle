@@ -12,11 +12,17 @@ public class TestGame : MonoBehaviour
     public Sprite[] sprites;
     public TimeRange timeRange;
     public DateRange dateRange;
+    [Vector3Range(-5,5,-5,5,-5,5)]
+    public Vector3 offset;
     [Range(2,60)]
-    public int circleResolution = 2;
+    public int circleResolution = 3;
     [Range(1,200)]
     public int circleRadius;
+    [Range(1,200)]
+    public int circleRadiusY;
+
     [Button]
+    
     void Test()
     {
         Debug.Log(timeRange.Check(System.DateTime.Now));
@@ -25,6 +31,7 @@ public class TestGame : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Circle.Draw(Vector3.zero,circleRadius ,circleResolution);
+        Ellipse.Draw(Vector3.zero + offset,circleRadius ,circleRadiusY, circleResolution);
     }
 }
+

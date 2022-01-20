@@ -2,47 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eaad2ca4-fe1a-40c8-8797-c14889390d66" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/ShapesUI.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/ShapesUI.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/UICircle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/UICircle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Box.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Box.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedBox.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedBox.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedRectangle.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedRectangle.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedSquare.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/RoundedSquare.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Custom Attribute Processors.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Custom Drawers.unitypackage.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Editor Windows.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Sample - RPG Editor.unitypackage.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/ShapesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/ShapesUI.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/UICircle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Castle Shapes UI/UICircle.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TestGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Castle/Editor/Vector3RangeEditor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Vector3Range.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b98778327a314bf0a9f570f5ccf3a00a157000/dd/3ede54b2/PropertyAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/7a/08906dd0/AttributeTargets.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/b98778327a314bf0a9f570f5ccf3a00a157000/27/0179fd2f/0200017B.il" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="23Xnv3Qlm3UBuD1h65MUDuNYhdL" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -86,7 +77,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1641889529709</updated>
-      <workItem from="1641889539533" duration="33627000" />
+      <workItem from="1641889539533" duration="38915000" />
+      <workItem from="1642429184264" duration="11869000" />
+      <workItem from="1642598863896" duration="15967000" />
     </task>
     <servers />
   </component>

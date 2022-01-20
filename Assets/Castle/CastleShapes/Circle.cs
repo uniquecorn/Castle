@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Castle.Shapes
 {
+    [Serializable]
     public class Circle : Shape
     {
-        public float radius;
         public int resolution;
+        public float radius;
         protected override Vector3[] Vertices
         {
             get
@@ -22,7 +24,7 @@ namespace Castle.Shapes
 
         public static void Draw(Vector3 offset,float radius,int resolution)
         {
-            new Circle{radius = radius,resolution = resolution}.Draw(offset);
+            new Circle{radius = radius ,resolution = resolution}.Draw(offset);
         }
     }
 }

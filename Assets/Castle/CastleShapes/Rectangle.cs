@@ -2,6 +2,7 @@
 
 namespace Castle.Shapes
 {
+    [System.Serializable]
     public class Rectangle : Box
     {
         public float width, height;

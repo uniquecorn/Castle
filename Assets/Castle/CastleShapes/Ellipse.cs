@@ -5,7 +5,8 @@ namespace Castle.Shapes
     public class Ellipse : Shape
     {
         public int resolution;
-        public float radiusX, radiusY;
+        public float radiusX;
+        public float radiusY;
         protected override Vector3[] Vertices
         {
             get
@@ -18,6 +19,10 @@ namespace Castle.Shapes
                 }
                 return vertices;
             }
+        }
+        public static void Draw(Vector3 offset,float radiusX, float radiusY , int resolution)
+        {
+            new Ellipse{radiusX = radiusX, radiusY = radiusY ,resolution = resolution}.Draw(offset);
         }
     }
 }
