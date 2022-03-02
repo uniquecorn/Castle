@@ -1,12 +1,27 @@
-﻿using UnityEngine;
-
-namespace Castle.Shapes
+﻿
+namespace Castle.CastleShapes
 {
-    [System.Serializable]
     public class Rectangle : Box
     {
-        public float width, height;
-        protected override float Width => width;
-        protected override float Height => height;
+        public Rectangle(float width, float height)
+        {
+            Width = width;
+            Height = height;
+        }
+        
+        private float height;
+        private float width;
+
+        public override float Width 
+        {
+            get => width;
+            set => width = value;
+        }
+
+        public override float Height 
+        {
+            get => height;
+            set => height = value;
+        }
     }
 }

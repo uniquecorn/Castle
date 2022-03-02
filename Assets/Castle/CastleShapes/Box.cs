@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 
-namespace Castle.Shapes
+namespace Castle.CastleShapes
 {
     public abstract class Box : Shape
     {
-        protected abstract float Width { get; }
-        protected abstract float Height { get; }
-        protected override Vector3[] Vertices
+        public abstract float Width { get; set; }
+        public abstract float Height { get; set; }
+
+        public override Vector3[] Vertices
         {
             get
             {

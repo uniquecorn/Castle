@@ -1,13 +1,9 @@
-using System;
 using Castle.CastleShapes;
-using Castle.Shapes;
 using Sirenix.OdinInspector;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Castle.CastleShapesUI
 {
-    public class CircleUI : ShapesUI<Circle, SquareBoundEnum>, IRoundedCornersUI
+    public class StarUI : ShapesUI<Star, SquareBoundEnum>
     {
         [ShowInInspector, PropertyRange(1, 60)]
         public int Resolution
@@ -15,6 +11,30 @@ namespace Castle.CastleShapesUI
             get => ShapeToDraw.Resolution;
             set => ShapeToDraw.Resolution = value;
         }
+        
+        [BoxGroup("Dimensions"), ShowInInspector]
+        public bool HasRoundedCorner
+        {
+            get;
+            set;
+        }
+        
+        
+        [BoxGroup("Dimensions"), LabelText("CornerRadius"), ShowInInspector]
+        public float CornerRadius
+        {
+            get => ShapeToDraw.CornerRadius;
+            set => ShapeToDraw.CornerRadius = value;
+        }
+        
+        [BoxGroup("Dimensions"), LabelText("CornerResolution"), ShowInInspector, PropertyRange(1, 5)]
+        public int CornerResolution
+        {
+            get => ShapeToDraw.CornerResolution;
+            set => ShapeToDraw.CornerResolution = value;
+        }
+
+        
         
         [BoxGroup("Dimensions"), ShowInInspector]
         public override bool BoundByRect
@@ -30,26 +50,7 @@ namespace Castle.CastleShapesUI
         }
 
         private bool boundByRect;
-        
-        
-        
-        [BoxGroup("Dimensions"), ShowInInspector]
-        public bool HasRoundedCorner { get; set; }
-        
-        [BoxGroup("Dimensions"), LabelText("CornerRadius"), ShowInInspector]
-        public float CornerRadius
-        {
-            get => ShapeToDraw.CornerRadius;
-            set => ShapeToDraw.CornerRadius = value;
-        }
-        
-        [BoxGroup("Dimensions"), LabelText("CornerResolution"), ShowInInspector, PropertyRange(1, 5)]
-        public int CornerResolution
-        {
-            get => ShapeToDraw.CornerResolution;
-            set => ShapeToDraw.CornerResolution = value;
-        }
-        
+
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public override SquareBoundEnum BoundBy
         {
@@ -77,6 +78,14 @@ namespace Castle.CastleShapesUI
             get => ShapeToDraw.Radius;
             set => ShapeToDraw.Radius = value;
         }
+        
+        
+        [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
+        public float InnerRadius
+        {
+            get => ShapeToDraw.InnerRadius;
+            set => ShapeToDraw.InnerRadius = value;
+        }
 
         public override void ResizeByRect()
         {
@@ -98,40 +107,9 @@ namespace Castle.CastleShapesUI
         protected override void OnEnable()
         {
             base.OnEnable();
-            ShapeToDraw = new Circle(5,MinRectLength/2);
+            ShapeToDraw = new Star(5,MinRectLength/4,MinRectLength/2);
         }
-
-
-
-        protected override void OnPopulateMesh(VertexHelper vh)
-        {
-            if (!HasRoundedCorner)
-            {
-                base.OnPopulateMesh(vh);
-                return;
-            }
-            vh.Clear();
-            var verticesToDraw = ((IRoundedCornersUI)this).VerticesWithRoundedCornerWithCenter(ShapeToDraw.Vertices, offset);
-
-            for (var i = 0; i < verticesToDraw.Length; i++)
-            {
-                UIVertex vertex = UIVertex.simpleVert;
-                vertex.position = verticesToDraw[i];
-                vh.AddVert(vertex);
-            }
         
-            for (var i = 0; i < verticesToDraw.Length-1; i++)
-            {
-                if (i == 0)
-                {
-                    // vh.AddTriangle(0, 1, verticesToDraw.Length-1);
-                    vh.AddTriangle(verticesToDraw.Length-1, 1, 0);
-                }
-                // vh.AddTriangle(i+1,i,0);
-                vh.AddTriangle(0,i,i+1);
-            }
-        }
-
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
@@ -141,3 +119,4 @@ namespace Castle.CastleShapesUI
         }
     }
 }
+

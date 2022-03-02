@@ -1,11 +1,27 @@
-﻿using UnityEngine;
+﻿
+
+using Castle.CastleShapes;
 
 namespace Castle.Shapes
 {
     public class Square : Box
     {
-        public float size;
-        protected override float Width => size;
-        protected override float Height => size;
+        public Square(float size)
+        {
+            this.size = size;
+        }
+        
+        private float size;
+        
+        public override float Width 
+        {
+            get => size;
+            set => size = value;
+        }
+        public override float Height
+        {
+            get => size;
+            set => size = value;
+        }
     }
 }

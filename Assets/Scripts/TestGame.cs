@@ -1,4 +1,5 @@
 using System;
+using Castle.CastleShapes;
 using Castle.Core.TimeTools;
 using Castle.Core.UI;
 using Castle.Shapes;

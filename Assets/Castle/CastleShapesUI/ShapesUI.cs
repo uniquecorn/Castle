@@ -1,191 +1,197 @@
-﻿
+﻿using System;
+using Castle.CastleShapes;
 using Castle.Shapes;
-using Castle.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode,RequireComponent(typeof(CanvasRenderer))]
-public abstract class ShapesUI<TShape> :MaskableGraphic where TShape : Shape// Changed to maskableGraphic so it can be masked with RectMask2D
+namespace Castle.CastleShapesUI
 {
-    public TShape Shape;
-        
-    [SerializeField]
-    Texture m_Texture;
-
-    [Vector3Range(-5,5,-5,5,-5,5)]
-    public Vector3 offset;
+    public enum RectangleBoundEnum
+    {
+        WidthAndHeight = 0,
+        Width,
+        Height,
+    }
     
-    [Range(0, 1)]
-    [SerializeField]
-    private float fillAmount = 1;
-
-    public float FillAmount
+    public enum SquareBoundEnum
     {
-        get { return fillAmount; }
-        set
-        {
-            fillAmount = value;
-            SetVerticesDirty();
-        }
+        Width = 0,
+        Height,
+        SmallestLength,
+        WidestLength
     }
-
-    public bool fill = true;
-    public int thickness = 5;
-
-    [Range(3, 60)]
-    public int segments = 60;
-
-    [Range(3, 60)]
-    public int step = 60;
-
-    public override Texture mainTexture
-    {
-        get
-        {
-            return m_Texture == null ? s_WhiteTexture : m_Texture;
-        }
-    }
-
+    
     /// <summary>
-    /// Texture to be used.
+    /// Interface for shapes bindable by RectTransform 
     /// </summary>
-    public Texture texture
-    {
-        get { return m_Texture; }
-
+    public interface IBindable<TEnum> where TEnum : Enum
+    {   
+        /// <summary>
+        /// BoundByRect toggle
+        /// <para>
+        /// Implement Setter as follow to trigger RectResize side-effect on BoundBy toggle :
+        /// <code>
+        /**
+        get => boundByRect;
         set
         {
-            if (m_Texture == value)
-                return;
-            m_Texture = value;
-            SetMaterialDirty();
-            SetVerticesDirty();
-        }
-    }
-    public bool invert;
-    [SerializeField]
-    private float radius = 30;
-
-    public float Radius
-    {
-        get { return radius; }
+            boundByRect = value;
+            if (!BoundByRect) return;
+            ShapeValidation();
+            ResizeByRect();
+        }*/
+        ///</code></para>
+        ///  <b>Odin Attributes To Implement: </b>
+        ///  <list type="bullet">
+        ///  <item>
+        /// BoxGroup("Dimensions")
+        /// </item>
+        ///  <item>
+        /// ShowInInspector
+        /// </item>
+        /// </list>
+        ///  </summary>
+        public bool BoundByRect { get; set; }
+        
+        /// <summary>
+        /// BoundBy enum types
+        /// <para>
+        /// Implement Setter as follow to trigger RectResize side-effect on BoundBy toggle :
+        /// <code>
+        /**
+        get => boundBy;
         set
         {
-            radius = value;
-            SetVerticesDirty();
-        }
-    }
-
-    // Using arrays is a bit more efficient
-    UIVertex[] uiVertices = new UIVertex[4];
-    Vector2[] uvs = new Vector2[4];
-    Vector2[] pos = new Vector2[4];
-
-    protected override void Start()
-    {
-        uvs[0] = new Vector2(0, 1);
-        uvs[1] = new Vector2(1, 1);
-        uvs[2] = new Vector2(1, 0);
-        uvs[3] = new Vector2(0, 0);
-    }
-
-    // Updated OnPopulateMesh to user VertexHelper instead of mesh
-    protected override void OnPopulateMesh(VertexHelper vh)
-    {
-         
-        var pivot = rectTransform.pivot;
-        var outer = -pivot.x * radius;
-        var inner = -pivot.x * radius - thickness;
-        var corners = new Vector2[4];
-        var rect = rectTransform.rect;
-        corners[0] = new Vector2(rect.xMin, rect.yMin);
-        corners[1] = new Vector2(rect.xMax, rect.yMin);
-        corners[2] = new Vector2(rect.xMin, rect.yMax);
-        corners[3] = new Vector2(rect.xMax, rect.yMax);
-
-        var degrees = 360f / segments;
-        var fa = (int)((segments + 1) * this.fillAmount);
-
-        // Updated to new vertexhelper
-        vh.Clear();
-        if (radius <= 0)
+            boundBy = value;
+            if (!BoundByRect) return;
+            ShapeValidation();
+            ResizeByRect();
+        }*/
+        ///</code></para>
+        /// 
+        ///  <b>Odin Attributes To Implement: </b>
+        ///  <list type="bullet">
+        ///  <item>
+        /// BoxGroup("Dimensions")
+        /// </item>
+        ///  <item>
+        /// ShowIf("BoundByRect")
+        /// </item>
+        ///  <item>
+        /// ShowInInspector
+        /// </item>
+        /// </list>
+        ///  </summary>
+        public TEnum BoundBy { get; set; }
+        /// <summary>
+        /// Resize code bounded by Rect, based on BoundBy enum
+        /// <example>
+        /// <code>
+        /**
+        public override void ResizeByRect()
         {
-            return;
-        }
-        // Changed initial values so the first polygon is correct when circle isn't filled
-        var x = outer * Mathf.Cos(0);
-        var y = outer * Mathf.Sin(0);
-        var prevX = new Vector2(x, y) + offset;
-        // Changed initial values so the first polygon is correct when circle isn't filled
-        x = inner * Mathf.Cos(0);
-        y = inner * Mathf.Sin(0);
-        var prevY = new Vector2(x, y) + offset;
-
-        var ifInvert = invert ? 3 : 0;
-        for (var i = 0; i < fa - 1 + ifInvert; i++)
-        {
-            // Changed so there isn't a stray polygon at the beginning of the arc
-            var rad = Mathf.Deg2Rad * ((i + 1) * degrees);
-            var c = Mathf.Cos(rad);
-            var s = Mathf.Sin(rad);
-            //float x = outer * c;
-            //float y = inner * c;
-            if (!invert)
+            var rect = Transform.rect;
+            switch (BoundBy)
             {
-                pos[0] = prevX;
-                pos[1] = new Vector2(outer * c, outer * s) + offset;
-
-                if (fill)
-                {
-                    pos[2] = offset;
-                    pos[3] = offset;
-                }
-                else
-                {
-                    pos[2] = new Vector2(inner * c, inner * s) + offset;
-                    pos[3] = prevY;
-                }
-
-                // Set values for uiVertices
-                for (var j = 0; j < 4; j++)
-                {
-                    uiVertices[j].color = color;
-                    uiVertices[j].position = pos[j];
-                    uiVertices[j].uv0 = uvs[j];
-                }
-
-                // Get the current vertex count
-                var vCount = vh.currentVertCount;
-
-                // If filled, we only need to create one triangle
-                vh.AddVert(uiVertices[0]);
-                vh.AddVert(uiVertices[1]);
-                vh.AddVert(uiVertices[2]);
-
-                // Create triangle from added vertices
-                vh.AddTriangle(vCount, vCount + 2, vCount + 1);
-
-                // If not filled we need to add the 4th vertex and another triangle
-                if (!fill)
-                {
-                    vh.AddVert(uiVertices[3]);
-                    vh.AddTriangle(vCount, vCount + 3, vCount + 2);
-                }
-
-                prevX = pos[1];
-                prevY = pos[2];
-
-                // Removed so we can just use a single triangle when not filled
-                //vh.AddUIVertexQuad(SetVbo(new[] { pos0, pos1, pos2, pos3 }, new[] { uv0, uv1, uv2, uv3 }));
+                case RectangleBoundEnum.WidthAndHeight:
+                    Width = rect.width;
+                    Height = rect.height;
+                    break;
+                case RectangleBoundEnum.Width:
+                    Width = rect.width;
+                    break;
+                case RectangleBoundEnum.Height:
+                    Height = rect.height;
+                    break;
             }
         }
-    }
-    bool VectorOutOfBounds(Vector2 vector)
-    {
-        if (vector.x < rectTransform.rect.xMin || vector.x > rectTransform.rect.xMax || vector.y < rectTransform.rect.yMin || vector.y > rectTransform.rect.yMax)
+        //in base class
+        protected override void OnRectTransformDimensionsChange()
         {
-            return true;
+            base.OnRectTransformDimensionsChange();
+            if (!BoundByRect) return;
+            ShapeValidation();
+            ResizeByRect();
         }
-        return false;
+        */
+        /// </code>
+        /// </example> 
+        /// </summary>
+        public void ResizeByRect();
+        
+        /// <summary>
+        /// Validate Secondary Traits
+        /// <example>
+        /// <code>
+        /**
+        public override void ValidateShape()
+        {
+            //Insert code to ensure proper resizing of rounded corners in RoundedBoxUIs 
+        }
+        //in base class
+        protected override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+            if (!BoundByRect) return;
+            ShapeValidation();
+            ResizeByRect();
+        }
+        */
+        /// </code>
+        /// </example> 
+        /// </summary>
+        public void ShapeValidation();
+
+    }
+
+    [ExecuteInEditMode,RequireComponent(typeof(CanvasRenderer))]
+    public abstract class ShapesUI<TShape, TBindableEnum> : MaskableGraphic,  IBindable<TBindableEnum> where TShape : Shape where TBindableEnum : Enum // Changed to maskableGraphic so it can be masked with RectMask2D
+    {
+        [SerializeField,HideInInspector]
+        private new RectTransform transform; 
+        protected RectTransform Transform => transform ? transform : transform = (RectTransform)base.transform;
+        protected TShape ShapeToDraw;
+        public Vector3 offset;
+        protected float MinRectLength => Mathf.Min(Transform.rect.width, Transform.rect.height);
+        protected float MaxRectLength => Mathf.Max(Transform.rect.width, Transform.rect.height);
+
+        //Bindable Implements
+        public abstract bool BoundByRect { get; set; } 
+        public abstract TBindableEnum BoundBy { get; set; } 
+        public abstract void ResizeByRect(); 
+        public abstract void ShapeValidation(); 
+        
+        protected override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+            if (!BoundByRect) return;
+            ShapeValidation();
+            ResizeByRect();
+        }
+
+        // Updated OnPopulateMesh to user VertexHelper instead of mesh
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();
+            var verticesToDraw = ShapeToDraw.VerticesWithCenter(offset);
+
+            for (var i = 0; i < verticesToDraw.Length; i++)
+            {
+                UIVertex vertex = UIVertex.simpleVert;
+                vertex.position = verticesToDraw[i];
+                vh.AddVert(vertex);
+            }
+        
+            for (var i = 0; i < verticesToDraw.Length-1; i++)
+            {
+                if (i == 0)
+                {
+                    // vh.AddTriangle(0, 1, verticesToDraw.Length-1);
+                     vh.AddTriangle(verticesToDraw.Length-1, 1, 0);
+                }
+                // vh.AddTriangle(i+1,i,0);
+                vh.AddTriangle(0,i,i+1);
+            }
+        }
     }
 }
