@@ -2,7 +2,6 @@ using System;
 using Castle.CastleShapes;
 using Castle.Core.TimeTools;
 using Castle.Core.UI;
-using Castle.Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -32,7 +31,11 @@ public class TestGame : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Ellipse.Draw(Vector3.zero + offset,circleRadius ,circleRadiusY, circleResolution);
+        // Ellipse.Draw(Vector3.zero + offset,circleRadius ,circleRadiusY, circleResolution);
+        
+        // Circle.Draw(offset,100,100,5,750);
+        
+
     }
 }
 

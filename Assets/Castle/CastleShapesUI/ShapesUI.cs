@@ -1,6 +1,6 @@
 ﻿using System;
 using Castle.CastleShapes;
-using Castle.Shapes;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -145,7 +145,7 @@ namespace Castle.CastleShapesUI
     }
 
     [ExecuteInEditMode,RequireComponent(typeof(CanvasRenderer))]
-    public abstract class ShapesUI<TShape, TBindableEnum> : MaskableGraphic,  IBindable<TBindableEnum> where TShape : Shape where TBindableEnum : Enum // Changed to maskableGraphic so it can be masked with RectMask2D
+    public abstract class ShapesUI<TShape, TBindableEnum> : MaskableGraphic where TShape : Shape // Changed to maskableGraphic so it can be masked with RectMask2D
     {
         [SerializeField,HideInInspector]
         private new RectTransform transform; 
@@ -154,12 +154,46 @@ namespace Castle.CastleShapesUI
         public Vector3 offset;
         protected float MinRectLength => Mathf.Min(Transform.rect.width, Transform.rect.height);
         protected float MaxRectLength => Mathf.Max(Transform.rect.width, Transform.rect.height);
+        
+        //Rounded Corner implementation
+        [BoxGroup("Dimensions"), ShowInInspector]
+        public bool HasRoundedCorner { get; set; }
+        
+        [BoxGroup("Dimensions/Rounded Corner"), ShowIf("HasRoundedCorner"), ShowInInspector]
+        public float CornerRadius
+        {
+            get => ShapeToDraw.CornerRadius;
+            set => ShapeToDraw.CornerRadius = value;
+        }
+        
+        [BoxGroup("Dimensions/Rounded Corner"), ShowIf("HasRoundedCorner"),ShowInInspector, PropertyRange(0, 10)]
+        public int CornerResolution
+        {
+            get => ShapeToDraw.CornerResolution;
+            set => ShapeToDraw.CornerResolution = value;
+        }
 
         //Bindable Implements
-        public abstract bool BoundByRect { get; set; } 
-        public abstract TBindableEnum BoundBy { get; set; } 
-        public abstract void ResizeByRect(); 
-        public abstract void ShapeValidation(); 
+        [BoxGroup("Dimensions"), ShowInInspector]
+        public bool BoundByRect
+        {
+            get => boundByRect;
+            set
+            {
+                boundByRect = value;
+                if (!BoundByRect) return;
+                ShapeValidation();
+                ResizeByRect();
+            }
+        }
+
+        private bool boundByRect;
+
+        [BoxGroup("Dimensions/Transform"), ShowIf("BoundByRect"), ShowInInspector]
+        public abstract TBindableEnum BoundBy { get; set; }
+
+        protected abstract void ResizeByRect();
+        protected abstract void ShapeValidation(); 
         
         protected override void OnRectTransformDimensionsChange()
         {
@@ -173,7 +207,7 @@ namespace Castle.CastleShapesUI
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
-            var verticesToDraw = ShapeToDraw.VerticesWithCenter(offset);
+            var verticesToDraw = ShapeToDraw.VerticesWithCenter(offset, HasRoundedCorner);
 
             for (var i = 0; i < verticesToDraw.Length; i++)
             {

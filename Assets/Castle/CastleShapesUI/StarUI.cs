@@ -1,3 +1,4 @@
+using System;
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 
@@ -11,45 +12,6 @@ namespace Castle.CastleShapesUI
             get => ShapeToDraw.Resolution;
             set => ShapeToDraw.Resolution = value;
         }
-        
-        [BoxGroup("Dimensions"), ShowInInspector]
-        public bool HasRoundedCorner
-        {
-            get;
-            set;
-        }
-        
-        
-        [BoxGroup("Dimensions"), LabelText("CornerRadius"), ShowInInspector]
-        public float CornerRadius
-        {
-            get => ShapeToDraw.CornerRadius;
-            set => ShapeToDraw.CornerRadius = value;
-        }
-        
-        [BoxGroup("Dimensions"), LabelText("CornerResolution"), ShowInInspector, PropertyRange(1, 5)]
-        public int CornerResolution
-        {
-            get => ShapeToDraw.CornerResolution;
-            set => ShapeToDraw.CornerResolution = value;
-        }
-
-        
-        
-        [BoxGroup("Dimensions"), ShowInInspector]
-        public override bool BoundByRect
-        {
-            get => boundByRect;
-            set
-            {
-                boundByRect = value;
-                if (!BoundByRect) return;
-                ShapeValidation();
-                ResizeByRect();
-            }
-        }
-
-        private bool boundByRect;
 
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public override SquareBoundEnum BoundBy
@@ -87,7 +49,7 @@ namespace Castle.CastleShapesUI
             set => ShapeToDraw.InnerRadius = value;
         }
 
-        public override void ResizeByRect()
+        protected override void ResizeByRect()
         {
             var rect = Transform.rect;
             Radius = BoundBy switch
@@ -100,7 +62,7 @@ namespace Castle.CastleShapesUI
             };
         }
 
-        public override void ShapeValidation()
+        protected override void ShapeValidation()
         {
         }
 

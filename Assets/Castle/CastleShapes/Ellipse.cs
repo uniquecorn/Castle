@@ -2,19 +2,18 @@
 
 namespace Castle.CastleShapes
 {
-    public class Ellipse : Shape
+    public class Ellipse : Circle
     {
-        public Ellipse(int resolution, float radiusX, float radiusY)
+        public Ellipse(int resolution, float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution,Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
         {
             Resolution = resolution;
             RadiusX = radiusX;
             RadiusY = radiusY;
         }
-        public int Resolution { get; set; }
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
 
-        public override Vector3[] Vertices
+        protected override Vector3[] Vertices
         {
             get
             {

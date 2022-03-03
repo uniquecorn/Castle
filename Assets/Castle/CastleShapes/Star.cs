@@ -1,33 +1,21 @@
-using Castle.Shapes;
 using UnityEngine;
 
 namespace Castle.CastleShapes
 {
     public class Star : Circle
     {
-        public Star(int resolution, float innerRadius, float outerRadius) : base(resolution, outerRadius)
+        public Star(int resolution, float innerRadius, float outerRadius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution, outerRadius, roundedCornerRes, roundedCornerRadius)
         {    
             Radius = outerRadius;
             Resolution = resolution;
             InnerRadius = innerRadius;
-
-            // innerCircle.Radius = innerRadius;
-            // innerCircle.Resolution = resolution;
-            // innerCircle = new Circle(resolution, innerRadius);
-
-        }
-        
-        // private readonly Circle innerCircle;
-        
-        public float InnerRadius
-        {
-            // get => innerCircle.Radius;
-            // set => innerCircle.Radius = value;
-            get;
-            set;
+            CornerResolution = roundedCornerRes;
+            CornerRadius = roundedCornerRadius;
         }
 
-        public override Vector3[] Vertices
+        public float InnerRadius { get; set; }
+
+        protected override Vector3[] Vertices
         {
             get
             {
@@ -44,9 +32,9 @@ namespace Castle.CastleShapes
             }
         }
         
-        public static void Draw(Vector3 offset,int resolution,float innerRad, float outerRad)
+        public static void Draw(Vector3 offset,int resolution,float innerRad, float outerRad, int roundedCornerRes=0, float roundedCornerRadius=0)
         {
-            new Star(resolution ,innerRad, outerRad).Draw(offset);
+            new Star(resolution ,innerRad, outerRad,roundedCornerRes,roundedCornerRadius).Draw(offset);
         }
     }
 }

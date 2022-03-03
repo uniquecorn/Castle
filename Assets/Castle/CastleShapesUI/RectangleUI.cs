@@ -1,10 +1,9 @@
 using Castle.CastleShapes;
-using Castle.Shapes;
 using Sirenix.OdinInspector;
 
 namespace Castle.CastleShapesUI
 {
-    public class RectangleUI : BoxUI<RectangleBoundEnum>
+    public class RectangleUI : ShapesUI<Rectangle,RectangleBoundEnum>
     {
         
         [BoxGroup("Dimensions"), LabelText("Height"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Height || BoundByRect && BoundBy == RectangleBoundEnum.WidthAndHeight"), ShowInInspector]
@@ -39,8 +38,22 @@ namespace Castle.CastleShapesUI
             var rect = Transform.rect;
             ShapeToDraw = new Rectangle(rect.width, rect.height);
         }
-    
-        public override void ResizeByRect()
+
+        [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
+        public override RectangleBoundEnum BoundBy { 
+            get => boundBy;
+            set
+            {
+                boundBy = value;
+                if (!BoundByRect) return;
+                ShapeValidation();
+                ResizeByRect();
+            }
+        }
+
+        private RectangleBoundEnum boundBy;
+        
+        protected override void ResizeByRect()
         {
             var rect = Transform.rect;
             switch (BoundBy)
@@ -58,7 +71,7 @@ namespace Castle.CastleShapesUI
             }
         }
 
-        public override void ShapeValidation(){}
+        protected override void ShapeValidation(){}
 
     }
 }

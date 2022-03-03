@@ -1,25 +1,19 @@
-﻿using Castle.Shapes;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Castle.CastleShapes
 {
-    public class Circle : Shape, IRoundedCorners
+    public class Circle : Shape
     {
-        public Circle(int resolution, float radius)
+        public Circle(int resolution, float radius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(roundedCornerRes, roundedCornerRadius)
         {
             Resolution = resolution;
             Radius = radius;
-
-            CornerRadius = 100;
-            CornerResolution = 5;
         }
         
         public int Resolution { get; set; }
         public float Radius { get; set; }
-        public int CornerResolution { get; set; }
-        public float CornerRadius { get; set; }
 
-        public override Vector3[] Vertices
+        protected override Vector3[] Vertices
         {
             get
             {
@@ -33,9 +27,9 @@ namespace Castle.CastleShapes
             }
         }
 
-        public static void Draw(Vector3 offset,int resolution,float radius)
+        public static void Draw(Vector3 offset,int resolution,float radius, int roundedCornerRes=0, float roundedCornerRadius=0)
         {
-            new Circle(resolution ,radius).Draw(offset);
+            new Circle(resolution, radius, roundedCornerRes, roundedCornerRadius).Draw(offset);
         }
     }
 }

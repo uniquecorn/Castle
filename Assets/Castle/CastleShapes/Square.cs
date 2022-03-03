@@ -1,27 +1,40 @@
-﻿
+﻿using UnityEngine;
 
-using Castle.CastleShapes;
-
-namespace Castle.Shapes
+namespace Castle.CastleShapes
 {
-    public class Square : Box
+    public class Square : Shape
     {
-        public Square(float size)
+        //Rider throws warning about having virtual property in constructor that gets overriden in derived class.
+        private float size;
+
+        public Square(float size, int roundedCornerRes = 0, float roundedCornerRadius = 0) : base(roundedCornerRes,
+            roundedCornerRadius)
         {
             this.size = size;
         }
-        
-        private float size;
-        
-        public override float Width 
+
+        public virtual float Size
         {
             get => size;
             set => size = value;
         }
-        public override float Height
+
+        protected override Vector3[] Vertices
         {
-            get => size;
-            set => size = value;
+            get
+            {
+                var vertices = new Vector3[4];
+                vertices[0] = new Vector3(-Size / 2, -Size / 2);
+                vertices[1] = new Vector3(-Size / 2, Size / 2);
+                vertices[2] = new Vector3(Size / 2, Size / 2);
+                vertices[3] = new Vector3(Size / 2, -Size / 2);
+                return vertices;
+            }
+        }
+
+        public static void Draw(Vector3 offset, float size, int roundedCornerRes = 0, float roundedCornerRadius = 0)
+        {
+            new Square(size, roundedCornerRes, roundedCornerRadius).Draw(offset);
         }
     }
 }

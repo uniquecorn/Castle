@@ -1,27 +1,47 @@
 ﻿
+using UnityEngine;
+
 namespace Castle.CastleShapes
 {
-    public class Rectangle : Box
+    public class Rectangle : Square
     {
-        public Rectangle(float width, float height)
+
+        public Rectangle(float width, float height, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(width, height), roundedCornerRes,roundedCornerRadius)
         {
             Width = width;
             Height = height;
         }
-        
-        private float height;
-        private float width;
 
-        public override float Width 
+        public override float Size
         {
-            get => width;
-            set => width = value;
+            get => Mathf.Max(Width, Height);
+            set { 
+                Height = value;
+                Width = value;
+            }
         }
 
-        public override float Height 
+        public float Width { get; set; }
+
+        public float Height { get; set; }
+
+
+        protected override Vector3[] Vertices
         {
-            get => height;
-            set => height = value;
+            get
+            {
+                var vertices = new Vector3[4];
+                vertices[0] = new Vector3(-Width / 2, -Height / 2);
+                vertices[1] = new Vector3(-Width / 2, Height / 2);
+                vertices[2] = new Vector3(Width / 2, Height / 2);
+                vertices[3] = new Vector3(Width / 2, -Height / 2);
+                return vertices;
+            }
+        }
+
+        public static void Draw(Vector3 offset,float width, float height,int roundedCornerRes=0, float roundedCornerRadius=0, float maxRadius = 0, bool clamped = false)
+        {
+            new Rectangle(width,height,roundedCornerRes,roundedCornerRadius).Draw(offset);
         }
     }
 }

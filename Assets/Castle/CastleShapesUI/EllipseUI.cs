@@ -1,5 +1,4 @@
 using Castle.CastleShapes;
-using Castle.Shapes;
 using Sirenix.OdinInspector;
 
 namespace Castle.CastleShapesUI
@@ -12,20 +11,6 @@ namespace Castle.CastleShapesUI
             get => ShapeToDraw.Resolution;
             set => ShapeToDraw.Resolution = value;
         }
-    
-        [BoxGroup("Dimensions"), ShowInInspector]
-        public override bool BoundByRect { 
-            get => boundByRect;
-            set
-            {
-                boundByRect = value;
-                if (!BoundByRect) return;
-                ShapeValidation();
-                ResizeByRect();
-            } 
-        }
-
-        private bool boundByRect;
     
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public override RectangleBoundEnum BoundBy { 
@@ -73,7 +58,7 @@ namespace Castle.CastleShapesUI
             ShapeToDraw = new Ellipse(30,rect.width/2,rect.height/2);
         }
 
-        public override void ResizeByRect()
+        protected override void ResizeByRect()
         {
             var rect = Transform.rect;
             switch (BoundBy)
@@ -99,7 +84,7 @@ namespace Castle.CastleShapesUI
             ResizeByRect();
         }
 
-        public override void ShapeValidation()
+        protected override void ShapeValidation()
         {
         }
     }

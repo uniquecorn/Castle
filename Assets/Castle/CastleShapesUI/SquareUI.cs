@@ -1,22 +1,37 @@
-using Castle.Shapes;
+using System;
+using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 
 namespace Castle.CastleShapesUI
 {
-    public class SquareUI : BoxUI<SquareBoundEnum>
+    public class SquareUI : ShapesUI<Square,SquareBoundEnum>
     {
         [BoxGroup("Dimensions"), LabelText("Size"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectSize
         {
-            get => ShapeToDraw.Width;
+            get => ShapeToDraw.Size;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float Size
         {
-            get => ShapeToDraw.Width;
-            set => ShapeToDraw.Width = value;
+            get => ShapeToDraw.Size;
+            set => ShapeToDraw.Size = value;
         }
+        
+        public override SquareBoundEnum BoundBy
+        {
+            get => boundBy;
+            set
+            {
+                boundBy = value;
+                if (!BoundByRect) return;
+                ShapeValidation();
+                ResizeByRect();
+            }
+        }
+
+        private SquareBoundEnum boundBy;
     
         protected override void OnEnable()
         {
@@ -24,8 +39,8 @@ namespace Castle.CastleShapesUI
             var rect = Transform.rect;
             ShapeToDraw = new Square(MinRectLength);
         }
-    
-        public override void ResizeByRect()
+
+        protected override void ResizeByRect()
         {
             var rect = Transform.rect;
             Size = BoundBy switch
@@ -38,7 +53,12 @@ namespace Castle.CastleShapesUI
             };
         }
 
-        public override void ShapeValidation(){}
+        private void OnDrawGizmos()
+        {
+            this.ShapeToDraw.Draw(offset);
+        }
+
+        protected override void ShapeValidation(){}
     
     }
 }
