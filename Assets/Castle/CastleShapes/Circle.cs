@@ -2,34 +2,18 @@
 
 namespace Castle.CastleShapes
 {
-    public class Circle : Shape
+    public class Circle : Polygon
     {
-        public Circle(int resolution, float radius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(roundedCornerRes, roundedCornerRadius)
-        {
-            Resolution = resolution;
-            Radius = radius;
-        }
-        
-        public int Resolution { get; set; }
-        public float Radius { get; set; }
 
-        protected override Vector3[] Vertices
+        public Circle(float radius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(128, radius, roundedCornerRes, roundedCornerRadius)
         {
-            get
-            {
-                var vertices = new Vector3[Resolution];
-                vertices[0] = new Vector3(0, Radius);
-                for (var i = 1; i < vertices.Length; i++)
-                {
-                    vertices[i] = Quaternion.Euler(0, 0, -360f / Resolution) * vertices[i - 1];
-                }
-                return vertices;
-            }
         }
 
-        public static void Draw(Vector3 offset,int resolution,float radius, int roundedCornerRes=0, float roundedCornerRadius=0)
+        public override int Resolution => resolution;
+
+        public static void Draw(Vector3 offset,float radius, int roundedCornerRes=0, float roundedCornerRadius=0)
         {
-            new Circle(resolution, radius, roundedCornerRes, roundedCornerRadius).Draw(offset);
+            new Circle(radius, roundedCornerRes, roundedCornerRadius).Draw(offset);
         }
     }
 }

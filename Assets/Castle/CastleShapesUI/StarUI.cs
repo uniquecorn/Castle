@@ -13,7 +13,6 @@ namespace Castle.CastleShapesUI
             set => ShapeToDraw.Resolution = value;
         }
 
-        [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public override SquareBoundEnum BoundBy
         {
             get => boundBy;

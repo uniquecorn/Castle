@@ -33,7 +33,7 @@ public class TestGame : MonoBehaviour
     {
         // Ellipse.Draw(Vector3.zero + offset,circleRadius ,circleRadiusY, circleResolution);
         
-        // Circle.Draw(offset,100,100,5,750);
+         // Circle.Draw(offset,100,100,5,750);
         
 
     }

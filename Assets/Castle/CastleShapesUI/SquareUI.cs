@@ -53,11 +53,6 @@ namespace Castle.CastleShapesUI
             };
         }
 
-        private void OnDrawGizmos()
-        {
-            this.ShapeToDraw.Draw(offset);
-        }
-
         protected override void ShapeValidation(){}
     
     }

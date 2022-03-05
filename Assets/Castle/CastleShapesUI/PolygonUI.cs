@@ -5,13 +5,14 @@ using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
-    public class CircleUI : ShapesUI<Circle, SquareBoundEnum>
+    public class PolygonUI : ShapesUI<Polygon, SquareBoundEnum>
     {
 
-        [BoxGroup("Dimensions"),ShowInInspector]
+        [BoxGroup("Dimensions"),ShowInInspector, PropertyRange(2,16)]
         public int Resolution
         {
             get => ShapeToDraw.Resolution;
+            set => ShapeToDraw.Resolution = value;
         }
         
         public override SquareBoundEnum BoundBy
@@ -25,9 +26,8 @@ namespace Castle.CastleShapesUI
                 ResizeByRect();
             }
         }
-
         private SquareBoundEnum boundBy;
-
+        
         [BoxGroup("Dimensions"), LabelText("Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadius
         {
@@ -61,7 +61,7 @@ namespace Castle.CastleShapesUI
         protected override void OnEnable()
         {
             base.OnEnable();
-            ShapeToDraw = new Circle(MinRectLength/2);
+            ShapeToDraw = new Polygon( 3, MinRectLength/2);
         }
 
         protected override void OnRectTransformDimensionsChange()
@@ -70,6 +70,10 @@ namespace Castle.CastleShapesUI
             if (!BoundByRect) return;
             ShapeValidation();
             ResizeByRect();
+        }
+
+        public void Update()
+        {
         }
     }
 }

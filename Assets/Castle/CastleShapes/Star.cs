@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Castle.CastleShapes
 {
-    public class Star : Circle
+    public class Star : Polygon
     {
         public Star(int resolution, float innerRadius, float outerRadius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution, outerRadius, roundedCornerRes, roundedCornerRadius)
         {    

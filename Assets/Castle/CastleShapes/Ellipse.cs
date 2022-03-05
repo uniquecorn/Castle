@@ -4,7 +4,7 @@ namespace Castle.CastleShapes
 {
     public class Ellipse : Circle
     {
-        public Ellipse(int resolution, float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution,Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
+        public Ellipse(int resolution, float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
         {
             Resolution = resolution;
             RadiusX = radiusX;

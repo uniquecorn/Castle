@@ -1,11 +1,12 @@
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
     public class EllipseUI : ShapesUI<Ellipse, RectangleBoundEnum>
     {
-        [ShowInInspector, PropertyRange(1, 60)]
+        [BoxGroup("Dimensions"), ShowInInspector, PropertyRange(1, 60)]
         public int Resolution
         {
             get => ShapeToDraw.Resolution;
@@ -86,6 +87,13 @@ namespace Castle.CastleShapesUI
 
         protected override void ShapeValidation()
         {
+            ValidateRadius();
+        }
+
+        protected void ValidateRadius()
+        {
+            var minRadius = CornerRadius = Mathf.Min(RadiusX, RadiusY);
+            var maxCornerRadius = minRadius / Resolution; 
         }
     }
 }
