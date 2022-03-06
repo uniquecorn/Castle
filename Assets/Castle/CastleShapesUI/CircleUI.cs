@@ -7,13 +7,17 @@ namespace Castle.CastleShapesUI
 {
     public class CircleUI : ShapesUI<Circle, SquareBoundEnum>
     {
+        [SerializeField, HideInInspector]
+        private SquareBoundEnum boundBy;
+        [SerializeField, HideInInspector]
+        private float radius;
 
         [BoxGroup("Dimensions"),ShowInInspector]
         public int Resolution
         {
-            get => ShapeToDraw.Resolution;
+            get => shapeToDraw.Resolution;
         }
-        
+
         public override SquareBoundEnum BoundBy
         {
             get => boundBy;
@@ -26,19 +30,25 @@ namespace Castle.CastleShapesUI
             }
         }
 
-        private SquareBoundEnum boundBy;
-
         [BoxGroup("Dimensions"), LabelText("Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadius
         {
-            get => ShapeToDraw.Radius;
+            get => radius;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float Radius
         {
-            get => ShapeToDraw.Radius;
-            set => ShapeToDraw.Radius = value;
+            get => radius;
+            set => radius = value;
+        }
+
+        protected override void SpawnShape()
+        {
+            
+            base.OnEnable();
+            shapeToDraw = new Circle(MinRectLength/2);
+            radius = shapeToDraw.Radius;
         }
 
         protected override void ResizeByRect()
@@ -56,12 +66,6 @@ namespace Castle.CastleShapesUI
 
         protected override void ShapeValidation()
         {
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            ShapeToDraw = new Circle(MinRectLength/2);
         }
 
         protected override void OnRectTransformDimensionsChange()

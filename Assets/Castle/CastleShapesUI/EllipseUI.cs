@@ -1,3 +1,4 @@
+using System;
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -6,13 +7,24 @@ namespace Castle.CastleShapesUI
 {
     public class EllipseUI : ShapesUI<Ellipse, RectangleBoundEnum>
     {
+
+        [SerializeField, HideInInspector]
+        private RectangleBoundEnum boundBy;
+        [SerializeField, HideInInspector]
+        private int resolution;
+        [SerializeField, HideInInspector]
+        private float radiusX;
+        [SerializeField, HideInInspector]
+        private float radiusY;
+        
+        
         [BoxGroup("Dimensions"), ShowInInspector, PropertyRange(1, 60)]
         public int Resolution
         {
-            get => ShapeToDraw.Resolution;
-            set => ShapeToDraw.Resolution = value;
+            get => resolution;
+            set => resolution = value;
         }
-    
+
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public override RectangleBoundEnum BoundBy { 
             get => boundBy;
@@ -25,38 +37,39 @@ namespace Castle.CastleShapesUI
             }
         }
 
-        private RectangleBoundEnum boundBy;
-    
         [BoxGroup("Dimensions"), LabelText("RadiusX"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadiusX
         {
-            get => ShapeToDraw.RadiusX;
+            get => radiusX;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float RadiusX
         {
-            get => ShapeToDraw.RadiusX;
-            set => ShapeToDraw.RadiusX = value;
+            get => radiusX;
+            set => radiusX = value;
         }
     
         [BoxGroup("Dimensions"), LabelText("RadiusY"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadiusY
         {
-            get => ShapeToDraw.RadiusY;
+            get => radiusY;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float RadiusY
         {
-            get => ShapeToDraw.RadiusY;
-            set => ShapeToDraw.RadiusY = value;
+            get => radiusY;
+            set => radiusY = value;
         }
-        protected override void OnEnable()
+
+        protected override void SpawnShape()
         {
-            base.OnEnable();
             var rect = Transform.rect;
-            ShapeToDraw = new Ellipse(30,rect.width/2,rect.height/2);
+            shapeToDraw = new Ellipse(30,rect.width/2,rect.height/2);
+            Resolution = shapeToDraw.Resolution;
+            RadiusX = shapeToDraw.RadiusX;
+            RadiusY = shapeToDraw.RadiusY;
         }
 
         protected override void ResizeByRect()
@@ -74,15 +87,17 @@ namespace Castle.CastleShapesUI
                 case RectangleBoundEnum.Height:
                     RadiusY = rect.height/2;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
-    
-        protected override void OnRectTransformDimensionsChange()
+
+        protected override void SetShape()
         {
-            base.OnRectTransformDimensionsChange();
-            if (!BoundByRect) return;
-            ShapeValidation();
-            ResizeByRect();
+            base.SetShape();
+            shapeToDraw.RadiusX = RadiusX;
+            shapeToDraw.RadiusY = radiusY;
+            shapeToDraw.Resolution = resolution;
         }
 
         protected override void ShapeValidation()

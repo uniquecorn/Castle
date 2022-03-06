@@ -20,11 +20,17 @@ namespace Castle.Editor
             EditorGUI.BeginChangeCheck();
             Handles.color = Color.green;;
             var point = Handles.FreeMoveHandle(newTargetPosition, Quaternion.identity, size, snap,Handles.CircleHandleCap);
-            if (!EditorGUI.EndChangeCheck()) return;
-            Undo.RecordObject(targetHandler, "Move Offset");
-            EditorUtility.SetDirty(targetHandler);
-            targetHandler.Offset = point-targetHandler.transform.position;
-            targetHandler.SetVerticesDirty();
+            if (EditorGUI.EndChangeCheck())
+            {
+                //Will be affected by scale, fix later.
+                
+                Undo.RecordObject(targetHandler, "Move Offset");
+                targetHandler.Offset = point-targetHandler.transform.position;
+                EditorUtility.SetDirty(targetHandler);
+            
+                targetHandler.SetVerticesDirty();
+                
+            }
         }
     }
     
@@ -40,8 +46,8 @@ namespace Castle.Editor
     [CustomEditor(typeof(RectangleUI)), CanEditMultipleObjects]
     public class OffsetHandleRectangle:OffsetHandleBase{}
     
-    // [CustomEditor(typeof(PolygonUI)), CanEditMultipleObjects]
-    // public class OffsetHandlePolygon:OffsetHandleBase{}
+    [CustomEditor(typeof(PolygonUI)), CanEditMultipleObjects]
+    public class OffsetHandlePolygon:OffsetHandleBase{}
     
     [CustomEditor(typeof(StarUI)), CanEditMultipleObjects]
     public class OffsetHandleStar:OffsetHandleBase{}

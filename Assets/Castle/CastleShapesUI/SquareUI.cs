@@ -1,24 +1,32 @@
 using System;
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
     public class SquareUI : ShapesUI<Square,SquareBoundEnum>
     {
+        [SerializeField, HideInInspector]
+        private SquareBoundEnum boundBy;
+        [SerializeField, HideInInspector]
+        private float size;
+        
+        
+        
         [BoxGroup("Dimensions"), LabelText("Size"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectSize
         {
-            get => ShapeToDraw.Size;
+            get => size;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float Size
         {
-            get => ShapeToDraw.Size;
-            set => ShapeToDraw.Size = value;
+            get => size;
+            set => size = value;
         }
-        
+
         public override SquareBoundEnum BoundBy
         {
             get => boundBy;
@@ -31,13 +39,16 @@ namespace Castle.CastleShapesUI
             }
         }
 
-        private SquareBoundEnum boundBy;
-    
-        protected override void OnEnable()
+        protected override void SetShape()
         {
-            base.OnEnable();
-            var rect = Transform.rect;
-            ShapeToDraw = new Square(MinRectLength);
+            base.SetShape();
+            shapeToDraw.Size = size;
+        }
+
+        protected override void SpawnShape()
+        {
+            shapeToDraw = new Square(MinRectLength);
+            Size = shapeToDraw.Size;
         }
 
         protected override void ResizeByRect()

@@ -8,13 +8,21 @@ namespace Castle.CastleShapesUI
     public class PolygonUI : ShapesUI<Polygon, SquareBoundEnum>
     {
 
+        [SerializeField, HideInInspector]
+        private SquareBoundEnum boundBy;
+        [SerializeField, HideInInspector]
+        private int resolution;
+        [SerializeField, HideInInspector]
+        private float radius;
+        
         [BoxGroup("Dimensions"),ShowInInspector, PropertyRange(2,16)]
         public int Resolution
         {
-            get => ShapeToDraw.Resolution;
-            set => ShapeToDraw.Resolution = value;
+            get => resolution;
+            set => resolution = value;
         }
-        
+
+
         public override SquareBoundEnum BoundBy
         {
             get => boundBy;
@@ -24,21 +32,28 @@ namespace Castle.CastleShapesUI
                 if (!BoundByRect) return;
                 ShapeValidation();
                 ResizeByRect();
+                SetShape();
             }
         }
-        private SquareBoundEnum boundBy;
         
         [BoxGroup("Dimensions"), LabelText("Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadius
         {
-            get => ShapeToDraw.Radius;
+            get => radius;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float Radius
         {
-            get => ShapeToDraw.Radius;
-            set => ShapeToDraw.Radius = value;
+            get => radius;
+            set => radius = value;
+        }
+
+        protected override void SpawnShape()
+        {
+            shapeToDraw = new Polygon( 3, MinRectLength/2);
+            Resolution = shapeToDraw.Resolution;
+            Radius = shapeToDraw.Radius;
         }
 
         protected override void ResizeByRect()
@@ -58,22 +73,11 @@ namespace Castle.CastleShapesUI
         {
         }
 
-        protected override void OnEnable()
+        protected override void SetShape()
         {
-            base.OnEnable();
-            ShapeToDraw = new Polygon( 3, MinRectLength/2);
-        }
-
-        protected override void OnRectTransformDimensionsChange()
-        {
-            base.OnRectTransformDimensionsChange();
-            if (!BoundByRect) return;
-            ShapeValidation();
-            ResizeByRect();
-        }
-
-        public void Update()
-        {
+            base.SetShape();
+            shapeToDraw.Resolution = resolution;
+            shapeToDraw.Radius = radius;
         }
     }
 }

@@ -32,9 +32,9 @@ namespace Castle.CastleShapes
             }
         }
         
-        public static void Draw(Vector3 offset,int resolution,float innerRad, float outerRad, int roundedCornerRes=0, float roundedCornerRadius=0)
+        public static void Draw(Vector3 offset,int resolution, float outerRad,float innerRad, int roundedCornerRes=0, float roundedCornerRadius=0)
         {
-            new Star(resolution ,innerRad, outerRad,roundedCornerRes,roundedCornerRadius).Draw(offset);
+            new Star(resolution, outerRad, innerRad,roundedCornerRes,roundedCornerRadius).Draw(offset);
         }
     }
 }

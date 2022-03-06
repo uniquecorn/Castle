@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace Castle.CastleShapesUI
 {
@@ -23,11 +25,11 @@ namespace Castle.CastleShapesUI
         WidestLength
     }
     
-    [ExecuteInEditMode, RequireComponent(typeof(CanvasRenderer)), RequireComponent(typeof(Mask))]
+    [ExecuteInEditMode, RequireComponent(typeof(CanvasRenderer)), RequireComponent(typeof(Mask)), Serializable]
     public abstract class BaseShapeUI : MaskableGraphic
     {
         [SerializeField,HideInInspector]
-        public new RectTransform transform; 
+        public new RectTransform transform;
         protected RectTransform Transform => transform ? transform : transform = (RectTransform)base.transform;
         protected float MinRectLength => Mathf.Min(Transform.rect.width, Transform.rect.height);
         protected float MaxRectLength => Mathf.Max(Transform.rect.width, Transform.rect.height);
@@ -48,32 +50,57 @@ namespace Castle.CastleShapesUI
 #if UNITY_EDITOR
         [TitleGroup("Properties"), ShowInInspector]
         public bool EnableOffsetMove { get; set; }
-        #endif
+        [BoxGroup("Dimensions"), HideIf("EnableOffsetMove"), LabelText("Offset"), ShowInInspector]
+        private Vector3 DisableOffset => offset;
+#endif
+        //Necessary to record undo. Maybe fuck the offset editor handle? Or maybe fuck the undo.
+        [SerializeField, HideInInspector]
+        private Vector3 offset;
         [BoxGroup("Dimensions"), ShowIf("EnableOffsetMove"), ShowInInspector]
-        public Vector3 Offset { get; set; }
+        public Vector3 Offset
+        {
+            get => offset;
+            set => offset = value;
+        }
     }
     
     public abstract class ShapesUI<TShape, TBindableEnum> : BaseShapeUI where TShape : Shape // Changed to maskableGraphic so it can be masked with RectMask2D
     {
         
-        protected TShape ShapeToDraw;
+        [ShowInInspector] public Color SerializedColor => this.color;
+        
+        [ShowInInspector] protected TShape shapeToDraw;
+        protected Vector3[] ShapeToDraw
+        {
+            get
+            {
+                SetShape();
+                return shapeToDraw.VerticesWithCenter(Offset, HasRoundedCorner);
+            }
+        }
+
+        [SerializeField, HideInInspector]
+        protected float cornerRadius;
+        
+        [SerializeField, HideInInspector]
+        protected int cornerResolution;
 
         //Rounded Corner implementation
-        [TitleGroup("Properties"), ShowInInspector, HideIf("@this.ShapeToDraw.GetType() == typeof(Castle.CastleShapes.Circle)")]
+        [field:SerializeField, TitleGroup("Properties"), ShowInInspector, HideIf("@this.ShapeToDraw.GetType() == typeof(Castle.CastleShapes.Circle)")]
         public virtual bool HasRoundedCorner { get; set; }
         
         [BoxGroup("Dimensions"), ShowIf("HasRoundedCorner"), ShowInInspector]
         public float CornerRadius
         {
-            get => ShapeToDraw.CornerRadius;
-            set => ShapeToDraw.CornerRadius = value;
+            get => cornerRadius;
+            set => cornerRadius = value;
         }
         
         [BoxGroup("Dimensions"), ShowIf("HasRoundedCorner"),ShowInInspector, PropertyRange(0, 10)]
         public int CornerResolution
         {
-            get => ShapeToDraw.CornerResolution;
-            set => ShapeToDraw.CornerResolution = value;
+            get => cornerResolution;
+            set => cornerResolution = value;
         }
 
         //Bindable Implements
@@ -87,14 +114,22 @@ namespace Castle.CastleShapesUI
                 if (!BoundByRect) return;
                 ShapeValidation();
                 ResizeByRect();
+                SetShape();
             }
         }
-
+        [SerializeField, HideInInspector]
         private bool boundByRect;
 
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public abstract TBindableEnum BoundBy { get; set; }
 
+        protected virtual void SetShape()
+        {
+            shapeToDraw.CornerRadius = CornerRadius;
+            shapeToDraw.CornerResolution = CornerResolution;
+        }
+
+        protected abstract void SpawnShape();
         protected abstract void ResizeByRect();
         protected abstract void ShapeValidation(); 
         
@@ -104,15 +139,23 @@ namespace Castle.CastleShapesUI
             if (!BoundByRect) return;
             ShapeValidation();
             ResizeByRect();
+            SetShape();
+        }
+
+        protected override void OnEnable()
+        {
+            var rect = Transform.rect;
+            SpawnShape();
+            CornerRadius = shapeToDraw.CornerRadius;
+            CornerResolution = shapeToDraw.CornerResolution;
         }
 
         // Updated OnPopulateMesh to user VertexHelper instead of mesh
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
-            var verticesToDraw = ShapeToDraw.VerticesWithCenter(Offset, HasRoundedCorner);
+            var verticesToDraw = ShapeToDraw;
             
-
             for (var i = 0; i < verticesToDraw.Length; i++)
             {
                 UIVertex vertex = UIVertex.simpleVert;
