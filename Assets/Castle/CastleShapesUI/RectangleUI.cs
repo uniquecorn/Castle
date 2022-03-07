@@ -53,12 +53,10 @@ namespace Castle.CastleShapesUI
             }
         }
 
-        protected override void SpawnShape()
+        protected override Rectangle SpawnShape()
         {
             var rect = Transform.rect;
-            shapeToDraw = new Rectangle(rect.width, rect.height);
-            Width = shapeToDraw.Width;
-            Height = shapeToDraw.Height;
+            return new Rectangle(rect.width, rect.height);
         }
 
         protected override void ResizeByRect()

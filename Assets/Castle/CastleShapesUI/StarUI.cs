@@ -33,42 +33,39 @@ namespace Castle.CastleShapesUI
         [BoxGroup("Dimensions"), ShowInInspector, PropertyRange(1, 60)]
         public int Resolution
         {
-            get => resolution;
-            set => resolution = value;
+            get => ShapeToDraw.Resolution;
+            set => ShapeToDraw.Resolution = value;
         }
         [BoxGroup("Dimensions"), LabelText("Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadius
         {
-            get => radius;
+            get => ShapeToDraw.Radius;
         }
         
         [BoxGroup("Dimensions"), LabelText("Inner Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectInnerRadius
         {
-            get => innerRadius;
+            get => ShapeToDraw.InnerRadius;
         }
 
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float Radius
         {
-            get => radius;
-            set => radius = value;
+            get => ShapeToDraw.Radius;
+            set => ShapeToDraw.Radius = value;
         }
         
         
         [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
         public float InnerRadius
         {
-            get => innerRadius;
-            set => innerRadius = value;
+            get => ShapeToDraw.InnerRadius;
+            set => ShapeToDraw.InnerRadius = value;
         }
 
-        protected override void SpawnShape()
+        protected override Star SpawnShape()
         {
-            shapeToDraw = new Star(5,MinRectLength/4,MinRectLength/2);
-            Resolution = shapeToDraw.Resolution;
-            InnerRadius = shapeToDraw.InnerRadius;
-            Radius = shapeToDraw.Radius;
+            return new Star(5,MinRectLength/4,MinRectLength/2);
         }
 
         protected override void ResizeByRect()
@@ -77,20 +74,20 @@ namespace Castle.CastleShapesUI
             switch (BoundBy)
             {
                 case SquareBoundEnum.Height:
-                    InnerRadius = rect.height/4;
-                    Radius = rect.height/2;
+                    ShapeToDraw.InnerRadius = rect.height/4;
+                    ShapeToDraw.Radius = rect.height/2;
                     break;
                 case SquareBoundEnum.Width:
-                    InnerRadius = rect.width/4;
-                    Radius = rect.width/2;
+                    ShapeToDraw.InnerRadius = rect.width/4;
+                    ShapeToDraw.Radius = rect.width/2;
                     break;
                 case SquareBoundEnum.SmallestLength:
-                    InnerRadius = MinRectLength/4;
-                    Radius = MinRectLength/2;
+                    ShapeToDraw.InnerRadius = MinRectLength/4;
+                    ShapeToDraw.Radius = MinRectLength/2;
                     break;
                 case SquareBoundEnum.WidestLength:
-                    InnerRadius = MaxRectLength/4;
-                    Radius = MaxRectLength/2;
+                    ShapeToDraw.InnerRadius = MaxRectLength/4;
+                    ShapeToDraw.Radius = MaxRectLength/2;
                     break;
             }
         }
@@ -102,10 +99,9 @@ namespace Castle.CastleShapesUI
         protected override void SetShape()
         {
             base.SetShape();
-            shapeToDraw.InnerRadius = innerRadius;
-            shapeToDraw.Radius = radius;
-            shapeToDraw.Resolution = resolution;
-            Debug.Log("Opps");
+            // ShapeToDraw.InnerRadius = innerRadius;
+            // ShapeToDraw.Radius = radius;
+            // ShapeToDraw.Resolution = resolution;
         }
     }
 }
