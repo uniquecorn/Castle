@@ -9,12 +9,6 @@ namespace Castle.CastleShapesUI
     {
         [SerializeField, HideInInspector]
         private SquareBoundEnum boundBy;
-        [SerializeField, HideInInspector]
-        private int resolution;
-        [SerializeField, HideInInspector]
-        private float radius;
-        [SerializeField, HideInInspector]
-        private float innerRadius;
 
         public override SquareBoundEnum BoundBy
         {
@@ -22,10 +16,7 @@ namespace Castle.CastleShapesUI
             set
             {
                 boundBy = value;
-                if (!BoundByRect) return;
-                ShapeValidation();
-                ResizeByRect();
-                SetShape();
+                ShapeUpdate();
             }
         }
 
@@ -65,7 +56,7 @@ namespace Castle.CastleShapesUI
 
         protected override Star SpawnShape()
         {
-            return new Star(5,MinRectLength/4,MinRectLength/2);
+            return new Star(5,MinRectLength/2,MinRectLength/4, 8, MinRectLength/5 );
         }
 
         protected override void ResizeByRect()
@@ -96,13 +87,6 @@ namespace Castle.CastleShapesUI
         {
         }
 
-        protected override void SetShape()
-        {
-            base.SetShape();
-            // ShapeToDraw.InnerRadius = innerRadius;
-            // ShapeToDraw.Radius = radius;
-            // ShapeToDraw.Resolution = resolution;
-        }
     }
 }
 

@@ -2,6 +2,7 @@
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Vector3 = UnityEngine.Vector3;
 
@@ -44,7 +45,6 @@ namespace Castle.CastleShapesUI
         [BoxGroup("Dimensions"), HideIf("EnableOffsetMove"), LabelText("Offset"), ShowInInspector]
         private Vector3 DisableOffset => offset;
 #endif
-        //Necessary to record undo. Maybe fuck the offset editor handle? Or maybe fuck the undo.
         [SerializeField, HideInInspector]
         private Vector3 offset;
         [BoxGroup("Dimensions"), ShowIf("EnableOffsetMove"), ShowInInspector]
@@ -59,30 +59,41 @@ namespace Castle.CastleShapesUI
     {
         
         [ShowInInspector] public Color SerializedColor => color;
-        [ShowInInspector] protected TShape ShapeToDraw => SpawnShape();
 
-        [SerializeField, HideInInspector]
-        protected float cornerRadius;
-        
-        [SerializeField, HideInInspector]
-        protected int cornerResolution;
+        [ShowInInspector]
+        protected TShape ShapeToDraw
+        {
+            get => shapeToDraw;
+            set => shapeToDraw = value;
+        }
 
         //Rounded Corner implementation
-        [field:SerializeField, TitleGroup("Properties"), ShowInInspector, HideIf("@this.ShapeToDraw.GetType() == typeof(Castle.CastleShapes.Circle)")]
-        public bool HasRoundedCorner { get; set; }
+        [SerializeField, HideInInspector]
+        private bool hasRoundedCorner;
+        [SerializeField, HideInInspector]
+        private bool boundByRect;
+        [SerializeField]
+        private TShape shapeToDraw;
         
+        [TitleGroup("Properties"), ShowInInspector, HideIf("@this.ShapeToDraw.GetType() == typeof(Castle.CastleShapes.Circle)")] 
+        public bool HasRoundedCorner
+        {
+            get => hasRoundedCorner;
+            set => hasRoundedCorner = value;
+        }
+
         [BoxGroup("Dimensions"), ShowIf("HasRoundedCorner"), ShowInInspector]
         public float CornerRadius
         {
-            get => cornerRadius;
-            set => cornerRadius = value;
+            get => ShapeToDraw.CornerRadius;
+            set => ShapeToDraw.CornerRadius = value;
         }
         
         [BoxGroup("Dimensions"), ShowIf("HasRoundedCorner"),ShowInInspector, PropertyRange(0, 10)]
         public int CornerResolution
         {
-            get => cornerResolution;
-            set => cornerResolution = value;
+            get => ShapeToDraw.CornerResolution;
+            set => ShapeToDraw.CornerResolution = value;
         }
 
         //Bindable Implements
@@ -96,40 +107,36 @@ namespace Castle.CastleShapesUI
                 ShapeUpdate();
             }
         }
-        [SerializeField, HideInInspector]
-        private bool boundByRect;
+
 
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
         public abstract TBindableEnum BoundBy { get; set; }
 
-        protected virtual void SetShape()
-        {
-        }
-
-        protected abstract TShape SpawnShape();
         protected abstract void ResizeByRect();
         protected abstract void ShapeValidation();
+        protected abstract TShape SpawnShape();
 
         protected void ShapeUpdate()
         {
             ShapeValidation();
             ResizeByRect();
-            SetShape();
+            // SetShape();
         }
         
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
+            //TODO: Possible to get called when null needs changing
             ShapeUpdate();
         }
 
         protected override void OnEnable()
         {
-            // CornerRadius = ShapeToDraw.CornerRadius;
-            // CornerResolution = ShapeToDraw.CornerResolution;
+            base.OnEnable();
+            ShapeToDraw ??= SpawnShape();
             ShapeUpdate();
+            // SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
 
         // Updated OnPopulateMesh to user VertexHelper instead of mesh
         protected override void OnPopulateMesh(VertexHelper vh)

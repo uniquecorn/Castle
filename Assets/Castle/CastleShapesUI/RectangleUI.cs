@@ -9,35 +9,31 @@ namespace Castle.CastleShapesUI
         
         [SerializeField, HideInInspector]
         private RectangleBoundEnum boundBy;
-        [SerializeField, HideInInspector]
-        private float width;
-        [SerializeField, HideInInspector]
-        private float height;
         
         [BoxGroup("Dimensions"), LabelText("Height"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Height || BoundByRect && BoundBy == RectangleBoundEnum.WidthAndHeight"), ShowInInspector]
         public float RectHeight
         {
-            get => height;
+            get => ShapeToDraw.Height;
         }
     
         [BoxGroup("Dimensions"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Width || !BoundByRect"),ShowInInspector] 
         public float Height
         {
-            get => height;
-            set => height = value;
+            get => ShapeToDraw.Height;
+            set => ShapeToDraw.Height = value;
         }
 
         [BoxGroup("Dimensions"), LabelText("Width"),ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Width || BoundByRect && BoundBy == RectangleBoundEnum.WidthAndHeight"),ShowInInspector] 
         public float RectWidth
         {
-            get => width;
+            get => ShapeToDraw.Width;
         }
     
         [BoxGroup("Dimensions"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Height || !BoundByRect"), ShowInInspector] 
         public float Width
         {
-            get => width;
-            set => width = value;
+            get => ShapeToDraw.Width;
+            set => ShapeToDraw.Width = value;
         }
 
 
@@ -52,13 +48,6 @@ namespace Castle.CastleShapesUI
                 ResizeByRect();
             }
         }
-
-        protected override Rectangle SpawnShape()
-        {
-            var rect = Transform.rect;
-            return new Rectangle(rect.width, rect.height);
-        }
-
         protected override void ResizeByRect()
         {
             var rect = Transform.rect;
@@ -78,6 +67,10 @@ namespace Castle.CastleShapesUI
         }
 
         protected override void ShapeValidation(){}
-
+        protected override Rectangle SpawnShape()
+        {
+            var rect = Transform.rect;
+            return new Rectangle(rect.width, rect.height, 10, MinRectLength/4);     
+        }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
-    public class OldPolygonUI : ShapesUI<Polygon, SquareBoundEnum>
+    public class OldPolygonUI : OldShapesUI<Polygon, SquareBoundEnum>
     {
 
         [BoxGroup("Dimensions"),ShowInInspector, PropertyRange(2,16)]
@@ -66,7 +66,7 @@ namespace Castle.CastleShapesUI
         protected override void OnEnable()
         {
             base.OnEnable();
-            // ShapeToDraw = new Polygon( 3, MinRectLength/2);
+            ShapeToDraw = SpawnShape();
         }
 
         protected override void OnRectTransformDimensionsChange()

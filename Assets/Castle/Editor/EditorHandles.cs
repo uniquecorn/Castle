@@ -42,14 +42,14 @@ namespace Castle.Editor
     //
     // [CustomEditor(typeof(SquareUI)), CanEditMultipleObjects]
     // public class OffsetHandleSquare:OffsetHandleBase{}
-    
-    [CustomEditor(typeof(RectangleUI)), CanEditMultipleObjects]
-    public class OffsetHandleRectangle:OffsetHandleBase{}
+    //
+    // [CustomEditor(typeof(RectangleUI)), CanEditMultipleObjects]
+    // public class OffsetHandleRectangle:OffsetHandleBase{}
     
     [CustomEditor(typeof(PolygonUI)), CanEditMultipleObjects]
     public class OffsetHandlePolygon:OffsetHandleBase{}
     
-    [CustomEditor(typeof(StarUI)), CanEditMultipleObjects]
-    public class OffsetHandleStar:OffsetHandleBase{}
-    
+    // [CustomEditor(typeof(StarUI)), CanEditMultipleObjects]
+    // public class OffsetHandleStar:OffsetHandleBase{}
+    //
 }

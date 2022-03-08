@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Castle.CastleShapes
 {
+    [Serializable]
     public class Circle : Polygon
     {
 

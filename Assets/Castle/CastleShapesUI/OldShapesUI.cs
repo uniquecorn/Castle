@@ -82,6 +82,8 @@ namespace Castle.CastleShapesUI
             ResizeByRect();
         }
 
+        protected abstract TShape SpawnShape();
+
         // Updated OnPopulateMesh to user VertexHelper instead of mesh
         protected override void OnPopulateMesh(VertexHelper vh)
         {

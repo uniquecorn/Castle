@@ -1,22 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Castle.CastleShapes
 {
+    [Serializable]
     public class Square : Shape
     {
         //Rider throws warning about having virtual property in constructor that gets overriden in derived class.
-        private float size;
+        [SerializeField, HideInInspector]
+        protected float width;
 
         public Square(float size, int roundedCornerRes = 0, float roundedCornerRadius = 0) : base(roundedCornerRes,
             roundedCornerRadius)
         {
-            this.size = size;
+            width = size;
         }
 
         public virtual float Size
         {
-            get => size;
-            set => size = value;
+            get => width;
+            set => width = value;
         }
 
         protected override Vector3[] Vertices

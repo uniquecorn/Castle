@@ -16,8 +16,14 @@ namespace Castle.CastleShapes
         }
     }
 
+    [Serializable]
     public abstract class Shape
     {
+        [SerializeField, HideInInspector]
+        private float cornerRadius;
+        [SerializeField, HideInInspector]
+        private int cornerResolution;
+
         protected Shape(int cornerResolution = 10, float cornerRadius = 5 )
         {
             CornerResolution = cornerResolution;
@@ -25,8 +31,19 @@ namespace Castle.CastleShapes
         }
         
         protected abstract Vector3[] Vertices { get; }
-        public float CornerRadius { get; set; }
-        public int CornerResolution { get; set; }
+
+        public float CornerRadius
+        {
+            get => cornerRadius;
+            set => cornerRadius = value;
+        }
+
+        public int CornerResolution
+        {
+            get => cornerResolution;
+            set => cornerResolution = value;
+        }
+
         public virtual float MaxCornerRadius => CornerRadius;
 
         public Vector3[] VerticesWithCenter(Vector3 offset) => VerticesWithCenter(offset, false);

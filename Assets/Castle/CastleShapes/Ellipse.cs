@@ -1,17 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Castle.CastleShapes
 {
+    [Serializable]
     public class Ellipse : Circle
     {
+        [SerializeField, HideInInspector]
+        private float radiusX;
+        [SerializeField, HideInInspector]
+        private float radiusY;
+
         public Ellipse(int resolution, float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
         {
             Resolution = resolution;
             RadiusX = radiusX;
             RadiusY = radiusY;
         }
-        public float RadiusX { get; set; }
-        public float RadiusY { get; set; }
+
+        public float RadiusX
+        {
+            get => radiusX;
+            set => radiusX = value;
+        }
+
+        public float RadiusY
+        {
+            get => radiusY;
+            set => radiusY = value;
+        }
 
         protected override Vector3[] Vertices
         {

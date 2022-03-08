@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &455867220
+--- !u!1 &323795005
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,24 +131,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 455867221}
-  - component: {fileID: 455867224}
-  - component: {fileID: 455867223}
-  - component: {fileID: 455867222}
+  - component: {fileID: 323795006}
+  - component: {fileID: 323795009}
+  - component: {fileID: 323795008}
+  - component: {fileID: 323795007}
   m_Layer: 5
-  m_Name: OldPolygon
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &455867221
+--- !u!224 &323795006
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455867220}
+  m_GameObject: {fileID: 323795005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -159,19 +159,19 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3327.862, y: 325.92896}
-  m_SizeDelta: {x: 3402.376, y: 3484.2422}
+  m_AnchoredPosition: {x: -586.11005, y: -374.94516}
+  m_SizeDelta: {x: 706.7365, y: 624.0983}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &455867222
+--- !u!114 &323795007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455867220}
+  m_GameObject: {fileID: 323795005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cd6a9c4a611eb54eaee7d13a4a2412a, type: 3}
+  m_Script: {fileID: 11500000, guid: dd37e54050786ab48be8a11387e20253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -182,32 +182,35 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  transform: {fileID: 455867221}
-  offset: {x: 28.2, y: 28.2, z: 28.2}
-  cornerRadius: 0
-  cornerResolution: 0
-  <HasRoundedCorner>k__BackingField: 0
+  transform: {fileID: 323795006}
+  offset: {x: 91.338135, y: 545.90454, z: 0}
+  hasRoundedCorner: 1
   boundByRect: 1
---- !u!114 &455867223
+  shapeToDraw:
+    cornerRadius: 41.37
+    cornerResolution: 4
+    resolution: 8
+    radius: 353.36826
+--- !u!114 &323795008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455867220}
+  m_GameObject: {fileID: 323795005}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!222 &455867224
+--- !u!222 &323795009
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455867220}
+  m_GameObject: {fileID: 323795005}
   m_CullTransparentMesh: 1
 --- !u!1 &519420028
 GameObject:
@@ -363,8 +366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: 781}
-  m_SizeDelta: {x: 3763.7927, y: 3738.7803}
+  m_AnchoredPosition: {x: -1985.2156, y: -247.7964}
+  m_SizeDelta: {x: 1644.9329, y: 2246.3616}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759430604
 MonoBehaviour:
@@ -409,13 +412,13 @@ MonoBehaviour:
       m_Calls: []
   transform: {fileID: 759430602}
   offset: {x: 0, y: -12.604431, z: 0}
-  cornerRadius: 54.23
-  cornerResolution: 6
-  <HasRoundedCorner>k__BackingField: 1
+  hasRoundedCorner: 1
   boundByRect: 1
-  boundBy: 2
-  resolution: 8
-  radius: 1869.3901
+  shapeToDraw:
+    cornerRadius: 136.3
+    cornerResolution: 3
+    resolution: 8
+    radius: 822.46643
 --- !u!1 &1496799490
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +512,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 759430602}
-  - {fileID: 455867221}
+  - {fileID: 323795006}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

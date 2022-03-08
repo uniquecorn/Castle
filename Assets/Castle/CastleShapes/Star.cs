@@ -1,19 +1,28 @@
+using System;
 using UnityEngine;
 
 namespace Castle.CastleShapes
 {
+    [Serializable]
     public class Star : Polygon
     {
-        public Star(int resolution, float innerRadius, float outerRadius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution, outerRadius, roundedCornerRes, roundedCornerRadius)
+        [SerializeField, HideInInspector]
+        private float innerRadius;
+
+        public Star(int resolution, float outerRadius, float innerRadius,  int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution, outerRadius, roundedCornerRes, roundedCornerRadius)
         {    
-            Radius = outerRadius;
             Resolution = resolution;
+            Radius = outerRadius;
             InnerRadius = innerRadius;
             CornerResolution = roundedCornerRes;
             CornerRadius = roundedCornerRadius;
         }
 
-        public float InnerRadius { get; set; }
+        public float InnerRadius
+        {
+            get => innerRadius;
+            set => innerRadius = value;
+        }
 
         protected override Vector3[] Vertices
         {

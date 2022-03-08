@@ -1,10 +1,14 @@
 ﻿
+using System;
 using UnityEngine;
 
 namespace Castle.CastleShapes
 {
+    [Serializable]
     public class Rectangle : Square
-    {
+    {       
+        [SerializeField, HideInInspector]
+        private float height;
 
         public Rectangle(float width, float height, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(width, height), roundedCornerRes,roundedCornerRadius)
         {
@@ -20,10 +24,17 @@ namespace Castle.CastleShapes
                 Width = value;
             }
         }
+        public float Width
+        {
+            get => width;
+            set => width = value;
+        }
 
-        public float Width { get; set; }
-
-        public float Height { get; set; }
+        public float Height
+        {
+            get => height;
+            set => height = value;
+        }
 
 
         protected override Vector3[] Vertices
