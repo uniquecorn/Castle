@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eaad2ca4-fe1a-40c8-8797-c14889390d66" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Box.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Box.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" afterDir="false" />
@@ -12,16 +11,29 @@
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesStruct.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesStruct.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene 1.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +53,12 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ValueDropdownExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Graphic.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@12.1.4/Editor/ShaderGraph/Includes/Varyings.hlsl" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/StencilMaterial.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Mask.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" root0="FORCE_HIGHLIGHTING" />
@@ -56,12 +68,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/Editor/Vector3RangeEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestGame.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Vector3Range.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18df8cf8bbe241b2b3221a499330c5857800/b9/798dcee4/UIVertex.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/MaskableGraphic.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -127,7 +139,8 @@
       <workItem from="1646110355193" duration="36142000" />
       <workItem from="1646274951681" duration="14251000" />
       <workItem from="1646304327383" duration="48129000" />
-      <workItem from="1646590735209" duration="36776000" />
+      <workItem from="1646590735209" duration="49267000" />
+      <workItem from="1646802839918" duration="17852000" />
     </task>
     <servers />
   </component>

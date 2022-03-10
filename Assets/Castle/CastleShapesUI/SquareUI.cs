@@ -5,36 +5,18 @@ using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
-    public class SquareUI : ShapesUI<Square,SquareBoundEnum>
+    public class SquareUI : SquareBoundShapesUI<Square>
     {
-        [SerializeField, HideInInspector]
-        private SquareBoundEnum boundBy;
-        
-        
-        
-        [BoxGroup("Dimensions"), LabelText("Size"), ShowIf("BoundByRect"), ShowInInspector]
-        public float RectSize
-        {
-            get => ShapeToDraw.Size;
-        }
-
-        [BoxGroup("Dimensions"), HideIf("BoundByRect"), ShowInInspector]
-        public float Size
+        protected override string LengthInspectorLabel => "Size";
+        public override float Length 
         {
             get => ShapeToDraw.Size;
             set => ShapeToDraw.Size = value;
         }
 
-        public override SquareBoundEnum BoundBy
+        public override float RectLength 
         {
-            get => boundBy;
-            set
-            {
-                boundBy = value;
-                if (!BoundByRect) return;
-                ShapeValidation();
-                ResizeByRect();
-            }
+            get => ShapeToDraw.Size;
         }
 
         protected override Square SpawnShape()
@@ -42,18 +24,6 @@ namespace Castle.CastleShapesUI
             return new Square(MinRectLength, 10, MinRectLength/4);
         }
 
-        protected override void ResizeByRect()
-        {
-            var rect = Transform.rect;
-            Size = BoundBy switch
-            {
-                SquareBoundEnum.Height => rect.height,
-                SquareBoundEnum.Width => rect.width,
-                SquareBoundEnum.SmallestLength => MinRectLength,
-                SquareBoundEnum.WidestLength => MaxRectLength,
-                _ => Size
-            };
-        }
 
         protected override void ShapeValidation(){}
     

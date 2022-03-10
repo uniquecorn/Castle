@@ -5,28 +5,8 @@ using UnityEngine;
 
 namespace Castle.CastleShapesUI
 {
-    public class StarUI : ShapesUI<Star, SquareBoundEnum>
+    public class StarUI : ShapesUI<Star, SquareBoundEnum>,ICircular
     {
-        [SerializeField, HideInInspector]
-        private SquareBoundEnum boundBy;
-
-        public override SquareBoundEnum BoundBy
-        {
-            get => boundBy;
-            set
-            {
-                boundBy = value;
-                ShapeUpdate();
-            }
-        }
-
-        
-        [BoxGroup("Dimensions"), ShowInInspector, PropertyRange(1, 60)]
-        public int Resolution
-        {
-            get => ShapeToDraw.Resolution;
-            set => ShapeToDraw.Resolution = value;
-        }
         [BoxGroup("Dimensions"), LabelText("Radius"), ShowIf("BoundByRect"), ShowInInspector]
         public float RectRadius
         {
@@ -53,11 +33,7 @@ namespace Castle.CastleShapesUI
             get => ShapeToDraw.InnerRadius;
             set => ShapeToDraw.InnerRadius = value;
         }
-
-        protected override Star SpawnShape()
-        {
-            return new Star(5,MinRectLength/2,MinRectLength/4, 8, MinRectLength/5 );
-        }
+        
 
         protected override void ResizeByRect()
         {
@@ -81,6 +57,11 @@ namespace Castle.CastleShapesUI
                     ShapeToDraw.Radius = MaxRectLength/2;
                     break;
             }
+        }
+
+        protected override Star SpawnShape()
+        {
+            return new Star(5,MinRectLength/2,MinRectLength/4, 8, MinRectLength/5 );
         }
 
         protected override void ShapeValidation()

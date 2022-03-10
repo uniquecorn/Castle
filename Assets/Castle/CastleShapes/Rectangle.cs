@@ -10,7 +10,8 @@ namespace Castle.CastleShapes
         [SerializeField, HideInInspector]
         private float height;
 
-        public Rectangle(float width, float height, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(width, height), roundedCornerRes,roundedCornerRadius)
+        public Rectangle(float width, float height, int roundedCornerRes=0, float roundedCornerRadius=0) 
+            : base(Mathf.Max(width, height), roundedCornerRes,roundedCornerRadius)
         {
             Width = width;
             Height = height;

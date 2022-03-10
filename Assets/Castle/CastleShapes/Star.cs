@@ -11,7 +11,6 @@ namespace Castle.CastleShapes
 
         public Star(int resolution, float outerRadius, float innerRadius,  int roundedCornerRes=0, float roundedCornerRadius=0) : base(resolution, outerRadius, roundedCornerRes, roundedCornerRadius)
         {    
-            Resolution = resolution;
             Radius = outerRadius;
             InnerRadius = innerRadius;
             CornerResolution = roundedCornerRes;
@@ -23,6 +22,8 @@ namespace Castle.CastleShapes
             get => innerRadius;
             set => innerRadius = value;
         }
+
+        public override int MaxResolution => 512;
 
         protected override Vector3[] Vertices
         {

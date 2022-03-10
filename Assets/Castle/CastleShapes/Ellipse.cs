@@ -11,9 +11,9 @@ namespace Castle.CastleShapes
         [SerializeField, HideInInspector]
         private float radiusY;
 
-        public Ellipse(int resolution, float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) : base(Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
+        public Ellipse(float radiusX, float radiusY, int roundedCornerRes=0, float roundedCornerRadius=0) 
+            : base(Mathf.Max(radiusX, radiusY),roundedCornerRes, roundedCornerRadius )
         {
-            Resolution = resolution;
             RadiusX = radiusX;
             RadiusY = radiusY;
         }
@@ -43,9 +43,9 @@ namespace Castle.CastleShapes
                 return vertices;
             }
         }
-        public static void Draw(Vector3 offset,int resolution, float radiusX, float radiusY)
+        public static void Draw(Vector3 offset, float radiusX, float radiusY)
         {
-            new Ellipse(resolution,radiusX,radiusY).Draw(offset);
+            new Ellipse(radiusX,radiusY).Draw(offset);
         }
     }
 }

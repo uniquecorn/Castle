@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Castle.CastleShapes
 {
     [Serializable]
-    public class Polygon : Shape
+    public class Polygon : Shape , ICircular
     {
         public Polygon(int resolution, float radius, int roundedCornerRes=0, float roundedCornerRadius=0) : base(roundedCornerRes, roundedCornerRadius)
         {
@@ -13,15 +13,9 @@ namespace Castle.CastleShapes
         }
 
         [SerializeField, HideInInspector]
-        protected int resolution;
-        [SerializeField, HideInInspector]
         private float radius;
-        
-        public virtual int Resolution
-        {
-            get => resolution;
-            set => resolution = value;
-        }
+
+        public virtual int MaxResolution => 512;
 
         public float Radius
         {

@@ -1,14 +1,22 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Castle.CastleShapes
 {
+    public interface ICircular { 
+        [BoxGroup("Dimensions"), ShowInInspector, PropertyRange(3,"MaxResolution")]
+        public int Resolution { get; set; }
+        public int MaxResolution { get; }
+        public float Radius { get; set; }
+    }
+
     public static class Bezier {
 
         public static Vector3 GetPoint (Vector3 p0, Vector3 p1, Vector3 p2, float t) {
             t = Mathf.Clamp01(t);
-            float oneMinusT = 1f - t;
+            var oneMinusT = 1f - t;
             return
                 oneMinusT * oneMinusT * p0 +
                 2f * oneMinusT * t * p1 +
@@ -16,13 +24,13 @@ namespace Castle.CastleShapes
         }
     }
 
+    //TODO: Get some quadrilateral shapes
     [Serializable]
     public abstract class Shape
     {
-        [SerializeField, HideInInspector]
-        private float cornerRadius;
-        [SerializeField, HideInInspector]
-        private int cornerResolution;
+        [SerializeField, HideInInspector] private float cornerRadius;
+        [SerializeField, HideInInspector] private int cornerResolution;
+        [SerializeField, HideInInspector] protected int resolution;
 
         protected Shape(int cornerResolution = 10, float cornerRadius = 5 )
         {
@@ -42,6 +50,12 @@ namespace Castle.CastleShapes
         {
             get => cornerResolution;
             set => cornerResolution = value;
+        }
+
+        public virtual int Resolution
+        {
+            get => resolution;
+            set => resolution = value;
         }
 
         public virtual float MaxCornerRadius => CornerRadius;

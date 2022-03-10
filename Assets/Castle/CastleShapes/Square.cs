@@ -10,10 +10,19 @@ namespace Castle.CastleShapes
         [SerializeField, HideInInspector]
         protected float width;
 
-        public Square(float size, int roundedCornerRes = 0, float roundedCornerRadius = 0) : base(roundedCornerRes,
-            roundedCornerRadius)
+
+        public Square(float size, int roundedCornerRes = 0, float roundedCornerRadius = 0) 
+            : base(roundedCornerRes, roundedCornerRadius)
         {
             width = size;
+            resolution = 4;
+        }
+
+        public override int Resolution
+        {
+            get => resolution;
+            //This is bad practice. Find a way to circumvent.
+            set { }
         }
 
         public virtual float Size

@@ -1,27 +1,15 @@
 ﻿using System;
+using System.Drawing;
 using Castle.CastleShapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Color = UnityEngine.Color;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Castle.CastleShapesUI
 {
-    public enum RectangleBoundEnum
-    {
-        WidthAndHeight = 0,
-        Width,
-        Height,
-    }
-    
-    public enum SquareBoundEnum
-    {
-        Width = 0,
-        Height,
-        SmallestLength,
-        WidestLength
-    }
     
     [ExecuteInEditMode, RequireComponent(typeof(CanvasRenderer)), RequireComponent(typeof(Mask)), Serializable]
     public abstract class BaseShapeUI : MaskableGraphic
@@ -32,11 +20,22 @@ namespace Castle.CastleShapesUI
         protected float MinRectLength => Mathf.Min(Transform.rect.width, Transform.rect.height);
         protected float MaxRectLength => Mathf.Max(Transform.rect.width, Transform.rect.height);
         
-        [TitleGroup("Properties"), ReadOnly, ShowInInspector]
+        [TitleGroup("Properties"), ShowInInspector]
         public Texture MainTexture
         {
             get => mainTexture;
         }
+
+
+
+        public override Texture mainTexture => texture;
+
+
+        [TitleGroup("Properties"), ShowInInspector]
+        public Texture texture;
+        
+        
+        
         
 
 #if UNITY_EDITOR
@@ -57,10 +56,6 @@ namespace Castle.CastleShapesUI
     
     public abstract class ShapesUI<TShape, TBindableEnum> : BaseShapeUI where TShape : Shape // Changed to maskableGraphic so it can be masked with RectMask2D
     {
-        
-        [ShowInInspector] public Color SerializedColor => color;
-
-        [ShowInInspector]
         protected TShape ShapeToDraw
         {
             get => shapeToDraw;
@@ -68,12 +63,20 @@ namespace Castle.CastleShapesUI
         }
 
         //Rounded Corner implementation
-        [SerializeField, HideInInspector]
-        private bool hasRoundedCorner;
-        [SerializeField, HideInInspector]
-        private bool boundByRect;
-        [SerializeField]
-        private TShape shapeToDraw;
+        [SerializeField, HideInInspector] private bool hasRoundedCorner;
+        [SerializeField, HideInInspector] private TBindableEnum boundBy;
+        [SerializeField, HideInInspector] private bool boundByRect;
+        [SerializeField, HideInInspector] private TShape shapeToDraw;
+
+        public int MaxResolution => ShapeToDraw.GetType() == typeof(ICircular) ? ((ICircular)ShapeToDraw).MaxResolution : ShapeToDraw.Resolution;
+
+        //TODO:clamp value if ICircular
+        [BoxGroup("Dimensions"),ShowInInspector]
+        public virtual int Resolution
+        {
+            get => ShapeToDraw.Resolution;
+            set => ShapeToDraw.Resolution = Mathf.Clamp(value,3,MaxResolution);
+        }
         
         [TitleGroup("Properties"), ShowInInspector, HideIf("@this.ShapeToDraw.GetType() == typeof(Castle.CastleShapes.Circle)")] 
         public bool HasRoundedCorner
@@ -108,16 +111,28 @@ namespace Castle.CastleShapesUI
             }
         }
 
-
         [BoxGroup("Dimensions"), ShowIf("BoundByRect"), ShowInInspector]
-        public abstract TBindableEnum BoundBy { get; set; }
+        public TBindableEnum BoundBy {
+            get => boundBy;
+            set
+            {
+                boundBy = value;
+                ShapeUpdate();
+            } 
+        }
 
+        //TODO: There is a chance I can move all the resize functions into ShapesUI class by predefining XY field for (SIZE)-based classes and X + Y fields (WIDTH AND HEIGHT)-based classes.
+        
+        /// <summary>
+        /// 
+        /// </summary>
         protected abstract void ResizeByRect();
         protected abstract void ShapeValidation();
         protected abstract TShape SpawnShape();
 
         protected void ShapeUpdate()
         {
+            if(!boundByRect) return;
             ShapeValidation();
             ResizeByRect();
             // SetShape();
@@ -126,7 +141,7 @@ namespace Castle.CastleShapesUI
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
-            //TODO: Possible to get called when null needs changing
+            //TODO: Possible to get called when null, needs changing
             ShapeUpdate();
         }
 
@@ -162,7 +177,80 @@ namespace Castle.CastleShapesUI
                 // vh.AddTriangle(i+1,i,0);
                 vh.AddTriangle(0,i,i+1);
             }
-            ShapeUpdate();
+        }
+    }
+    
+    public enum SquareBoundEnum
+    {
+        Width = 0,
+        Height,
+        SmallestLength,
+        WidestLength
+    }
+    
+    public abstract class SquareBoundShapesUI<TShape> : ShapesUI<TShape, SquareBoundEnum> where TShape : Shape
+    {
+        protected abstract string LengthInspectorLabel { get; }
+        
+        [BoxGroup("Dimensions"), LabelText("$LengthInspectorLabel"), HideIf("BoundByRect"), ShowInInspector]
+        public abstract float Length { get; set; }
+        
+        [BoxGroup("Dimensions"), LabelText("$LengthInspectorLabel"), ShowIf("BoundByRect"), ShowInInspector]
+        public abstract float RectLength { get; }
+        
+        protected override void ResizeByRect()
+        {
+            var rect = Transform.rect;
+            Length = BoundBy switch
+            {
+                SquareBoundEnum.Height => rect.height,
+                SquareBoundEnum.Width => rect.width,
+                SquareBoundEnum.SmallestLength => MinRectLength,
+                SquareBoundEnum.WidestLength => MaxRectLength,
+                _ => Length
+            };
+        }
+
+    }
+
+    public enum RectangleBoundEnum
+    {
+        WidthAndHeight = 0,
+        Width,
+        Height,
+    }
+
+    public abstract class RectangleBoundShapesUI<TShape> : ShapesUI<TShape, RectangleBoundEnum> where TShape : Shape
+    {
+        protected abstract string XLengthInspectorLabel { get; }
+        protected abstract string YLengthInspectorLabel { get; }
+
+        [BoxGroup("Dimensions"), LabelText("$XLengthInspectorLabel"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Height || !BoundByRect"), ShowInInspector] 
+        public abstract float XLength { get; set; }
+        [BoxGroup("Dimensions"), LabelText("$XLengthInspectorLabel"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Width || BoundByRect && BoundBy == RectangleBoundEnum.WidthAndHeight"),ShowInInspector] 
+        public abstract float RectXLength { get; }
+
+        [BoxGroup("Dimensions"), LabelText("$YLengthInspectorLabel"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Width || !BoundByRect"),ShowInInspector] 
+        public abstract float YLength { get; set; }      
+        [BoxGroup("Dimensions"), LabelText("$YLengthInspectorLabel"), ShowIf("@this.BoundByRect && BoundBy == RectangleBoundEnum.Height || BoundByRect && BoundBy == RectangleBoundEnum.WidthAndHeight"), ShowInInspector]
+        public abstract float RectYLength { get; }
+
+        protected override void ResizeByRect()
+        {
+            var rect = Transform.rect;
+            switch (BoundBy)
+            {
+                case RectangleBoundEnum.WidthAndHeight:
+                    XLength = rect.width;
+                    YLength = rect.height;
+                    break;
+                case RectangleBoundEnum.Width:
+                    XLength = rect.width;
+                    break;
+                case RectangleBoundEnum.Height:
+                    YLength = rect.height;
+                    break;
+            }
         }
     }
 }
