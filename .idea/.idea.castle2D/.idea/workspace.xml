@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="eaad2ca4-fe1a-40c8-8797-c14889390d66" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/SKAdData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/SKAdData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/SKAdData.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/SKAdData.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/BuildTool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Editor/BuildTool.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +27,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/MonoPCallback.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Castle/Settings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Test.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Editor/UI/CanvasScalerEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/CanvasUpdateRegistry.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Graphic.cs" root0="SKIP_HIGHLIGHTING" />
@@ -124,7 +121,7 @@
       <workItem from="1646590735209" duration="49267000" />
       <workItem from="1646802839918" duration="17852000" />
       <workItem from="1675156426049" duration="8286000" />
-      <workItem from="1677941557569" duration="7747000" />
+      <workItem from="1677941557569" duration="9478000" />
     </task>
     <servers />
   </component>

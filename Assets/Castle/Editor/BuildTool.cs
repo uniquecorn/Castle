@@ -6,12 +6,14 @@ using Castle.Core;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 namespace Castle.Editor
 {
-    public class BuildTool : IPreprocessBuildWithReport
+    public class BuildTool : IPreprocessBuildWithReport,IPostprocessBuildWithReport
     {
+        private const string kColorGamutSetting = "0000000003000000";
         public static string GvhPath => Application.dataPath.Replace("Assets", "ProjectSettings/GvhProjectSettings.xml");
         private static string ProjectName => Application.dataPath.Split('/')[^2];
         private static string ProductName => Settings.Instance.useAltProductName ? Settings.Instance.altProductName : Tools.SlugKey(Application.productName);
@@ -51,20 +53,10 @@ namespace Castle.Editor
             Debug.Log("Build v" + PlayerSettings.bundleVersion + " (" + PlayerSettings.Android.bundleVersionCode + ")");
             return (originalBundleCode, originalBundleVersion);
         }
-
         private static void SetBundleCode(int code, string version)
         {
             PlayerSettings.Android.bundleVersionCode = code;
             PlayerSettings.bundleVersion = version;
-        }
-
-        public int callbackOrder => -1;
-        public void OnPreprocessBuild(BuildReport report)
-        {
-            if (report.summary.platform == BuildTarget.Android)
-            {
-                SetKey();
-            }
         }
         public static void AddScriptingDefineSymbol(params string[] symbols)
         {
@@ -73,7 +65,6 @@ namespace Castle.Editor
             scriptingDefinesStringList.AddRange(symbols.Except(scriptingDefinesStringList));
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", scriptingDefinesStringList.ToArray()));
         }
-
         public static void RemoveScriptingDefineSymbol(params string[] symbols)
         {
             var scriptingDefinesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup); 
@@ -81,9 +72,29 @@ namespace Castle.Editor
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", scriptingDefinesStringList));
         }
 
+        public static bool TryUpdateColorGamut()
+        {
+            var settingsFilePath = Path.Combine(Application.dataPath, "..", "ProjectSettings", "ProjectSettings.asset");
+ 
+            if (File.Exists(settingsFilePath))
+            {
+                var currentSettingsContent = File.ReadAllText(settingsFilePath);
+                var updatedSettingsContent = System.Text.RegularExpressions.Regex.Replace(currentSettingsContent, @"m_ColorGamuts: ([0-9]+)", "m_ColorGamuts: " + kColorGamutSetting);
+                File.WriteAllText(settingsFilePath, updatedSettingsContent);
+ 
+                Debug.Log("Updated color gamut setting to " + kColorGamutSetting);
+                return true;
+            }
+            else
+            {
+                Debug.LogError("Couldn't change color gamut setting, ProjectSettings file couldn't be found at " + settingsFilePath);
+                return false;
+            }
+        }
         public static bool BuildGame(BuildTarget target = BuildTarget.NoTarget)
         {
             if (target == BuildTarget.NoTarget) target = EditorUserBuildSettings.activeBuildTarget;
+            if (!TryUpdateColorGamut()) return false;
             if (!CastleScriptableObjectManager.Instance.ValidateAllScriptableObjects())
             {
                 Debug.LogError("Failed build due to bad scriptable object data!");
@@ -97,6 +108,7 @@ namespace Castle.Editor
             if (buildPlayerOptions.target == BuildTarget.Android)
             {
                 buildPlayerOptions.targetGroup = BuildTargetGroup.Android;
+                buildPlayerOptions.options = BuildOptions.ShowBuiltPlayer;
                 if (!EditorUserBuildSettings.buildAppBundle)
                 {
                     var dialog =
@@ -115,9 +127,8 @@ namespace Castle.Editor
                 else if (!EditorUtility.DisplayDialog("Building App Bundle",
                              "Building version " + PlayerSettings.bundleVersion + " as an AAB?", "OK!", "Wait..."))
                     return false;
-
                 var extension = EditorUserBuildSettings.buildAppBundle ? "aab" : "apk";
-                if (!EditorUserBuildSettings.buildAppBundle) buildPlayerOptions.options = BuildOptions.ShowBuiltPlayer;
+                
                 buildPath += PlayerSettings.bundleVersion + "(" + PlayerSettings.Android.bundleVersionCode + ")."+extension;
             }
             else if (buildPlayerOptions.target == BuildTarget.iOS)
@@ -126,17 +137,9 @@ namespace Castle.Editor
                 buildPlayerOptions.options = BuildOptions.ShowBuiltPlayer;
             }
             buildPlayerOptions.locationPathName = buildPath;
-            if (buildPlayerOptions.target == BuildTarget.Android && EditorUserBuildSettings.buildAppBundle)
-            {
-
-            }
-            else
-            {
-                var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
-                Debug.Log(report.summary.result);
-                return report.summary.result == BuildResult.Succeeded;
-            }
-            return false;
+            var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            Debug.Log(report.summary.result);
+            return report.summary.result == BuildResult.Succeeded;
         }
         [MenuItem("Build/Rebuild %b", false, 10000)]
         private static void Rebuild()
@@ -258,6 +261,34 @@ namespace Castle.Editor
         public struct Key
         {
             public string Alias,StorePass,KeyPass,Company,CD,Region;
+        }
+        public int callbackOrder => -1;
+        public void OnPreprocessBuild(BuildReport report)
+        {
+            if (report.summary.platform != BuildTarget.Android) return;
+            SetKey();
+        }
+
+        public void OnPostprocessBuild(BuildReport report)
+        {
+            if (report.summary.platform != BuildTarget.iOS) return;
+            var projPath = report.summary.outputPath + "/Unity-iPhone.xcodeproj/project.pbxproj";
+            var proj = new PBXProject();
+            proj.ReadFromFile(projPath);
+            var mainTargetGuid = proj.GetUnityMainTargetGuid();
+            var frameworkTargetGuid = proj.GetUnityFrameworkTargetGuid();
+            proj.SetBuildProperty(mainTargetGuid, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
+            proj.SetBuildProperty(frameworkTargetGuid,"ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
+            proj.SetBuildProperty(new[]{mainTargetGuid,frameworkTargetGuid,proj.ProjectGuid()},"ENABLE_BITCODE","NO");
+            proj.WriteToFile(projPath);
+
+            var plistPath = report.summary.outputPath + "/Info.plist";
+            PlistDocument plist = new PlistDocument();
+            plist.ReadFromString(File.ReadAllText(plistPath));
+            PlistElementDict rootDict = plist.root;
+            if(rootDict.values.ContainsKey("UIApplicationExitsOnSuspend")) rootDict.values.Remove("UIApplicationExitsOnSuspend");
+            rootDict.SetBoolean("ITSAppUsesNonExemptEncryption", false);
+            File.WriteAllText(plistPath, plist.WriteToString());
         }
     }
 }
