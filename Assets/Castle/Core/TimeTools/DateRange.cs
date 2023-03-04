@@ -1,15 +1,16 @@
+using System;
 using Castle.Core.Range;
 using Sirenix.OdinInspector;
 
 namespace Castle.Core.TimeTools
 {
-    [System.Serializable,InlineProperty]
-    public struct DateRange : IConditionalCastleRange<System.DateTime>
+    [Serializable,InlineProperty]
+    public struct DateRange : IConditionalCastleRange<DateTime>
     {
         [HorizontalGroup,HideLabel]
         public SimpleDate from, to;
         
-        public bool Check(System.DateTime variable)
+        public bool Check(DateTime variable)
         {
             return false;
         }

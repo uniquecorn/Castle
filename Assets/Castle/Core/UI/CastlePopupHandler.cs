@@ -1,17 +1,16 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Castle.Tools;
+using UnityEngine;
+using UnityEngine.UI;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
-using UnityEngine;
 
 namespace Castle.Core.UI
 {
     public class CastlePopupHandler : MonoBehaviour
     {
         public Canvas canvas;
+        public GraphicRaycaster raycaster;
         public CastlePopup[] popups;
         private void Update()
         {
@@ -64,5 +63,6 @@ namespace Castle.Core.UI
             popups = uiPopups.ToArray();
         }
 #endif
+        
     }
 }

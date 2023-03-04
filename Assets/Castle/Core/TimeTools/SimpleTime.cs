@@ -1,10 +1,11 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Castle.Core.TimeTools
 {
-    [System.Serializable,InlineProperty,HideLabel]
-    public struct SimpleTime : System.IComparable<SimpleTime>, System.IEquatable<SimpleTime>
+    [Serializable,InlineProperty,HideLabel]
+    public struct SimpleTime : IComparable<SimpleTime>, IEquatable<SimpleTime>
     {
         private const string AMFormat = "{0}:{1}AM";
         private const string PMFormat = "{0}:{1}PM";
@@ -24,7 +25,7 @@ namespace Castle.Core.TimeTools
             set => minutes = Hour * 60 + Mathf.Clamp(value,0,59);
         }
         public SimpleTime(int hour, int minute) => minutes = hour * 60 + minute;
-        public SimpleTime(System.DateTime dateTime) => minutes = Mathf.FloorToInt((float)dateTime.TimeOfDay.TotalMinutes);
+        public SimpleTime(DateTime dateTime) => minutes = Mathf.FloorToInt((float)dateTime.TimeOfDay.TotalMinutes);
         public int CompareTo(SimpleTime other) => minutes.CompareTo(other.minutes);
         public static bool operator >  (SimpleTime operand1, SimpleTime operand2) => operand1.CompareTo(operand2) == 1;
         public static bool operator <  (SimpleTime operand1, SimpleTime operand2) => operand1.CompareTo(operand2) == -1;

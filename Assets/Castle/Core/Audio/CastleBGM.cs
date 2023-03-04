@@ -1,5 +1,6 @@
-using System.Linq;
-using Castle.Tools;
+using System;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
@@ -7,7 +8,7 @@ using Sirenix.OdinInspector;
 
 namespace Castle.Core.Audio
 {
-    [System.Serializable]
+    [Serializable]
     public class CastleBGM
     {
 #if ODIN_INSPECTOR
@@ -23,13 +24,13 @@ namespace Castle.Core.Audio
         public ValueDropdownList<AudioClip> GetClips()
         {
             var dropdown = new ValueDropdownList<AudioClip>();
-            var dir = new System.IO.DirectoryInfo(Application.dataPath + "/Audio/BGM");
+            var dir = new DirectoryInfo(Application.dataPath + "/Audio/BGM");
             if (!dir.Exists) return dropdown;
             var files = dir.GetFiles("*.wav");
             foreach (var f in files)
             {
                 var c = f.NameNoExtension();
-                dropdown.Add(c,UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/BGM/"+f.Name));
+                dropdown.Add(c,AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/BGM/"+f.Name));
             }
             return dropdown;
         }

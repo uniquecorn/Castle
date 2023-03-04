@@ -1,4 +1,4 @@
-using Castle.Tools;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,11 +8,12 @@ namespace Castle.Core
     {
         public static TapState CurrentTapState;
         public static CastleObject SelectedObject;
-        public static Vector2 firstTappedPos,lastTappedPos;
+        private static Vector2 firstTappedPos,lastTappedPos;
         private static float _tapTimer;
         public static bool NotTapped => CurrentTapState is TapState.Released or TapState.NotTapped;
         private static int _fingerId,_bufferUsed;
         private static Collider2D[] _colliderBuffer;
+        public static Action<Vector2> FirstTouched, QuickTap;
         public enum TapState
         {
             NotTapped,
@@ -23,7 +24,6 @@ namespace Castle.Core
         public static Camera Cam;
         private static LayerMask _colliderLayerMask;
         public static Vector3 WorldTapPosition => Cam.ScreenToWorldPoint(lastTappedPos.RepZ(-1));
-
         public static void Init(Camera cam, LayerMask colliderLayerMask)
         {
             Cam = cam;
@@ -33,30 +33,22 @@ namespace Castle.Core
         /// <summary>
         /// Call this function using your game manager to handle touch input.
         /// </summary>
-        public static void FUpdate()
-        {
-            UpdateTapState();
-        }
+        public static void FUpdate() => UpdateTapState();
         public static bool CheckPoint(Vector2 position,out CastleObject hoveredObject)
         {
             _bufferUsed = Physics2D.OverlapPointNonAlloc(position,_colliderBuffer,_colliderLayerMask);
-            return TryGetClosestObject(out hoveredObject);
-        }
-        private static bool TryGetClosestObject(out CastleObject hoveredObject,bool excludeSelected = true)
-        {
-            hoveredObject = null;
-            if (!_colliderBuffer.IsSafe()) return false;
             var closestDist = 999999999f;
+            CastleObject _hoveredObject = null;
             for (var i = 0; i < _bufferUsed; i++)
             {
                 if (!_colliderBuffer[i].TryGetComponent<CastleObject>(out var b)) continue;
-                if (excludeSelected && b == SelectedObject) continue;
                 if (b.ZPos < closestDist)
                 {
                     closestDist = b.ZPos;
-                    hoveredObject = b;
+                    _hoveredObject = b;
                 }
             }
+            hoveredObject = _hoveredObject;
             return hoveredObject != null;
         }
         public static void UpdateTapState()
@@ -64,69 +56,53 @@ namespace Castle.Core
             switch (CurrentTapState)
             {
                 case TapState.NotTapped:
+                case TapState.Released:
                     _tapTimer = 0;
-                    if (IsInputTapped(out var tapPos))
+                    CurrentTapState = TapState.NotTapped;
+                    if (IsMobile && TryNewTouch(out var newTouch))
                     {
-                        StartTap(tapPos);
+                        _fingerId = newTouch.fingerId;
+                        StartTap(newTouch.position);
+                    }
+                    else if (!IsMobile && Input.GetMouseButtonDown(0))
+                    {
+                        StartTap(Input.mousePosition);
                     }
                     break;
                 case TapState.Tapped:
-                    _tapTimer = 0;
-                    if (IsInputTapped(out var tapPos2))
-                    {
-                        HoldTap(tapPos2);
-                    }
-                    break;
                 case TapState.Held:
-                    _tapTimer += Time.deltaTime;
-                    if (IsInputTapped(out var tapPos3))
+                    _tapTimer += Time.unscaledDeltaTime;
+                    if (IsMobile && TryGetTouchWithID(_fingerId, out var currTouch))
                     {
-                        HoldTap(tapPos3);
+                        if (currTouch.phase is TouchPhase.Ended or TouchPhase.Canceled)
+                        {
+                            lastTappedPos = currTouch.position;
+                            ReleaseTap();
+                        }
+                        else
+                        {
+                            HoldTap(currTouch.position);
+                        }
+                    }
+                    else if(!IsMobile && Input.GetMouseButton(0))
+                    {
+                        HoldTap(Input.mousePosition);
                     }
                     else
                     {
-                        ReleaseTap(lastTappedPos);
-                    }
-                    break;
-                case TapState.Released:
-                    if (IsInputTapped(out var tapPos4))
-                    {
-                        StartTap(tapPos4);
-                    }
-                    else
-                    {
-                        CurrentTapState = TapState.NotTapped;
+                        ReleaseTap();
                     }
                     break;
             }
         }
-        public static bool IsInputTapped(out Vector2 tapPosition)
-        {
-            tapPosition = default;
-            if (IsMobile)
-            {
-                if (NotTapped)
-                {
-                    if (!TryNewTouch(out var newTouch)) return false;
-                    tapPosition = newTouch.position;
-                    _fingerId = newTouch.fingerId;
-                    return true;
-                }
-                var currTouch = CurrentTouch;
-                tapPosition = currTouch.position;
-                return currTouch.phase is TouchPhase.Began or TouchPhase.Moved or TouchPhase.Stationary;
-            }
-            else
-            {
-                if (!Input.GetMouseButtonDown(0)) return false;
-                tapPosition = Input.mousePosition;
-                return true;
-            }
-        }
+        public static bool QuickTapped => CurrentTapState is TapState.Released &&
+                                          (lastTappedPos - firstTappedPos).sqrMagnitude < Settings.Instance.QuickTapDistanceThreshold &&
+                                          _tapTimer < Settings.Instance.QuickTapTimerThreshold;
         private static void StartTap(Vector2 tapPosition)
         {
-            firstTappedPos = lastTappedPos = tapPosition;
             CurrentTapState = TapState.Tapped;
+            firstTappedPos = lastTappedPos = tapPosition;
+            FirstTouched?.Invoke(firstTappedPos);
             var worldTapPos = WorldTapPosition;
             if (CheckPoint(worldTapPos,out var b))
             {
@@ -138,10 +114,9 @@ namespace Castle.Core
         {
             lastTappedPos = tapPosition;
             CurrentTapState = TapState.Held;
-            var worldTapPos = WorldTapPosition;
             if (SelectedObject != null)
             {
-                _bufferUsed = Physics2D.OverlapPointNonAlloc(worldTapPos,_colliderBuffer,_colliderLayerMask);
+                _bufferUsed = Physics2D.OverlapPointNonAlloc(WorldTapPosition,_colliderBuffer,_colliderLayerMask);
                 var pointerOnObject = false;
                 for (var i = 0; i < _bufferUsed; i++)
                 {
@@ -152,24 +127,15 @@ namespace Castle.Core
                 SelectedObject.Hold(tapPosition,pointerOnObject);
             }
         }
-        private static void ReleaseTap(Vector2 tapPosition)
+        private static void ReleaseTap()
         {
             CurrentTapState = TapState.Released;
+            if (QuickTapped) QuickTap?.Invoke(lastTappedPos);
             if (SelectedObject != null)
             {
                 SelectedObject.Release();
                 SelectedObject = null;
             }
-        }
-
-        public static void TapObject(CastleObject castleObject)
-        {
-            if (SelectedObject != null)
-            {
-                SelectedObject.Release();
-            }
-            SelectedObject = castleObject;
-            SelectedObject.Tap(SelectedObject.Transform.position);
         }
         public static bool TryNewTouch(out Touch newTouch)
         {
@@ -185,7 +151,7 @@ namespace Castle.Core
                 }
             }
 
-            newTouch = new Touch()
+            newTouch = new Touch
             {
                 fingerId = 999,
                 phase = TouchPhase.Ended,
@@ -193,8 +159,7 @@ namespace Castle.Core
             };
             return false;
         }
-        public static Touch CurrentTouch => GetTouchWithID(_fingerId);
-        public static Touch GetTouchWithID(int id)
+        public static bool TryGetTouchWithID(int id, out Touch touch)
         {
             if (Input.touchCount > 0)
             {
@@ -202,22 +167,18 @@ namespace Castle.Core
                 {
                     if (Input.GetTouch(i).fingerId == id)
                     {
-                        return Input.GetTouch(i);
+                        touch = Input.GetTouch(i);
+                        return true;
                     }
                 }
             }
-            return new Touch()
-            {
-                fingerId = 999,
-                phase = TouchPhase.Ended,
-                position = lastTappedPos
-            };
+            touch = default;
+            return false;
         }
         public static bool IsTouchingUI() =>
             CurrentTapState != TapState.NotTapped && (IsMobile
                 ? EventSystem.current.IsPointerOverGameObject(_fingerId)
                 : EventSystem.current.IsPointerOverGameObject());
-
         public static bool IsMobile
         {
 #if UNITY_EDITOR || UNITY_STANDALONE

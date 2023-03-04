@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Castle.Core.UI.Menu
 {
     #if ODIN_INSPECTOR
-    using Sirenix.OdinInspector;
-    [System.Serializable]
+    [Serializable]
     public abstract class CastleMenu<T0, T1> where T0 : CastleMenu<T0, T1>.MenuOption
     {
         public abstract class MenuOption : MonoBehaviour
@@ -18,7 +20,7 @@ namespace Castle.Core.UI.Menu
             [HideIf("TransformAttached")]
             public new RectTransform transform;
             public bool TransformAttached => transform != null;
-            [System.NonSerialized]
+            [NonSerialized]
             public CastleMenu<T0, T1> menu;
             public T1 LoadedItem => menu.Arr[trueIndex];
             public virtual void Hide() => gameObject.SetActive(false);
@@ -49,7 +51,7 @@ namespace Castle.Core.UI.Menu
             ? options[0].transform
             : prefab.transform;
         public abstract RectTransform Content { get; }
-        [System.NonSerialized] public T0[] options;
+        [NonSerialized] public T0[] options;
         public T0 prefab;
         public virtual int OptionsNum(IList<T1> array) => array.Count;
         public int OptionsNum() => OptionsNum(Arr);
@@ -136,13 +138,13 @@ namespace Castle.Core.UI.Menu
         }
 #endif
     }
-    [System.Serializable]
+    [Serializable]
     public abstract class CastleSimpleMenu<T0,T1> : CastleMenu<T0,T1> where T0 : CastleMenu<T0, T1>.MenuOption
     {
         public RectTransform content;
         public override RectTransform Content => content;
     }
-    [System.Serializable]
+    [Serializable]
     public abstract class CastleScrollMenu<T0, T1> : CastleMenu<T0, T1> where T0 : CastleMenu<T0, T1>.MenuOption
     {
         public override IList<T1> Arr => useSortedArray ? sortedArray : CachedArray;
@@ -271,7 +273,7 @@ namespace Castle.Core.UI.Menu
             scrollRect.onValueChanged.RemoveListener(MoveContent);
             scrollRect.onValueChanged.AddListener(MoveContent);
         }
-        public virtual void SortArray(System.Func<T1, bool> keepSlot, bool refreshMenu = true)
+        public virtual void SortArray(Func<T1, bool> keepSlot, bool refreshMenu = true)
         {
             var _sorted = new List<T1>();
             var _sortedPos = new List<int>();

@@ -2,38 +2,257 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eaad2ca4-fe1a-40c8-8797-c14889390d66" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleKit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.castle2D/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Local Group.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldPolygonUI.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/OldShapesUI.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesStruct.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesStruct.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/UICircle.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Square.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapes/Star.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/EllipseUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/DocumentationExamples.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/DocumentationExamples.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/EnumExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/EnumExtension.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/OldPolygonUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/OldPolygonUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/OldShapesUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/OldShapesUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/SerializePropertyAttributeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/SerializePropertyAttributeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/ShapesUIContainer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/UICircle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/Misc/UICircle.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/PolygonUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/RectangleUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/SquareUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/StarUI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ValueDropdownExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ValueDropdownExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Audio/CastleBGM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/Audio/CastleBGM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Audio/CastleSFX.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/Audio/CastleSFX.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleScene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleScriptableObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleScriptableObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/CastleScriptableObjectManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/CastleScriptableObjectManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Range/CastleRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/Range/CastleRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleCloudSave.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleCloudSave.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleKit.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/CastleTime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/CastleTime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/DateRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/DateRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/SimpleDate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/SimpleDate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/SimpleTime.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/SimpleTime.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/TimeRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/TimeTools/TimeRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastleCanvasBlocker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastleCanvasBlocker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastlePopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastlePopup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastlePopupHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/UI/CastlePopupHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Core/UI/Menu/CastleMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Core/UI/Menu/CastleMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/EditorHandles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/Vector3RangeEditor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/Vector3RangeEditor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/VersionIncrementor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Editor/BuildTool.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Editor/VersionIncrementor.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Editor/BuildTool.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Tools.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Tools/CastleExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Extensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Tools/CastleExtensions.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Extensions.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Tools/CastleTools.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Tools.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Castle/Tools/CastleTools.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Castle/Tools.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CastleURP.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CastleURP.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Serialization.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEditor/Sirenix.Utilities.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Serialization.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/NoEmitAndNoEditor/Sirenix.Utilities.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll.mdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll.mdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/link.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Assemblies/link.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Assets/Editor/OdinPathLookup.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Assets/Editor/OdinPathLookup.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Entities.data" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Entities.data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization.data.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Localization.data.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics.data" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics.data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/MathematicsDrawers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Modules/Unity.Mathematics/MathematicsDrawers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/AssemblyImportSettingsAutomation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/AssemblyImportSettingsAutomation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/BuildAOTAutomation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/BuildAOTAutomation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/EnsureOdinInspectorDefine.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/EnsureOdinInspectorDefine.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/FixBrokenUnityObjectWrapperDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/FixBrokenUnityObjectWrapperDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/Sirenix.OdinInspector.CompatibilityLayer.Editor.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/Sirenix.OdinInspector.CompatibilityLayer.Editor.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/SyncListDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/SyncListDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/SyncVarAttributeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/SyncVarAttributeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/Vector2IntMinMaxAttributeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/Vector2IntMinMaxAttributeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/VectorIntDrawers.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/VectorIntDrawers.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/VectorIntPropertyResolvers.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Editor/VectorIntPropertyResolvers.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/SerializedNetworkBehaviour.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/SerializedNetworkBehaviour.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Sirenix.OdinInspector.CompatibilityLayer.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/Sirenix.OdinInspector.CompatibilityLayer.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/VectorIntFormatters.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Inspector/Scripts/VectorIntFormatters.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Config.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Config/OdinValidationConfig.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Config/OdinValidationConfig.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/AutomatedValidation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/AutomatedValidation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/AutomatedValidationHook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/AutomatedValidationHook.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/IValidationHook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/IValidationHook.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnBuildValidationHook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnBuildValidationHook.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnPlayValidationHook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnPlayValidationHook.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnProjectStartupValidationHook.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Automation/OnProjectStartupValidationHook.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationOverview.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationOverview.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileEditor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileEditor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileEditorDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileEditorDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileManagerOverview.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileManagerOverview.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileManagerWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileManagerWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileSOCreator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileSOCreator.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileTree.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationProfileTree.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationRunner.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Editors/ValidationRunner.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Misc.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Misc/EnsureOdinValidatorDefine.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Misc/EnsureOdinValidatorDefine.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/AssetValidationProfile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/AssetValidationProfile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/AssetValidationProfileAsset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/AssetValidationProfileAsset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/OdinValidationConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/OdinValidationConfig.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/SceneValidationProfile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/SceneValidationProfile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/SceneValidationProfileAsset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/SceneValidationProfileAsset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationCollectionProfile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationCollectionProfile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationCollectionProfileAsset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationCollectionProfileAsset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationProfile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationProfile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationProfileAsset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Profiles/ValidationProfileAsset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Sirenix.OdinValidator.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Editor/Scripts/Sirenix.OdinValidator.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/Readme.txt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Odin Validator/package.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NewPolygon.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NewPolygon.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene 1.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene 1.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MenuTestScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BGM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BGM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/IconMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/IconMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/IconScrollMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/IconScrollMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestGame.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestGame.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Vector3Range.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Vector3Range.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,28 +271,18 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ValueDropdownExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Shape.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Graphic.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Ellipse.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Polygon.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@12.1.4/Editor/ShaderGraph/Includes/Varyings.hlsl" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/StencilMaterial.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Mask.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Circle.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapes/Rectangle.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Castle/Attributes/SortingLayerAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/MonoPCallback.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Castle/Settings.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Test.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Editor/UI/CanvasScalerEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/CanvasUpdateRegistry.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/Attributes/SortingLayerAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/Core/Save/CastleSave.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/Editor/Vector3RangeEditor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TestGame.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Vector3Range.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/ShapesUI.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18df8cf8bbe241b2b3221a499330c5857800/b9/798dcee4/UIVertex.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Castle/CastleShapesUI/CircleUI.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/MaskableGraphic.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Graphic.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Mask.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/MaskableGraphic.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/StencilMaterial.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -86,16 +295,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="rider.run.widget.enabled.cache" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/Users/elijahjames/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
+      &quot;/Users/elijahjames/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/Users/elijahjames/.local/share/Symbols/src&quot;
+    ]
+  }
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -141,6 +369,8 @@
       <workItem from="1646304327383" duration="48129000" />
       <workItem from="1646590735209" duration="49267000" />
       <workItem from="1646802839918" duration="17852000" />
+      <workItem from="1675156426049" duration="8286000" />
+      <workItem from="1677941557569" duration="6847000" />
     </task>
     <servers />
   </component>
@@ -160,7 +390,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

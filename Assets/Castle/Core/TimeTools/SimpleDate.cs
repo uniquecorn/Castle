@@ -1,11 +1,11 @@
-using Castle.Core.TimeTools;
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Castle.Core.TimeTools
 {
-    [System.Serializable,InlineProperty]
-    public struct SimpleDate : System.IComparable<SimpleDate>, System.IEquatable<SimpleDate>
+    [Serializable,InlineProperty]
+    public struct SimpleDate : IComparable<SimpleDate>, IEquatable<SimpleDate>
     {
         [Range(1, 366),HideInInspector] public int days;
 [ShowInInspector,ValueDropdown("GetDays"),HorizontalGroup,HideLabel]
@@ -86,7 +86,7 @@ namespace Castle.Core.TimeTools
         public override int GetHashCode() => days;
         public override string ToString() => Day + " " + Month;
 
-        public SimpleDate(System.DateTime dateTime)
+        public SimpleDate(DateTime dateTime)
         {
             if (dateTime.Month == 1)
             {
@@ -100,7 +100,7 @@ namespace Castle.Core.TimeTools
         public ValueDropdownList<int> GetDays()
         {
             var dropdown = new ValueDropdownList<int>();
-            var monthDays = DaysInMonth[(int) Month - 1];
+            var monthDays = DaysInMonth[Month - 1];
             for (var i = 0; i < monthDays; i++)
             {
                 dropdown.Add(i+1);

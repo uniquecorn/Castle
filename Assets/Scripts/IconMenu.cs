@@ -1,8 +1,10 @@
+using System;
 using Castle.Core.UI.Menu;
 using UnityEngine;
 using UnityEngine.UI;
+
 #if ODIN_INSPECTOR
-[System.Serializable]
+[Serializable]
 public class IconMenu : CastleSimpleMenu<IconMenu.SimpleIcon,Sprite>
 {
     public class SimpleIcon : MenuOption

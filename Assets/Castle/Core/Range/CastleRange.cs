@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Castle.Core.Range
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class CastleRange : ISimpleCastleRange
     {
         public abstract string Label { get; }
         [Title("$Label"), ShowInInspector, ShowIf("UseRangeEnum"), PropertyOrder(-3), HideReferenceObjectPicker,
          InlineButton("DebugCheck", ShowIf = "InPlayMode")]
-        protected virtual System.Enum RangeType
+        protected virtual Enum RangeType
         {
             get => null;
             set => _ = value;

@@ -1,7 +1,7 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Castle.Core.TimeTools;
-using Castle.Tools;
 using Sirenix.Serialization;
 using UnityEngine;
 #if ODIN_INSPECTOR
@@ -29,7 +29,7 @@ namespace Castle.Core.Save
         private const int SaveDelay = 3;
         private static int SaveOffset;
         private static Task<bool> SaveTask;
-        [System.Serializable]
+        [Serializable]
         public abstract class Save<T> : Save where T : Save<T>, new()
         {
             static T save;
@@ -45,7 +45,7 @@ namespace Castle.Core.Save
                 return SaveInstance;
             }
         }
-        [System.Serializable]
+        [Serializable]
         public abstract class Save
         {
             public int cloudSaveID;
@@ -71,36 +71,36 @@ namespace Castle.Core.Save
             public virtual bool DisableCloudSave => false;
             public Save()
             {
-                cloudSaveID = System.Guid.NewGuid().GetHashCode();
+                cloudSaveID = Guid.NewGuid().GetHashCode();
                 cloudDisabled = false;
                 musicVolume = sfxVolume = 1;
                 FirstSaved = CastleTime.Now;
             }
 
             public virtual void InitializeNewSave() { }
-            public System.DateTime FirstSaved
+            public DateTime FirstSaved
             {
-                get => System.DateTime.FromOADate(firstSaved);
+                get => DateTime.FromOADate(firstSaved);
                 set => firstSaved = value.ToOADate();
             }
-            public System.DateTime LastCloudSave
+            public DateTime LastCloudSave
             {
-                get => System.DateTime.FromOADate(lastCloudSaveOA);
+                get => DateTime.FromOADate(lastCloudSaveOA);
                 set => lastCloudSaveOA = value.ToOADate();
             }
-            public System.DateTime LastSaved
+            public DateTime LastSaved
             {
-                get => System.DateTime.FromOADate(lastSaved);
+                get => DateTime.FromOADate(lastSaved);
                 set => lastSaved = value.ToOADate();
             }
-            public virtual void PreSaveActions() => lastSavedVersion = CastleTools.VersionNum;
+            public virtual void PreSaveActions() => lastSavedVersion = Tools.VersionNum;
             public virtual void LoadActions()
             {
                 if (cloudSaveID == 0)
                 {
-                    cloudSaveID = System.Guid.NewGuid().GetHashCode();
+                    cloudSaveID = Guid.NewGuid().GetHashCode();
                 }
-                UpgradeSave(lastSavedVersion,CastleTools.VersionNum);
+                UpgradeSave(lastSavedVersion,Tools.VersionNum);
             }
             public virtual void UpgradeSave(int oldVersion, int newVersion) => lastSavedVersion = newVersion;
         }
@@ -151,7 +151,7 @@ namespace Castle.Core.Save
                 {
                     File.Replace(TempSavePath,SavePath,BackupSavePath);
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
                     Debug.LogError(e);
                     return false;
@@ -173,7 +173,7 @@ namespace Castle.Core.Save
             {
                 Save<T>.SaveInstance = RawStreamToSave<T>(sourceStream);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError(e);
                 return false;

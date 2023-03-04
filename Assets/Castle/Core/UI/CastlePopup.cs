@@ -1,15 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Tools;
+using UnityEngine;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace Castle.Core.UI
 {
-    
     [RequireComponent(typeof(RectTransform)),ExecuteAlways]
     public class CastlePopup : MonoBehaviour
     {
@@ -42,7 +40,7 @@ namespace Castle.Core.UI
             OnAbsVisible,
             OnVisibleAll
         }
-        [System.Flags]
+        [Flags]
         public enum ImmediateActionTriggers
         {
             None = 0,
@@ -50,7 +48,7 @@ namespace Castle.Core.UI
             Close = 2,
             OpenAndClose = 3
         }
-        [System.Flags]
+        [Flags]
         public enum SlideCurveMode
         {
             None = 0,
@@ -382,7 +380,7 @@ namespace Castle.Core.UI
             
             return true;
         }
-        public void AnimationStep(System.Action<float> animStep, float timer,float start,float end) => animStep(CastleTools.InverseLerp(start,end,timer));
+        public void AnimationStep(Action<float> animStep, float timer,float start,float end) => animStep(Tools.InverseLerp(start,end,timer));
         protected void CanvasAlphaAnim(float progress) => canvasGroup.alpha = Mathf.Lerp(0, 1, progress);
         protected void SlideAnimIn(float progress) => Transform.anchoredPosition = SlideInPosition(progress);
         protected void SlideAnimOut(float progress) => Transform.anchoredPosition = SlideOutPosition(progress);

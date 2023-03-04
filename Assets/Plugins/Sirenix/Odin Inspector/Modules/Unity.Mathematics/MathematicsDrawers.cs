@@ -4,19 +4,19 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities;
+using Sirenix.Utilities.Editor;
+using Unity.Mathematics;
+using UnityEditor;
+using UnityEngine;
+
 namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 {
 #if UNITY_EDITOR
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Sirenix.OdinInspector.Editor;
-    using Sirenix.Utilities;
-    using Sirenix.Utilities.Editor;
-    using Unity.Mathematics;
-    using UnityEditor;
-    using UnityEngine;
-
     public sealed class MatrixFloat2x2Processor : MatrixProcessor<float2x2> { }
     public sealed class MatrixFloat3x2Processor : MatrixProcessor<float3x2> { }
     public sealed class MatrixFloat4x2Processor : MatrixProcessor<float4x2> { }
@@ -88,8 +88,8 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
     {
         protected override void Initialize()
         {
-            this.SkipWhenDrawing = true;
-            var chain = this.Property.GetActiveDrawerChain().BakedDrawerArray;
+            SkipWhenDrawing = true;
+            var chain = Property.GetActiveDrawerChain().BakedDrawerArray;
 
             for (int i = 0; i < chain.Length; i++)
             {
@@ -112,7 +112,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -120,7 +120,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
 
                 if (label != null)
                 {
@@ -131,10 +131,10 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 EditorGUILayout.EndVertical();
                 GUIHelper.PopLabelWidth();
             }
@@ -148,7 +148,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -156,7 +156,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
 
                 if (label != null)
                 {
@@ -167,13 +167,13 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 EditorGUILayout.EndVertical();
                 GUIHelper.PopLabelWidth();
             }
@@ -187,7 +187,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -195,7 +195,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 100;
 
                 if (label != null)
                 {
@@ -206,16 +206,16 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 EditorGUILayout.EndVertical();
                 EditorGUILayout.BeginVertical(options);
-                this.ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
+                ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
                 EditorGUILayout.EndVertical();
                 GUIHelper.PopLabelWidth();
             }
@@ -229,7 +229,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -239,20 +239,20 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector2(val.x, val.y));
                     val = new float2(vec.x, vec.y);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -310,7 +310,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -320,21 +320,21 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector3(val.x, val.y, val.z));
                     val = new float3(vec.x, vec.y, vec.z);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -394,7 +394,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -404,22 +404,22 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector4(val.x, val.y, val.z, val.w));
                     val = new float4(vec.x, vec.y, vec.z, vec.w);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
-                this.ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -480,7 +480,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -490,20 +490,20 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector2((float)val.x, (float)val.y));
                     val = new double2(vec.x, vec.y);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -561,7 +561,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -571,21 +571,21 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector3((float)val.x, (float)val.y, (float)val.z));
                     val = new double3(vec.x, vec.y, vec.z);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -645,7 +645,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -655,22 +655,22 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             {
                 // Slide rect
                 {
-                    var val = this.ValueEntry.SmartValue;
+                    var val = ValueEntry.SmartValue;
                     EditorGUI.BeginChangeCheck();
                     var vec = SirenixEditorFields.VectorPrefixSlideRect(labelRect, new Vector4((float)val.x, (float)val.y, (float)val.z, (float)val.w));
                     val = new double4(vec.x, vec.y, vec.z, vec.w);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        this.ValueEntry.SmartValue = val;
+                        ValueEntry.SmartValue = val;
                     }
                 }
 
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
-                this.ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -730,7 +730,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -738,10 +738,10 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -755,7 +755,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -763,11 +763,11 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -781,7 +781,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -789,12 +789,12 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
-                this.ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -808,7 +808,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -816,10 +816,10 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -833,7 +833,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -841,11 +841,11 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
                 GUIHelper.PopLabelWidth();
 
             }
@@ -859,7 +859,7 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
 
         protected override void Initialize()
         {
-            this.isMatrixChild = this.Property.GetAttribute<MatrixChildAttribute>() != null;
+            isMatrixChild = Property.GetAttribute<MatrixChildAttribute>() != null;
         }
 
         protected override void DrawPropertyLayout(GUIContent label)
@@ -867,12 +867,12 @@ namespace Sirenix.OdinInspector.Modules.UnityMathematics.Editor
             Rect labelRect;
             Rect contentRect = SirenixEditorGUI.BeginHorizontalPropertyLayout(label, out labelRect);
             {
-                var showLabels = !this.isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
+                var showLabels = !isMatrixChild && SirenixEditorFields.ResponsiveVectorComponentFields && contentRect.width >= 185;
                 GUIHelper.PushLabelWidth(SirenixEditorFields.SingleLetterStructLabelWidth);
-                this.ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
-                this.ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
-                this.ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
-                this.ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
+                ValueEntry.Property.Children[0].Draw(showLabels ? GUIHelper.TempContent("X") : null);
+                ValueEntry.Property.Children[1].Draw(showLabels ? GUIHelper.TempContent("Y") : null);
+                ValueEntry.Property.Children[2].Draw(showLabels ? GUIHelper.TempContent("Z") : null);
+                ValueEntry.Property.Children[3].Draw(showLabels ? GUIHelper.TempContent("W") : null);
                 GUIHelper.PopLabelWidth();
 
             }

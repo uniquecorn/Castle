@@ -1,5 +1,3 @@
-using System;
-using Castle.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
