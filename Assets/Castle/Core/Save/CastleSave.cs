@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Castle.Core.TimeTools;
+using Cysharp.Threading.Tasks;
 using Sirenix.Serialization;
 using UnityEngine;
 #if ODIN_INSPECTOR
@@ -21,18 +23,15 @@ namespace Castle.Core.Save
         {
             Idle,
             Delay,
-            Saving,
-            Force
+            Saving
         }
-        public static bool SavingInProgress => SaveTask is {IsCompleted: false};
+        public static bool SavingInProgress => saveState != SaveState.Idle;
         private static SaveState saveState;
-        private const int SaveDelay = 3;
-        private static int SaveOffset;
-        private static Task<bool> SaveTask;
         [Serializable]
         public abstract class Save<T> : Save where T : Save<T>, new()
         {
             static T save;
+            public virtual bool SavingDisabled => false;
             public static T SaveInstance
             {
                 get => save;
@@ -49,8 +48,6 @@ namespace Castle.Core.Save
         public abstract class Save
         {
             public int cloudSaveID;
-            public bool cloudDisabled;
-            public bool cloudSavedBefore;
             public double lastCloudSaveOA;
             public double firstSaved;
             public double lastSaved;
@@ -58,6 +55,8 @@ namespace Castle.Core.Save
             public float sfxVolume;
             public int lastSavedVersion;
             public long lastCloudSavedProgress;
+            public bool hasLastKnownLegitTime;
+            public double lastLegitTimeOA;
             public virtual long Progress => 1;
             public virtual int PlayTime
             {
@@ -72,7 +71,6 @@ namespace Castle.Core.Save
             public Save()
             {
                 cloudSaveID = Guid.NewGuid().GetHashCode();
-                cloudDisabled = false;
                 musicVolume = sfxVolume = 1;
                 FirstSaved = CastleTime.Now;
             }
@@ -93,149 +91,192 @@ namespace Castle.Core.Save
                 get => DateTime.FromOADate(lastSaved);
                 set => lastSaved = value.ToOADate();
             }
-            public virtual void PreSaveActions() => lastSavedVersion = Tools.VersionNum;
+            public DateTime LastKnownLegitTime
+            {
+                get => DateTime.FromOADate(lastLegitTimeOA);
+                set => lastLegitTimeOA = value.ToOADate();
+            }
+            public virtual void PreSaveActions()
+            {
+                lastSavedVersion = Tools.VersionNum;
+                lastSaved = DateTime.Now.ToOADate();
+                if (CastleTime.State == CastleTime.TimeState.Fetched)
+                {
+                    hasLastKnownLegitTime = true;
+                    LastKnownLegitTime = CastleTime.LegitTimeUTC;
+                }
+            }
             public virtual void LoadActions()
             {
                 if (cloudSaveID == 0)
                 {
                     cloudSaveID = Guid.NewGuid().GetHashCode();
                 }
+
+                if (hasLastKnownLegitTime)
+                {
+                    CastleTime.LoadLastKnownLegitTime(LastKnownLegitTime);
+                }
                 UpgradeSave(lastSavedVersion,Tools.VersionNum);
             }
             public virtual void UpgradeSave(int oldVersion, int newVersion) => lastSavedVersion = newVersion;
         }
-        public static string SaveRawJSON<T>() where T : Save<T>, new() => JsonUtility.ToJson(Save<T>.SaveInstance);
-        public static T LoadRawJSON<T>(string json) where T : Save<T>, new() => JsonUtility.FromJson<T>(json);
-        public static bool SaveExists
-        {
-#if ODIN_INSPECTOR
-            get => File.Exists(SavePath);
-#else
-        get => PlayerPrefs.HasKey("save");
-#endif
-        }
-#if ODIN_INSPECTOR
+        public static bool SaveExists => File.Exists(SavePath);
         public static bool BackupSaveExists => File.Exists(BackupSavePath);
-        public static byte[] SaveRawBytes<T>() where T : Save<T>, new() => SerializationUtility.SerializeValue(Save<T>.SaveInstance, DataFormat.Binary);
+        public static byte[] SaveRawBytes<T>() where T : Save<T>, new() => SaveRawBytes(Save<T>.SaveInstance);
+        public static byte[] SaveRawBytes<T>(T save) where T : Save<T>, new() => SerializationUtility.SerializeValue(save, DataFormat.Binary);
         public static T RawBytesToSave<T>(byte[] bytes) where T : Save<T>, new() => SerializationUtility.DeserializeValue<T>(bytes, DataFormat.Binary);
         public static T RawStreamToSave<T>(Stream stream) where T : Save<T>, new() => SerializationUtility.DeserializeValue<T>(stream, DataFormat.Binary);
-#endif
-        private static async Task<bool> SaveGameTask<T>() where T : Save<T>, new()
+        public static async UniTask<T> PathToSave<T>(string path, CancellationToken cts) where T : Save<T>, new()
         {
-            saveState = saveState != SaveState.Force ? SaveState.Delay : saveState;
-            while (SaveOffset > 0 && saveState != SaveState.Force)
+            await using var sourceStream =
+                new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true);
+            if (cts.IsCancellationRequested)
             {
-                Debug.Log(SaveOffset);
-                SaveOffset--;
-                await Task.Yield();
+                throw new System.OperationCanceledException();
             }
-            saveState = SaveState.Saving;
-            var result =  await SaveGameAsync<T>();
-            saveState = SaveState.Idle;
-            return result;
+            return RawStreamToSave<T>(sourceStream);
         }
-        public static async Task<bool> SaveGameAsync<T>() where T : Save<T>, new()
+        
+        public static async UniTask<bool> SaveGameAsync(byte[] bytes,CancellationToken cts)
         {
-            Save<T>.SaveInstance.PreSaveActions();
-#if ODIN_INSPECTOR
             var hasExistingSave = SaveExists;
             var path = hasExistingSave ? TempSavePath : SavePath;
-            var bytes = SaveRawBytes<T>();
             await using var sourceStream =
                 new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Delete | FileShare.ReadWrite, 4096, true);
-            await sourceStream.WriteAsync(bytes, 0, bytes.Length);
-            await sourceStream.FlushAsync();
+            if (cts.IsCancellationRequested)
+            {
+                throw new System.OperationCanceledException();
+            }
+            await sourceStream.WriteAsync(bytes, 0, bytes.Length,cts);
+            await sourceStream.FlushAsync(cts);
             if (hasExistingSave)
             {
                 try
                 {
                     File.Replace(TempSavePath,SavePath,BackupSavePath);
                 }
-                catch (Exception e)
+                catch (System.Exception e)
                 {
-                    Debug.LogError(e);
+                    Debug.LogException(e);
                     return false;
                 }
             }
-#else
-        PlayerPrefs.SetString("save",SaveRawJSON<T>());
-        await Task.Yield();
-#endif
             return true;
         }
 
-        public static async Task<bool> LoadGameAsync<T>(bool loadBackup = false) where T : Save<T>, new()
+        public static bool SaveImmediate<T>(T save) where T : Save<T>, new()
         {
-#if ODIN_INSPECTOR
+            save.PreSaveActions();
+            var bytes = SaveRawBytes(save);
+            var hasExistingSave = SaveExists;
+            var path = hasExistingSave ? TempSavePath : SavePath;
+            using var sourceStream =
+                new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Delete | FileShare.ReadWrite, 4096);
+            sourceStream.Write(bytes,0,bytes.Length);
+            sourceStream.Flush();
+            if (hasExistingSave)
+            {
+                try
+                {
+                    File.Replace(TempSavePath,SavePath,BackupSavePath);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogException(e);
+                    return false;
+                }
+            }
+            return true;
+        }
+        public static async UniTask<bool> LoadGameAsync<T>(CancellationToken cts,bool loadBackup = false) where T : Save<T>, new()
+        {
             await using var sourceStream =
                 new FileStream(loadBackup? BackupSavePath : SavePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true);
+            if (cts.IsCancellationRequested)
+            {
+                throw new System.OperationCanceledException();
+            }
             try
             {
                 Save<T>.SaveInstance = RawStreamToSave<T>(sourceStream);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogException(e);
                 return false;
             }
-#else
-        Save<T>.SaveInstance = LoadRawJSON<T>(PlayerPrefs.GetString("save"));
-        await Task.Yield();
-#endif
             if (Save<T>.SaveInstance == null) return false;
             Save<T>.SaveInstance.LoadActions();
             return true;
-
         }
-        public static async Task<bool> LoadGame<T>() where T : Save<T>, new ()
+        public static T LoadImmediate<T>() where T : Save<T>, new()
+        {
+            if (!SaveExists)
+            {
+                return null;
+            }
+            using var sourceStream =
+                new FileStream(SavePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 4096);
+            return RawStreamToSave<T>(sourceStream);
+        }
+        public static async UniTask<bool> LoadGame<T>(CancellationToken cts) where T : Save<T>, new ()
         {
             if (SaveExists)
             {
-                var result = await LoadGameAsync<T>();
-#if ODIN_INSPECTOR
+                var result = await LoadGameAsync<T>(cts);
                 if (!result && BackupSaveExists)
                 {
-                    return await LoadGameAsync<T>(true);
+                    return await LoadGameAsync<T>(cts,true);
                 }
-#endif
                 return result;
             }
-#if ODIN_INSPECTOR
             if (BackupSaveExists)
             {
-                return await LoadGameAsync<T>(true);
+                return await LoadGameAsync<T>(cts,true);
             }
-#endif
             return false;
         }
-        public static async Task<bool> SaveGame<T>(bool immediate = false) where T : Save<T>, new()
+        public static async UniTaskVoid SaveGame<T>(MonoBehaviour behaviour,CancellationToken cts, bool force = false) where T : Save<T>, new()
         {
-            if (saveState == SaveState.Saving)
+            if (!force && Save<T>.SaveInstance.SavingDisabled)
             {
-                await SaveTask;
+                return;
             }
-            if (immediate)
+            switch (saveState)
             {
-                saveState = SaveState.Force;
-                SaveOffset = 0;
+                case SaveState.Idle:
+                    saveState = SaveState.Delay;
+                    break;
+                case SaveState.Delay:
+                case SaveState.Saving:
+                    return;
             }
-            else if(saveState == SaveState.Force)
+            //await UniTask.WaitWhile(() => Save<T>.SaveInstance.SavingDisabled);
+            await UniTask.WaitForEndOfFrame(behaviour,cts);
+            Save<T>.SaveInstance.PreSaveActions();
+            var bytesToSave = SaveRawBytes<T>();
+            saveState = SaveState.Saving;
+            var result =  await SaveGameAsync(bytesToSave,cts);
+            if (!result)
             {
-                return await SaveTask;
+                Debug.LogError("Failed to save!");
             }
             else
             {
-                SaveOffset = SaveDelay;
+                //Debug.Log("Logged in: "+CastleKit.IsAuthenticated);
+                //Debug.Log("Saving to cloud: "+CastleKit.SavingToCloud);
+                // Debug.Log("Cloud save disabled: "+Save<T>.SaveInstance.DisableCloudSave);
+                // var progress = Save<T>.SaveInstance.Progress;
+                // Debug.Log("Progress: "+progress + ", Cloud progress: "+Save<T>.SaveInstance.lastCloudSavedProgress);
+                // if (CastleKit.IsAuthenticated && !CastleKit.SavingToCloud && !Save<T>.SaveInstance.DisableCloudSave && Save<T>.SaveInstance.Progress > Save<T>.SaveInstance.lastCloudSavedProgress)
+                // {
+                //     Debug.Log("Saving to cloud...");
+                //     var cloudSaveResult = await CastleKit.SaveToCloud<T>(cts);
+                //     Debug.Log("Cloud save:"+cloudSaveResult);
+                // }
             }
-            if (SavingInProgress)
-            {
-                return await SaveTask;
-            }
-            SaveTask?.Dispose();
-            SaveTask = SaveGameTask<T>();
-            SaveTask.Start();
-            //Cloud Save HERE
-            return await SaveTask;
+            saveState = SaveState.Idle;
         }
     }
 }
