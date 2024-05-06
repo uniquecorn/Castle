@@ -1,0 +1,11 @@
+framework module CastleKit {
+  umbrella header "CastleKit.h"
+  export *
+
+  module * { export * }
+}
+
+module CastleKit.Swift {
+  header "CastleKit-Swift.h"
+  requires objc
+}

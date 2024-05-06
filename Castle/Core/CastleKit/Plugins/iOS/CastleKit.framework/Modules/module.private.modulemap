@@ -1,0 +1,10 @@
+//
+//  CastleKit.private.modulemap
+//  CastleKit
+//
+//  Created by Elijah James on 26/4/24.
+//
+
+module CastleKitPrivate {
+    export *
+}

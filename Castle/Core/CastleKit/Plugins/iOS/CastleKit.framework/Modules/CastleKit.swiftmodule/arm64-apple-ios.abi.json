@@ -1,0 +1,352 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "GameKit",
+        "printedName": "GameKit",
+        "declKind": "Import",
+        "moduleName": "CastleKit"
+      },
+      {
+        "kind": "Import",
+        "name": "OSLog",
+        "printedName": "OSLog",
+        "declKind": "Import",
+        "moduleName": "CastleKit"
+      },
+      {
+        "kind": "Import",
+        "name": "CastleKitPrivates",
+        "printedName": "CastleKitPrivates",
+        "declKind": "Import",
+        "moduleName": "CastleKit"
+      },
+      {
+        "kind": "Function",
+        "name": "Authenticate",
+        "printedName": "Authenticate(callback:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          },
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "(Swift.Bool) -> ()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ]
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)AuthenticateWithCallback:",
+        "mangledName": "$s9CastleKit12Authenticate8callbackyySbc_tF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "IsAuthenticated",
+        "printedName": "IsAuthenticated()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Bool",
+            "printedName": "Swift.Bool",
+            "usr": "s:Sb"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)IsAuthenticated",
+        "mangledName": "$s9CastleKit15IsAuthenticatedSbyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "InitializeClock",
+        "printedName": "InitializeClock()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)InitializeClock",
+        "mangledName": "$s9CastleKit15InitializeClockyyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "GetElapsedTime",
+        "printedName": "GetElapsedTime()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Double",
+            "printedName": "Swift.Double",
+            "usr": "s:Sd"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)GetElapsedTime",
+        "mangledName": "$s9CastleKit14GetElapsedTimeSdyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "GetDate",
+        "printedName": "GetDate()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Double",
+            "printedName": "Swift.Double",
+            "usr": "s:Sd"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)GetDate",
+        "mangledName": "$s9CastleKit7GetDateSdyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "GetTimeSinceLaunch",
+        "printedName": "GetTimeSinceLaunch()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Double",
+            "printedName": "Swift.Double",
+            "usr": "s:Sd"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)GetTimeSinceLaunch",
+        "mangledName": "$s9CastleKit18GetTimeSinceLaunchSdyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "CacheTime",
+        "printedName": "CacheTime()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)CacheTime",
+        "mangledName": "$s9CastleKit9CacheTimeyyF",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CKSavedGame",
+        "printedName": "CKSavedGame",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CKSavedGame",
+                "printedName": "CastleKit.CKSavedGame",
+                "usr": "c:@M@CastleKit@objc(cs)CKSavedGame"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@CastleKit@objc(cs)CKSavedGame(im)init",
+            "mangledName": "$s9CastleKit11CKSavedGameCACycfc",
+            "moduleName": "CastleKit",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@CastleKit@objc(cs)CKSavedGame",
+        "mangledName": "$s9CastleKit11CKSavedGameC",
+        "moduleName": "CastleKit",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)GKSavedGame",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "GameKit.GKSavedGame",
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1707,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1748,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1791,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1831,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1864,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/elijahjames\/Files\/GitHub\/CastleKitTests\/XCode\/CastleKit.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1898,
+      "length": 1,
+      "value": "0"
+    }
+  ]
+}

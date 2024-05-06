@@ -1,0 +1,30 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios14.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name CastleKit
+@_exported import CastleKit
+import CastleKitPrivates
+import Foundation
+import GameKit
+import OSLog
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_cdecl("_Authenticate")
+public func Authenticate(callback: @escaping (Swift.Bool) -> ())
+@_cdecl("_IsAuthenticated")
+public func IsAuthenticated() -> Swift.Bool
+@_cdecl("_InitializeClock")
+public func InitializeClock()
+@_cdecl("_GetElapsedTime")
+public func GetElapsedTime() -> Swift.Double
+@_cdecl("_GetDate")
+public func GetDate() -> Swift.Double
+@_cdecl("_GetTimeSinceLaunch")
+public func GetTimeSinceLaunch() -> Swift.Double
+@_cdecl("_CacheTime")
+public func CacheTime()
+@_inheritsConvenienceInitializers @objc public class CKSavedGame : GameKit.GKSavedGame {
+  @objc override dynamic public init()
+  @objc deinit
+}
