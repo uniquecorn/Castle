@@ -11,6 +11,7 @@ namespace Castle.Core
 #if UNITY_IOS
         [DllImport (Lib)]
         private static extern double _GetDate();
+#endif
         public static System.DateTime UTC
         {
             get
@@ -23,6 +24,5 @@ namespace Castle.Core
 #endif
             }
         }
-#endif
     }
 }

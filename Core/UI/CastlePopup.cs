@@ -130,7 +130,9 @@ namespace Castle.Core.UI
         [HorizontalGroup("Transition Speed"),LabelText("Out"),LabelWidth(40),SuffixLabel("$OutSuffixLabel",Overlay = true)]
 #endif
         public float transitionOutSpeed = 1;
+#if ODIN_INSPECTOR
         [HorizontalGroup("Transition Speed",0.1f),HideLabel,SuffixLabel("Unscaled?")]
+#endif
         public bool unscaledTime;
 #if ODIN_INSPECTOR
         [ShowIf("UseVisibleTimer")]
