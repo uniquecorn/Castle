@@ -27,6 +27,17 @@ namespace Castle
         public static readonly string[] Vowels = { "A", "E", "I", "O", "U"};
         public static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         public static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
+        public static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        public static readonly int MainTexST = Shader.PropertyToID("_MainTex_ST");
+        private static MaterialPropertyBlock block;
+        public static MaterialPropertyBlock Block
+        {
+            get
+            {
+                if (block == null) block = new MaterialPropertyBlock();
+                return block;
+            }
+        }
         public static string RandomLetter => Letters.RandomValue();
         public static Rect ScreenBounds => new(0,0, Screen.width,Screen.height);
         public static string RandomString(int length = 5)
@@ -258,30 +269,14 @@ namespace Castle
         }
         #endregion
         #region Rendering
-        private static MaterialPropertyBlock mpb;
-        public static MaterialPropertyBlock MPB => mpb ??= new MaterialPropertyBlock();
         public static void SetColor(Color color, params Renderer[] renderers)
         {
-            MPB.Clear();
-            renderers[0].GetPropertyBlock(MPB);
-            MPB.SetColor(BaseColor,color);
-            foreach (var r in renderers)
-            {
-                r.SetPropertyBlock(MPB);
-            }
-            MPB.Clear();
+            renderers.SetProperty(propertyBlock => propertyBlock.SetColor(BaseColor, color));
         }
         public static void ApplyMaterialProperties(System.Action<MaterialPropertyBlock> property,
             params Renderer[] renderers)
         {
-            MPB.Clear();
-            renderers[0].GetPropertyBlock(MPB);
-            property(MPB);
-            foreach (var r in renderers)
-            {
-                r.SetPropertyBlock(MPB);
-            }
-            MPB.Clear();
+            renderers.SetProperty(property);
         }
         #endregion
         #region Editor

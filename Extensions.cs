@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,14 +7,12 @@ using Castle.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace Castle
 {
     public static class Extensions
     {
-        public static bool GetParentWith(this Transform transform, Func<Transform, bool> trait,out Transform parent)
+        public static bool GetParentWith(this Transform transform, System.Func<Transform, bool> trait,out Transform parent)
         {
             var p = transform.parent;
             while (p != null)
@@ -155,26 +152,63 @@ namespace Castle
         }
     }
     
-    public static class SpriteRendererExtensions
+    public static class RendererExtensions
     {
-        public static void SetSorting(this SpriteRenderer spriteRenderer, int sortingLayerID, int sortingOrder)
+        public static void SetSorting<T>(this T renderer, int sortingLayerID, int sortingOrder) where T : Renderer
         {
-            spriteRenderer.sortingLayerID = sortingLayerID;
-            spriteRenderer.sortingOrder = sortingOrder;
+            renderer.sortingLayerID = sortingLayerID;
+            renderer.sortingOrder = sortingOrder;
         }
-        public static void SetSorting(this SpriteRenderer[] renderers, int sortingLayerID, int sortingOrder)
+
+        public static void SetSorting<T>(this IList<T> renderers, int sortingLayerID, int sortingOrder) where T : Renderer
         {
-            if (renderers == null) return;
-            foreach (var spriteRenderer in renderers)
+            if (!renderers.IsSafe()) return;
+            foreach (var r in renderers)
             {
-                SetSorting(spriteRenderer,sortingLayerID,sortingOrder);
+                SetSorting(r,sortingLayerID,sortingOrder);
             }
+        }
+        public static void SetSorting<T, T2>(this T controller, System.Func<T, T2> getRenderer, int sortingLayerID,
+            int sortingOrder) where T2 : Renderer =>
+            SetSorting(getRenderer(controller),sortingLayerID,sortingOrder);
+        public static void SetSorting<T, T2>(this IList<T> controllers, System.Func<T, T2> getRenderer, int sortingLayerID,
+            int sortingOrder) where T2 : Renderer
+        {
+            if(!controllers.IsSafe())return;
+            foreach (var controller in controllers)
+            {
+                SetSorting(getRenderer(controller), sortingLayerID, sortingOrder);
+            }
+        }
+        public static void SetProperty<T>(this IList<T> renderers, System.Action<MaterialPropertyBlock> action) where T : Renderer
+        {
+            if (!renderers.IsSafe()) return;
+            Tools.Block.Clear();
+            renderers[0].GetPropertyBlock(Tools.Block);
+            action(Tools.Block);
+            foreach (var r in renderers)
+            {
+                r.SetPropertyBlock(Tools.Block);
+            }
+            Tools.Block.Clear();
+        }
+        public static void SetProperty<T,T2>(this IList<T> controllers,System.Func<T,T2> getRenderer, System.Action<MaterialPropertyBlock> action) where T2 : Renderer
+        {
+            if (!controllers.IsSafe()) return;
+            Tools.Block.Clear();
+            getRenderer(controllers[0]).GetPropertyBlock(Tools.Block);
+            action(Tools.Block);
+            foreach (var c in controllers)
+            {
+                getRenderer(c).SetPropertyBlock(Tools.Block);
+            }
+            Tools.Block.Clear();
         }
         #if UNITY_EDITOR
         [MenuItem("CONTEXT/SpriteRenderer/Set Pivot", false, 1)]
         public static void PivotPoint(MenuCommand command)
         {
-            SpriteRenderer SR = ((SpriteRenderer)command.context);
+            var SR = ((SpriteRenderer)command.context);
             SR.SetPivot();
         }
         public static void SetPivot(this SpriteRenderer SR)
@@ -186,8 +220,8 @@ namespace Castle
             var assetPath = AssetDatabase.GetAssetOrScenePath(SR.sprite);
             var assetMetaPath = Application.dataPath + assetPath.Remove(0, 6) + ".meta";
             var yaml = Tools.ReadTextFile(assetMetaPath);
-            var yamlSplit = yaml.Split(new[] { "spriteSheet:", "spritePackingTag" }, StringSplitOptions.None);
-            var yamlSplit2 = yamlSplit[1].Split(new[] { "outline:", "physicsShape:" }, StringSplitOptions.None);
+            var yamlSplit = yaml.Split(new[] { "spriteSheet:", "spritePackingTag" }, System.StringSplitOptions.None);
+            var yamlSplit2 = yamlSplit[1].Split(new[] { "outline:", "physicsShape:" }, System.StringSplitOptions.None);
             var outlineCoords = new List<string>();
             for (var i = 0; i < yamlSplit2.Length; i++)
             {
@@ -242,8 +276,8 @@ namespace Castle
                 SR.transform.localPosition = new Vector3(0, 0, zPos);
             }
             yaml = Tools.ReadTextFile(assetMetaPath);
-            yamlSplit = yaml.Split(new[] { "spriteSheet:", "spritePackingTag" }, StringSplitOptions.None);
-            yamlSplit2 = yamlSplit[1].Split(new[] { "outline:", "physicsShape:" }, StringSplitOptions.None);
+            yamlSplit = yaml.Split(new[] { "spriteSheet:", "spritePackingTag" }, System.StringSplitOptions.None);
+            yamlSplit2 = yamlSplit[1].Split(new[] { "outline:", "physicsShape:" }, System.StringSplitOptions.None);
             var j = 0;
             for (var i = 0; i < yamlSplit2.Length; i++)
             {
@@ -269,7 +303,7 @@ namespace Castle
     public static class ArrayExtensions
     {
         public static T RandomValue<T>(this IEnumerable<T> list) => list.ElementAt(Random.Range(0, list.Count()));
-        public static T RandomValue<T>(this IEnumerable<T> list, Func<T, bool> filter) => list.Where(filter).RandomValue();
+        public static T RandomValue<T>(this IEnumerable<T> list, System.Func<T, bool> filter) => list.Where(filter).RandomValue();
         public static T LoopFrom<T>(this IList<T> list, int startingPos, int i) => list[(startingPos + i) % list.Count];
         public static bool IsSafe<T>(this IList<T> list) => list != null && list.Count != 0;
         public static bool IsSafe<T>(this ICollection<T> collection) => collection != null && collection.Count != 0;
@@ -419,9 +453,9 @@ namespace Castle
 
     public static class EnumExtensions
     {
-        public static T[] GetFlags<T>(this T @enum) where T : Enum
+        public static T[] GetFlags<T>(this T @enum) where T : System.Enum
         {
-            var enums = (T[])Enum.GetValues(typeof(T));
+            var enums = (T[])System.Enum.GetValues(typeof(T));
             var flags = new List<T>();
             for (var i = 0; i < enums.Length; i++)
             {
@@ -432,9 +466,9 @@ namespace Castle
             }
             return flags.ToArray();
         }
-        public static bool FlagExists(this Enum @enum, Enum flag) =>
-            (Convert.ToInt32(@enum) & Convert.ToInt32(flag)) != 0;
-        public static bool FlagsOverlap<T>(this T @enum, T enum2) where T : Enum
+        public static bool FlagExists(this System.Enum @enum, System.Enum flag) =>
+            (System.Convert.ToInt32(@enum) & System.Convert.ToInt32(flag)) != 0;
+        public static bool FlagsOverlap<T>(this T @enum, T enum2) where T : System.Enum
         {
             var enums = GetFlags(enum2);
             for (var i = 0; i < enums.Length; i++)
