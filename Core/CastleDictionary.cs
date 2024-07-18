@@ -22,7 +22,7 @@ namespace Castle
         {
             m_Keys.Clear();
             m_Values.Clear();
-
+            m_Keys.Capacity = m_Values.Capacity = Count;
             foreach (var kvp in this)
             {
                 m_Keys.Add(kvp.Key);
@@ -33,21 +33,21 @@ namespace Castle
         public virtual void OnAfterDeserialize()
         {
             Clear();
+            EnsureCapacity(m_Keys.Count);
             for (int i = 0; i < m_Keys.Count; i++)
             {
                 TryAdd(m_Keys[i], m_Values[i]);
             }
-
             m_Keys.Clear();
             m_Values.Clear();
         }
 
-        public List<T> GetValues<T>(int capacity = 32)
+        public List<T> GetValues<T>() where T : V
         {
-            var list = new List<T>(capacity);
-            foreach (var w in Values)
+            var list = new List<T>(Count);
+            foreach (var kvp in this)
             {
-                if (w is not T item) continue;
+                if(kvp.Value is not T item) continue;
                 list.Add(item);
             }
             return list;

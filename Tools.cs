@@ -65,6 +65,22 @@ namespace Castle
             return r;
         }
         public static bool CoinToss => Random.value < 0.5f;
+        public static bool TryGetUniqueID(out string uniqueID, System.Func<string, bool> checkDuplicateID)
+        {
+            var id = System.Guid.NewGuid().ToString();
+
+            var duplicateId = checkDuplicateID(id);
+            var iteration = 0;
+            while (duplicateId && iteration < 128)
+            {
+                id = System.Guid.NewGuid().ToString();
+                duplicateId = checkDuplicateID(id);
+                iteration++;
+            }
+
+            uniqueID = id;
+            return !duplicateId;
+        }
         public static T RandomObject<T>(IList<T> assets) => assets[Random.Range(0, assets.Count)];
         public static bool RandomObject<T>(IList<T> arr, System.Func<T, bool> filter,out T chosen)
         {
