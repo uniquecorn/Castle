@@ -1,0 +1,16 @@
+{
+    "name": "Castle.Graph",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1941daf67b50b42828d18820d0187260"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
