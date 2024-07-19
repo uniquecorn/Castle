@@ -7,6 +7,7 @@ namespace Castle.Graph
 {
     public abstract class BaseGraph : ScriptableObject, IEnumerable<BaseNode>
     {
+        public Connection[] connections;
         public abstract bool GetNode<T>(long id, out T node) where T : BaseNode;
         public abstract IEnumerator<BaseNode> GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -16,10 +17,11 @@ namespace Castle.Graph
         {
             UnityEditor.Undo.RecordObject(this,"CreateNode");
             var node = CreateInstance(typeof(T)) as T;
+            node.graph = this;
             node.name = typeof(T).ToString();
             return node;
         }
-        public abstract void AddNode<T>(Vector2 position) where T : BaseNode;
+        public abstract void AddNode<T>(Vector2 position,bool batchEdit=false) where T : BaseNode;
         public abstract bool IsDirty();
         [Button,ShowIf("IsDirty")]
         public void Save()

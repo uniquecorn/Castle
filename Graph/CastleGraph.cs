@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Castle.Graph
 {
-    public class CastleGraph<TNode> : BaseGraph where TNode : BaseNode
+    public abstract class BaseGraph<TNode> : BaseGraph,ISerializationCallbackReceiver where TNode : BaseNode
     {
         public CastleDictionary<long, TNode> nodeDictionary;
         public override bool GetNode<T>(long id, out T node)
@@ -26,7 +26,13 @@ namespace Castle.Graph
         [Button]
         public void Test()
         {
-            AddNode<TNode>(Vector2.zero);
+            AssetDatabase.StartAssetEditing();
+            for (var i = 0; i < 100; i++)
+            {
+                AddNode<TNode>(new Vector2(Random.Range(-5000,5000),Random.Range(-5000,5000)),true);
+            }
+            AssetDatabase.StopAssetEditing();
+            AssetDatabase.SaveAssets();
         }
         public override bool IsDirty()
         {
@@ -50,13 +56,18 @@ namespace Castle.Graph
             return types.ToArray();
         }
         public void AddNode(Vector2 position) => AddNode<TNode>(position);
-        public override void AddNode<T>(Vector2 position)
+        public override void AddNode<T>(Vector2 position,bool batchEdit=false)
         {
             if (nodeDictionary == null) nodeDictionary = new CastleDictionary<long, TNode>();
             try
             {
-                AssetDatabase.StartAssetEditing();
+                if (!batchEdit)
+                {
+                    AssetDatabase.StartAssetEditing();
+                }
+
                 var node = CreateNode<T>();
+                node.position = position;
                 if (node is TNode strongNode)
                 {
                     AssetDatabase.AddObjectToAsset(strongNode, this);
@@ -84,14 +95,42 @@ namespace Castle.Graph
             }
             finally
             {
-                AssetDatabase.StopAssetEditing();
-                AssetDatabase.SaveAssets();
+                if (!batchEdit)
+                {
+                    AssetDatabase.StopAssetEditing();
+                    AssetDatabase.SaveAssets();
+                }
             }
         }
 #endif
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
+        {
+            foreach (var node in this)
+            {
+                node.graph = this;
+                if (node.inputs != null)
+                {
+                    foreach (var port in node.inputs)
+                    {
+                        port.Value.node = node;
+                    }
+                }
+                if (node.outputs != null)
+                {
+                    foreach (var port in node.outputs)
+                    {
+                        port.Value.node = node;
+                    }
+                }
+            }
+        }
     }
     [CreateAssetMenu(menuName = "Castle/Graph", order = 0)]
-    public class CastleGraph : CastleGraph<BaseNode>
+    public class CastleGraph : BaseGraph<BaseNode>
     {
 
     }

@@ -3,13 +3,38 @@ namespace Castle.Graph
     [System.Serializable]
     public struct PortIdentifier
     {
-        public string nodeID;
-        public string portID;
+        public long nodeID;
+        public string portName;
+
+        public PortIdentifier(long nodeID, string portName)
+        {
+            this.nodeID = nodeID;
+            this.portName = portName;
+        }
     }
     [System.Serializable]
     public struct Connection
     {
         public PortIdentifier output;
         public PortIdentifier input;
+
+        public bool TryGetInput(BaseGraph graph, out BasePort port)
+        {
+            if (graph.GetNode<BaseNode>(input.nodeID, out var node))
+            {
+                return node.inputs.TryGetValue(input.portName, out port);
+            }
+            port = null;
+            return false;
+        }
+        public bool TryGetOutput(BaseGraph graph, out BasePort port)
+        {
+            if (graph.GetNode<BaseNode>(output.nodeID, out var node))
+            {
+                return node.outputs.TryGetValue(output.portName, out port);
+            }
+            port = null;
+            return false;
+        }
     }
 }

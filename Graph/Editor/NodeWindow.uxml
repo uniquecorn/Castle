@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/GraphEditor/Editor/Graph.uss?fileID=7433441132597879392&amp;guid=2f79caf1424844fa3b8988faf5a10329&amp;type=3#Graph" />
+    <Style src="project://database/Assets/Castle/Graph/Editor/Graph.uss?fileID=7433441132597879392&amp;guid=2f79caf1424844fa3b8988faf5a10329&amp;type=3#Graph" />
     <uie:Toolbar />
-    <CastleGraphView focusable="false" style="flex-grow: 1;" />
+    <Castle.Graph.Editor.CastleGraphView style="flex-grow: 1;" />
 </ui:UXML>

@@ -23,19 +23,17 @@ namespace Castle.Graph.Editor
             var grid = new GridBackground();
             Insert(0, grid);
             grid.StretchToParentSize();
-            // miniMap = new MiniMap {anchored = false};
-            // miniMap.SetPosition(new Rect(10, 30, 300, 300));
-            // Add(miniMap);
-            var blackboard = new Blackboard(this);
-            blackboard.Add(new BlackboardSection { title = "Graph Settings" });
-            blackboard.SetPosition(new Rect(10, 30, 300, 300));
-            Add(blackboard);
+            miniMap = new MiniMap {anchored = false};
+            miniMap.SetPosition(new Rect(10, 30, 300, 300));
+            Add(miniMap);
         }
 
         public void Inspect(BaseGraph graph)
         {
+            graphViewChanged -= OnGraphViewChanged;
             this.graph = graph;
             DeleteElements(graphElements);
+            graphViewChanged += OnGraphViewChanged;
             if (graph != null)
             {
                 foreach (var node in graph)
@@ -43,7 +41,38 @@ namespace Castle.Graph.Editor
                     var view = new NodeView(node);
                     AddElement(view);
                 }
+
+                foreach (var connection in graph.connections)
+                {
+                    if (connection.TryGetInput(graph, out var input) && connection.TryGetOutput(graph, out var output))
+                    {
+                        var n = graphElements.FirstOrDefault(x => x is NodeView node && node.node == input.node);
+                        var c = graphElements.FirstOrDefault(x => x is NodeView node && node.node == output.node);
+                        AddElement(n.Q<Port>(input.name).ConnectTo(c.Q<Port>(output.name)));
+                        // n.MarkDirtyRepaint();
+                        // c.MarkDirtyRepaint();
+                    }
+                }
             }
+        }
+
+        GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        {
+            if (change.edgesToCreate != null)
+            {
+                foreach (var edge in change.edgesToCreate)
+                {
+                    var inputNode = edge.input.userData as BasePort;
+                    var outputNode = edge.output.userData as BasePort;
+                    var connection = new Connection()
+                    {
+                        input = new PortIdentifier(inputNode.node.nodeID, inputNode.name),
+                        output = new PortIdentifier(outputNode.node.nodeID, outputNode.name)
+                    };
+                    graph.connections = graph.connections.AddToArray(connection);
+                }
+            }
+            return change;
         }
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
@@ -61,6 +90,7 @@ namespace Castle.Graph.Editor
 
         void AddState(Vector2 mousePosition)
         {
+
             graph.AddNode<BaseNode>(mousePosition);
             Inspect(graph);
         }
@@ -73,6 +103,7 @@ namespace Castle.Graph.Editor
                     endPort.portType == startPort.portType)
                 .ToList();
         }
+
     }
 }
 

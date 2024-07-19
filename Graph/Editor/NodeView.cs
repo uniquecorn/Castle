@@ -9,7 +9,7 @@ namespace Castle.Graph.Editor
     public class NodeView : Node
     {
         public BaseNode node;
-        public Port input,output;
+        //public Port[] ports;
         public NodeView(BaseNode node) : base()
         {
             this.node = node;
@@ -29,13 +29,29 @@ namespace Castle.Graph.Editor
                 title = node.GetType().ToString();
             }
 
-            input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(Node));
-            inputContainer.Add(input);
-            output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(Node));
-            outputContainer.Add(output);
+            foreach (var i in node.inputs)
+            {
+                var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, i.Value.portType);
+                port.userData = i.Value;
+                port.name = port.portName = i.Value.name;
+                inputContainer.Add(port);
+            }
+            foreach (var o in node.outputs)
+            {
+                var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, o.Value.portType);
+                port.userData = o.Value;
+                port.name = port.portName = o.Value.name;
+                outputContainer.Add(port);
+            }
+            // input = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(Node));
+            // inputContainer.Add(input);
+            // output = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(Node));
+            // outputContainer.Add(output);
 
             ElementAt(0).style.backgroundColor = new Color(0.2196078f, 0.2196078f, 0.2196078f, 1f);
             var inspector = new InspectorElement(node);
+            var container = inspector.Q<IMGUIContainer>();
+            container.cullingEnabled = true;
             extensionContainer.Add(inspector);
             // using (var tree = PropertyTree.Create(node))
             // {

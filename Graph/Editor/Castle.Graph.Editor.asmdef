@@ -2,7 +2,8 @@
     "name": "Castle.Graph.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:ac80b5a1b2eec4bb596cc53303b7ce18"
+        "GUID:ac80b5a1b2eec4bb596cc53303b7ce18",
+        "GUID:1941daf67b50b42828d18820d0187260"
     ],
     "includePlatforms": [
         "Editor"
