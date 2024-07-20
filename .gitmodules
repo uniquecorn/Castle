@@ -1,0 +1,3 @@
+[submodule "Graph/GraphViewBase"]
+	path = Graph/GraphViewBase
+	url = https://github.com/uniquecorn/GraphViewBase.git
