@@ -10,19 +10,6 @@ namespace Castle.Graph.Editor
     {
         new class UxmlFactory : UxmlFactory<CastleGraphView, UxmlTraits> { }
         private BaseGraph graph;
-        public CastleGraphView()
-        {
-            //styleSheets.Add(Resources.Load<StyleSheet>("Graph"));
-            // this.AddManipulator(new ContentDragger());
-            // this.AddManipulator(new SelectionDragger());
-            // this.AddManipulator(new RectangleSelector());
-            //SetupZoom(ZoomManipulator.DefaultMinScale, ZoomManipulator.DefaultMaxScale);
-
-            // Setup Grid
-            var grid = new GridBackground();
-            Insert(0, grid);
-            grid.StretchToParentSize();
-        }
 
         public void Inspect(BaseGraph graph)
         {
