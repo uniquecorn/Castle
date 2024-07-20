@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Castle.Graph
 {
     [HideMonoScript]
-    public class BaseNode : ScriptableObject
+    public class BaseNodeData : ScriptableObject
     {
         [HideInInspector,System.NonSerialized]
         public BaseGraph graph;
@@ -14,9 +14,9 @@ namespace Castle.Graph
         [HideInInspector]
         public Vector2 position;
         [HideInInspector]
-        public CastleDictionary<string,BasePort> inputs;
+        public CastleDictionary<string,BasePortData> inputs;
         [HideInInspector]
-        public CastleDictionary<string,BasePort> outputs;
+        public CastleDictionary<string,BasePortData> outputs;
         public virtual int NodeWidth => 500;
         [Title("STRING TEST")] public string testField;
         [TextArea]
@@ -39,11 +39,11 @@ namespace Castle.Graph
             CreatePorts();
         }
 
-        public void SetInputs(params BasePort[] ports)
+        public void SetInputs(params BasePortData[] ports)
         {
             if (inputs == null)
             {
-                inputs = new CastleDictionary<string, BasePort>(ports.Length);
+                inputs = new CastleDictionary<string, BasePortData>(ports.Length);
             }
             else
             {
@@ -56,11 +56,11 @@ namespace Castle.Graph
                 inputs.Add(ports[i].name,ports[i]);
             }
         }
-        public void SetOutputs(params BasePort[] ports)
+        public void SetOutputs(params BasePortData[] ports)
         {
             if (outputs == null)
             {
-                outputs = new CastleDictionary<string, BasePort>(ports.Length);
+                outputs = new CastleDictionary<string, BasePortData>(ports.Length);
             }
             else
             {

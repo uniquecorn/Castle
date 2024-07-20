@@ -3,17 +3,17 @@ using UnityEngine;
 namespace Castle.Graph
 {
     [System.Serializable]
-    public class BasePort
+    public class BasePortData
     {
         [HideInInspector,System.NonSerialized]
-        public BaseNode node;
+        public BaseNodeData node;
         public string name;
 
-        public BasePort(string name)
+        public BasePortData(string name)
         {
             this.name = name;
         }
-        public virtual System.Type portType => typeof(BaseNode);
+        public virtual System.Type portType => typeof(BaseNodeData);
         // public bool TryGetIdentifier(out PortIdentifier identifier)
         // {
         //     if (node.inputs != null)

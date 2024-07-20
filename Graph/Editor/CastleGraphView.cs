@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using GraphViewBase;
 
 namespace Castle.Graph.Editor
 {
@@ -10,30 +10,24 @@ namespace Castle.Graph.Editor
     {
         new class UxmlFactory : UxmlFactory<CastleGraphView, UxmlTraits> { }
         private BaseGraph graph;
-        private MiniMap miniMap;
         public CastleGraphView()
         {
             //styleSheets.Add(Resources.Load<StyleSheet>("Graph"));
-            this.AddManipulator(new ContentDragger());
-            this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            // this.AddManipulator(new ContentDragger());
+            // this.AddManipulator(new SelectionDragger());
+            // this.AddManipulator(new RectangleSelector());
+            //SetupZoom(ZoomManipulator.DefaultMinScale, ZoomManipulator.DefaultMaxScale);
 
             // Setup Grid
             var grid = new GridBackground();
             Insert(0, grid);
             grid.StretchToParentSize();
-            miniMap = new MiniMap {anchored = false};
-            miniMap.SetPosition(new Rect(10, 30, 300, 300));
-            Add(miniMap);
         }
 
         public void Inspect(BaseGraph graph)
         {
-            graphViewChanged -= OnGraphViewChanged;
             this.graph = graph;
-            DeleteElements(graphElements);
-            graphViewChanged += OnGraphViewChanged;
+            ClearView();
             if (graph != null)
             {
                 foreach (var node in graph)
@@ -46,9 +40,7 @@ namespace Castle.Graph.Editor
                 {
                     if (connection.TryGetInput(graph, out var input) && connection.TryGetOutput(graph, out var output))
                     {
-                        var n = graphElements.FirstOrDefault(x => x is NodeView node && node.node == input.node);
-                        var c = graphElements.FirstOrDefault(x => x is NodeView node && node.node == output.node);
-                        AddElement(n.Q<Port>(input.name).ConnectTo(c.Q<Port>(output.name)));
+                        ContentContainer.Q<BasePort>(input.name).ConnectTo(ContentContainer.Q<BasePort>(output.name));
                         // n.MarkDirtyRepaint();
                         // c.MarkDirtyRepaint();
                     }
@@ -56,53 +48,64 @@ namespace Castle.Graph.Editor
             }
         }
 
-        GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        public override void OnActionExecuted(Actions actionType, object data = null)
         {
-            if (change.edgesToCreate != null)
+            if (actionType == Actions.EdgeCreate && data is Edge edge)
             {
-                foreach (var edge in change.edgesToCreate)
+                var inputNode = edge.Input.userData as BasePortData;
+                var outputNode = edge.Output.userData as BasePortData;
+                var connection = new Connection()
                 {
-                    var inputNode = edge.input.userData as BasePort;
-                    var outputNode = edge.output.userData as BasePort;
-                    var connection = new Connection()
-                    {
-                        input = new PortIdentifier(inputNode.node.nodeID, inputNode.name),
-                        output = new PortIdentifier(outputNode.node.nodeID, outputNode.name)
-                    };
-                    graph.connections = graph.connections.AddToArray(connection);
-                }
-            }
-            return change;
-        }
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            if(!Application.isPlaying && graph != null)
-            {
-                Vector2 mousePosition = viewTransform.matrix.inverse.MultiplyPoint(evt.localMousePosition);
-                var types = graph.GetNodeTypes();
-                foreach (var t in types)
-                {
-                    evt.menu.AppendAction($"Create/{t.Name}", a => AddState(mousePosition));
-                }
-                base.BuildContextualMenu(evt);
+                    input = new PortIdentifier(inputNode.node.nodeID, inputNode.name),
+                    output = new PortIdentifier(outputNode.node.nodeID, outputNode.name)
+                };
+                graph.connections = graph.connections.AddToArray(connection);
             }
         }
+
+        // public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        // {
+        //     if(!Application.isPlaying && graph != null)
+        //     {
+        //         Vector2 mousePosition = viewTransform.matrix.inverse.MultiplyPoint(evt.localMousePosition);
+        //         var types = graph.GetNodeTypes();
+        //         foreach (var t in types)
+        //         {
+        //             evt.menu.AppendAction($"Create/{t.Name}", a => AddState(mousePosition));
+        //         }
+        //         base.BuildContextualMenu(evt);
+        //     }
+        // }
 
         void AddState(Vector2 mousePosition)
         {
 
-            graph.AddNode<BaseNode>(mousePosition);
+            graph.AddNode<BaseNodeData>(mousePosition);
             Inspect(graph);
         }
+        public void ClearView() {
+            //this.Unbind();
 
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-        {
-            return ports.ToList()!.Where(endPort =>
-                    endPort.direction != startPort.direction &&
-                    endPort.node != startPort.node &&
-                    endPort.portType == startPort.portType)
-                .ToList();
+            foreach (BaseNode node in ContentContainer.Nodes) {
+                node.RemoveFromHierarchy();
+            }
+
+            foreach (BasePort port in ContentContainer.Ports) {
+                port.RemoveFromHierarchy();
+            }
+
+            foreach (BaseEdge edge in ContentContainer.Edges) {
+                edge.RemoveFromHierarchy();
+            }
         }
+        // public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        // {
+        //     return ports.ToList()!.Where(endPort =>
+        //             endPort.direction != startPort.direction &&
+        //             endPort.node != startPort.node &&
+        //             endPort.portType == startPort.portType)
+        //         .ToList();
+        // }
 
     }
 }

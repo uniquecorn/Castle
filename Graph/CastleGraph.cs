@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Castle.Graph
 {
-    public abstract class BaseGraph<TNode> : BaseGraph,ISerializationCallbackReceiver where TNode : BaseNode
+    public abstract class BaseGraph<TNode> : BaseGraph,ISerializationCallbackReceiver where TNode : BaseNodeData
     {
         public CastleDictionary<long, TNode> nodeDictionary;
         public override bool GetNode<T>(long id, out T node)
@@ -48,7 +48,7 @@ namespace Castle.Graph
             }
             return EditorUtility.IsDirty(this);
         }
-        public override IEnumerator<BaseNode> GetEnumerator() => nodeDictionary.Values.GetEnumerator();
+        public override IEnumerator<BaseNodeData> GetEnumerator() => nodeDictionary.Values.GetEnumerator();
         public override System.Type[] GetNodeTypes()
         {
             var types = TypeCache.GetTypesDerivedFrom<TNode>().ToList();
@@ -130,7 +130,7 @@ namespace Castle.Graph
         }
     }
     [CreateAssetMenu(menuName = "Castle/Graph", order = 0)]
-    public class CastleGraph : BaseGraph<BaseNode>
+    public class CastleGraph : BaseGraph<BaseNodeData>
     {
 
     }

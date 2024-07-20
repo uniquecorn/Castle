@@ -5,15 +5,15 @@ using UnityEngine;
 
 namespace Castle.Graph
 {
-    public abstract class BaseGraph : ScriptableObject, IEnumerable<BaseNode>
+    public abstract class BaseGraph : ScriptableObject, IEnumerable<BaseNodeData>
     {
         public Connection[] connections;
-        public abstract bool GetNode<T>(long id, out T node) where T : BaseNode;
-        public abstract IEnumerator<BaseNode> GetEnumerator();
+        public abstract bool GetNode<T>(long id, out T node) where T : BaseNodeData;
+        public abstract IEnumerator<BaseNodeData> GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 #if UNITY_EDITOR
         public abstract System.Type[] GetNodeTypes();
-        public T CreateNode<T>() where T : BaseNode
+        public T CreateNode<T>() where T : BaseNodeData
         {
             UnityEditor.Undo.RecordObject(this,"CreateNode");
             var node = CreateInstance(typeof(T)) as T;
@@ -21,7 +21,7 @@ namespace Castle.Graph
             node.name = typeof(T).ToString();
             return node;
         }
-        public abstract void AddNode<T>(Vector2 position,bool batchEdit=false) where T : BaseNode;
+        public abstract void AddNode<T>(Vector2 position,bool batchEdit=false) where T : BaseNodeData;
         public abstract bool IsDirty();
         [Button,ShowIf("IsDirty")]
         public void Save()

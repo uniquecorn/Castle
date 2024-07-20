@@ -18,18 +18,18 @@ namespace Castle.Graph
         public PortIdentifier output;
         public PortIdentifier input;
 
-        public bool TryGetInput(BaseGraph graph, out BasePort port)
+        public bool TryGetInput(BaseGraph graph, out BasePortData port)
         {
-            if (graph.GetNode<BaseNode>(input.nodeID, out var node))
+            if (graph.GetNode<BaseNodeData>(input.nodeID, out var node))
             {
                 return node.inputs.TryGetValue(input.portName, out port);
             }
             port = null;
             return false;
         }
-        public bool TryGetOutput(BaseGraph graph, out BasePort port)
+        public bool TryGetOutput(BaseGraph graph, out BasePortData port)
         {
-            if (graph.GetNode<BaseNode>(output.nodeID, out var node))
+            if (graph.GetNode<BaseNodeData>(output.nodeID, out var node))
             {
                 return node.outputs.TryGetValue(output.portName, out port);
             }
