@@ -107,6 +107,7 @@ namespace Castle
             }
             return args[num];
         }
+        public static void Move2D(this Transform t, int pos) => Move2D(t,new Vector3(pos,pos,0));
         public static void Move2D(this Transform t, Vector3 pos) => t.position = pos.RepZ(t);
         public static void Move2D(this Transform t, Transform t2) => Move2D(t, t2.position);
         public static void Move2DLerp(this Transform t, Vector3 pos, float snappiness = 10) => t.position = Vector3.Lerp(t.position, pos.RepZ(t), Time.deltaTime * snappiness);

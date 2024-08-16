@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Castle.Core
 {
-    [System.Serializable]
+    [System.Serializable,InlineProperty]
     public struct CastleGrid : System.IEquatable<CastleGrid>, IEqualityComparer<CastleGrid>
     {
         [HorizontalGroup("Coords", Title = "@this.ToString()"), HideLabel, SuffixLabel("X", true)]
@@ -17,7 +17,15 @@ namespace Castle.Core
             this.x = x;
             this.y = y;
         }
+
+        public CastleGrid(Vector3 vector)
+        {
+            this.x = Mathf.RoundToInt(vector.x);
+            this.y = Mathf.RoundToInt(vector.y);
+        }
         public int Size => x * y;
+        public static CastleGrid FromFlat(int index, int height) =>
+            new(index / height, index % height);
         public CastleGrid Index(int i) => new(i % x, Mathf.FloorToInt((float)i / x));
         public CastleGrid Shift(CastleGrid shift) => Shift(shift.x, shift.y);
         public CastleGrid Shift(int dx, int dy) => new(this.x + dx, this.y + dy);
