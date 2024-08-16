@@ -1,14 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Castle.Core
+namespace Castle.Core.Scene
 {
-    public abstract class CastleBaseScene : MonoBehaviour
-    {
-        public string SceneName => gameObject.scene.name;
-        [SerializeField]
-        public List<ISceneObject> sceneObjects;
-    }
     public abstract class CastleScene : CastleBaseScene
     {
         public static CastleScene currentScene;
@@ -28,9 +21,5 @@ namespace Castle.Core
             }
             if (!sceneAlreadyLoaded) loadedScenes.Add(this);
         }
-    }
-    public abstract class CastleSubscene : CastleBaseScene
-    {
-        
     }
 }

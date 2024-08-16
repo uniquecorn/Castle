@@ -91,7 +91,7 @@ public static class Noise
         var max = float.MinValue;
         var frequency = 0.5f;
         var amplitude = 1f;
-        var persistence = 0.25f;
+        //var persistence = 0.25f;
         var octaves = 8;
         for (var octave = 0; octave < octaves; octave++)
         {
