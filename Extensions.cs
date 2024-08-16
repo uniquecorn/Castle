@@ -114,6 +114,14 @@ namespace Castle
         public static Vector3 RepZ(this Vector3 vec,float z) => new(vec.x, vec.y, z);
         public static Vector3 RepZ(this Vector3 vec,Transform t) => RepZ(vec,t.position.z);
         public static Vector3 RepZ(this Vector2 vec, float z) => new(vec.x, vec.y, z);
+        public static Vector3 Neg(this Vector3 vec) => new(-vec.x, -vec.y);
+        public static Vector3 NegX(this Vector3 vec) => new(-vec.x, vec.y, vec.z);
+        public static Vector3 NegY(this Vector3 vec) => new(vec.x, -vec.y, vec.z);
+        public static Vector3 NegZ(this Vector3 vec) => new(vec.x, vec.y, -vec.z);
+        public static Vector2 Neg(this Vector2 vec) => new(-vec.x, -vec.y);
+        public static Vector2 NegX(this Vector2 vec) => new(-vec.x, vec.y);
+        public static Vector2 NegY(this Vector2 vec) => new(vec.x, -vec.y);
+
     }
     public static class ColorExtensions
     {

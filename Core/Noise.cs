@@ -3,118 +3,148 @@ using System.Linq;
 using System.Threading.Tasks;
 
 public static class Noise
-{
-    private static int[] _permutation;
-    private static float[] _data;
-    private static Vector2[] _gradients;
-
-    private static void CalculatePermutation(System.Random rng,out int[] p)
     {
-        p = Enumerable.Range(0, 256).ToArray();
-
-        /// shuffle the array
-        for (var i = 0; i < p.Length; i++)
+        public static NoiseMap GenerateNoiseMap(this NoiseSettings settings, int mapWidth, int mapHeight,
+            Vector2 offset)
         {
-            var source = rng.Next(p.Length);
-            (p[i], p[source]) = (p[source], p[i]);
-        }
-    }
+            var noiseMap = new float[mapWidth, mapHeight];
 
-    /// <summary>
-    /// generate a new permutation.
-    /// </summary>
-    public static void Reseed(System.Random rng)
-    {
-        CalculatePermutation(rng,out _permutation);
-        CalculateGradients(rng,out _gradients);
-    }
+            var prng = new System.Random(settings.Seed);
+            var octaveOffsets = new Vector2[settings.Octaves];
 
-    private static void CalculateGradients(System.Random rng,out Vector2[] grad)
-    {
-        grad = new Vector2[256];
+            float maxPossibleHeight = 0;
+            float amplitude = 1;
 
-        for (var i = 0; i < grad.Length; i++)
-        {
-            Vector2 gradient;
-
-            do
+            for (var i = 0; i < settings.Octaves; i++)
             {
-                gradient = new Vector2((float)(rng.NextDouble() * 2 - 1), (float)(rng.NextDouble() * 2 - 1));
-            }
-            while (gradient.sqrMagnitude >= 1);
+                var offsetX = prng.Next(-100000, 100000) + offset.x + settings.SampleCentre.x;
+                var offsetY = prng.Next(-100000, 100000) - offset.y - settings.SampleCentre.y;
+                octaveOffsets[i] = new Vector2(offsetX, offsetY);
 
-            gradient.Normalize();
-
-            grad[i] = gradient;
-        }
-    }
-
-    private static float Drop(float t)
-    {
-        t = Mathf.Abs(t);
-        return 1f - t * t * t * (t * (t * 6 - 15) + 10);
-    }
-
-    private static float Q(float u, float v) => Drop(u) * Drop(v);
-
-    private static float Get(float x, float y)
-    {
-        var cell = new Vector2((float)Mathf.Floor(x), (float)Mathf.Floor(y));
-
-        var total = 0f;
-
-        var corners = new[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 0), new Vector2(1, 1) };
-
-        foreach (var n in corners)
-        {
-            var ij = cell + n;
-            var uv = new Vector2(x - ij.x, y - ij.y);
-
-            var index = _permutation[(int)ij.x % _permutation.Length];
-            index = _permutation[(index + (int)ij.y) % _permutation.Length];
-
-            var grad = _gradients[index % _gradients.Length];
-
-            total += Q(uv.x, uv.y) * Vector2.Dot(grad, uv);
-        }
-        return Mathf.Max(Mathf.Min(total, 1f), -1f);
-    }
-
-    public static float[] Generate(System.Random rng, int size)
-    {
-        CalculatePermutation(rng,out _permutation);
-        CalculateGradients(rng,out _gradients);
-
-        _data = new float[size * size];
-
-        var min = float.MaxValue;
-        var max = float.MinValue;
-        var frequency = 0.5f;
-        var amplitude = 1f;
-        //var persistence = 0.25f;
-        var octaves = 8;
-        for (var octave = 0; octave < octaves; octave++)
-        {
-            /// parallel loop - easy and fast.
-            for (var o = 0; o < size * size; o++)
-            {
-                var i = o % size;
-                var j = o / size;
-                var noise = Get(i*frequency*1f/size, j*frequency*1f/size);
-                noise = _data[j * size + i] += noise * amplitude;
-
-                min = Mathf.Min(min, noise);
-                max = Mathf.Max(max, noise);
+                maxPossibleHeight += amplitude;
+                amplitude *= settings.Persistence;
             }
 
-            frequency *= 2;
-            amplitude /= 2;
+            var maxLocalNoiseHeight = float.MinValue;
+            var minLocalNoiseHeight = float.MaxValue;
+
+            var halfWidth = mapWidth / 2f;
+            var halfHeight = mapHeight / 2f;
+
+
+            for (var x = 0; x < mapWidth; x++)
+            for (var y = 0; y < mapHeight; y++)
+            {
+                amplitude = 1;
+                float frequency = 1;
+                float noiseHeight = 0;
+
+                for (var i = 0; i < settings.Octaves; i++)
+                {
+                    var sampleX = (x - halfWidth + octaveOffsets[i].x) / settings.Scale * frequency;
+                    var sampleY = (y - halfHeight + octaveOffsets[i].y) / settings.Scale * frequency;
+
+                    var perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                    noiseHeight += perlinValue * amplitude;
+
+                    amplitude *= settings.Persistence;
+                    frequency *= settings.Lacunarity;
+                }
+
+                if (noiseHeight > maxLocalNoiseHeight) maxLocalNoiseHeight = noiseHeight;
+
+                if (noiseHeight < minLocalNoiseHeight) minLocalNoiseHeight = noiseHeight;
+
+                noiseMap[x, y] = noiseHeight;
+
+                if (settings.NormalizeMode != NormalizeMode.Global) continue;
+                var normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight / 0.9f);
+                noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+            }
+
+            if (settings.NormalizeMode == NormalizeMode.Local)
+                for (var y = 0; y < mapHeight; y++)
+                for (var x = 0; x < mapWidth; x++)
+                    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
+
+            return new NoiseMap(noiseMap);
         }
-        //
-        for (var o = 0; o < size * size; o++)
+
+        public static float GetNoise(float x, float y)
         {
-            _data[o] = (_data[o] - min) / (max - min);
+            return Mathf.PerlinNoise(x, y);
         }
-        return _data;
     }
-}
+
+    public class NoiseMap
+    {
+        private static float _globalMaxValue = 1;
+
+        public float[,] HeightMap;
+
+        public NoiseMap(float[,] heightMap)
+        {
+            HeightMap = heightMap;
+        }
+
+        public NoiseMap Add(System.Func<float, float> applier)
+        {
+            for (var i = 0; i < HeightMap.GetLength(0); i++)
+            for (var j = 0; j < HeightMap.GetLength(1); j++)
+                HeightMap[i, j] += applier(HeightMap[i, j]);
+            return this;
+        }
+
+        public NoiseMap NormaliseMap()
+        {
+            var maxValue = GetMaxValue();
+
+            for (var i = 0; i < HeightMap.GetLength(0); i++)
+            for (var j = 0; j < HeightMap.GetLength(1); j++)
+                HeightMap[i, j] /= maxValue;
+
+            return this;
+        }
+
+        private float GetMaxValue()
+        {
+            _globalMaxValue = Mathf.Max(_globalMaxValue, HeightMap.Cast<float>().Max());
+            return _globalMaxValue;
+        }
+    }
+
+    public enum NormalizeMode
+    {
+        Local,
+        Global
+    }
+    [System.Serializable]
+    public class NoiseSettings
+    {
+        public float Lacunarity = 2;
+
+        public NormalizeMode NormalizeMode;
+
+        public int Octaves = 6;
+        [Range(0, 1)] public float Persistence = .6f;
+        public Vector2 SampleCentre;
+
+        public float Scale = 50;
+
+        public int Seed;
+
+        public NoiseSettings(NormalizeMode normalizeMode, int seed, Vector2 sampleCentre)
+        {
+            NormalizeMode = normalizeMode;
+            Seed = seed;
+            SampleCentre = sampleCentre;
+        }
+
+        public void ValidateValues()
+        {
+            Scale = Mathf.Max(Scale, 0.01f);
+            Octaves = Mathf.Max(Octaves, 1);
+            Lacunarity = Mathf.Max(Lacunarity, 1);
+            Persistence = Mathf.Clamp01(Persistence);
+        }
+    }
