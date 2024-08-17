@@ -11,7 +11,7 @@ namespace Castle.Core
         public int x;
         [HorizontalGroup("Coords"), HideLabel, SuffixLabel("Y", true)]
         public int y;
-
+        private static CastleGrid[] _gridsAlloc;
         public CastleGrid(int x, int y)
         {
             this.x = x;
@@ -20,17 +20,18 @@ namespace Castle.Core
 
         public CastleGrid(Vector3 vector)
         {
-            this.x = Mathf.RoundToInt(vector.x);
-            this.y = Mathf.RoundToInt(vector.y);
+            x = Mathf.RoundToInt(vector.x);
+            y = Mathf.RoundToInt(vector.y);
         }
         public int Size => x * y;
+        public int Flatten(int height) => x * height + y;
         public static CastleGrid FromFlat(int index, int height) =>
             new(index / height, index % height);
         public CastleGrid Index(int i) => new(i % x, Mathf.FloorToInt((float)i / x));
         public CastleGrid Shift(CastleGrid shift) => Shift(shift.x, shift.y);
-        public CastleGrid Shift(int dx, int dy) => new(this.x + dx, this.y + dy);
+        public CastleGrid Shift(int dx, int dy) => new(x + dx, y + dy);
         public CastleGrid Subtract(CastleGrid subtract) => Subtract(subtract.x, subtract.y);
-        public CastleGrid Subtract(int dx, int dy) => new(this.x - dx, this.y - dy);
+        public CastleGrid Subtract(int dx, int dy) => new(x - dx, y - dy);
         public int SqrMag() => (x * x + y * y);
         public float Mag() => Mathf.Sqrt(SqrMag());
         public CastleGrid Reverse() => new(-x, -y);
@@ -77,6 +78,76 @@ namespace Castle.Core
 
             return new Vector3(x, y) +
                    Quaternion.Euler(0, 0, startAngle + (angleDiff * positionIndex)) * (Vector3.up * Mathf.Lerp(0.1f, 0.4f, Tools.InverseLerp(0, 5, totalPositions)));
+        }
+
+        public List<CastleGrid> Line(CastleGrid end)
+        {
+            if (end == this) return new List<CastleGrid>{end};
+            var list = new List<CastleGrid>(Distance(end));
+            var d = 0;
+
+            var dx = Mathf.Abs(end.x - x);
+            var dy = Mathf.Abs(end.y - y);
+
+            var dx2 = 2 * dx; // slope scaling factors to
+            var dy2 = 2 * dy; // avoid floating point
+
+            var ix = x < end.x ? 1 : -1; // increment direction
+            var iy = y < end.y ? 1 : -1;
+
+            var sX = x;
+            var sY = y;
+
+            if (dx >= dy) {
+                while (true) {
+                    list.Add(new CastleGrid(sX,sY));
+                    if (sX == end.x)
+                        break;
+                    sX += ix;
+                    d += dy2;
+                    if (d > dx) {
+                        sY += iy;
+                        d -= dx2;
+                    }
+                }
+            } else {
+                while (true) {
+                    list.Add(new CastleGrid(sX,sY));
+                    if (sY == end.y)
+                        break;
+                    sY += iy;
+                    d += dx2;
+                    if (d > dy) {
+                        sX += ix;
+                        d -= dy2;
+                    }
+                }
+            }
+            return list;
+        }
+        public static int GetGridsAroundNonAlloc(CastleGrid grid, out CastleGrid[] grids, int width = 1, int height = 1)
+        {
+            var num = (width + 2 + height) * 2;
+            if (_gridsAlloc == null) _gridsAlloc = new CastleGrid[512];
+            if (_gridsAlloc.Length < num)
+            {
+                _gridsAlloc = new CastleGrid[_gridsAlloc.Length * Mathf.NextPowerOfTwo(Mathf.CeilToInt((float) num / _gridsAlloc.Length))];
+            }
+            var h = (width + 2) * 2;
+            for (var x = 0; x < width + 2; x++)
+            {
+                var _x = (grid.x - 1) + x;
+                _gridsAlloc[x*2] = new CastleGrid(_x, grid.y - 1);
+                _gridsAlloc[(x * 2)+1] = new CastleGrid(_x, grid.y + height);
+                //Debug.Log(x * 2 + "," + ((x * 2) + 1));
+            }
+            for (var y = 0; y < height; y++)
+            {
+                _gridsAlloc[h + (y*2)] = new CastleGrid(grid.x - 1, grid.y+y);
+                _gridsAlloc[h + (y * 2)+1] = new CastleGrid(grid.x + width, grid.y+y);
+            }
+            grids = _gridsAlloc;
+            return num;
         }
     }
 }

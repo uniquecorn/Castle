@@ -24,8 +24,7 @@ namespace Castle.Core
                 return collider;
             }
         }
-        protected float holdTimer,holdFloored;
-        protected float hoverTimer,hoverFloored;
+        protected float holdTimer,holdFloored,hoverTimer,hoverFloored;
         protected Vector2 holdOffset,holdDelta;
         protected bool NoColliderAttached => collider == null;
         protected bool NoTransformAttached => transform == null;

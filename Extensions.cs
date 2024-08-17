@@ -135,6 +135,7 @@ namespace Castle
         public static Vector3 Translate(this Vector3 vec, Vector2 move) => new(vec.x + move.x, vec.y + move.y, vec.z);
         public static Vector3 Translate(this Vector3 vec, float x,float y = 0,float z = 0) => new(vec.x + x, vec.y + y, vec.z + z);
         public static Vector3 Translate(this Vector3 vec,Vector3 move) => new(vec.x + move.x, vec.y + move.y, vec.z);
+        public static Vector2 Translate(this Vector2 vec, float x,float y = 0) => new(vec.x + x, vec.y + y);
         public static void ChangeX(this RectTransform rectTransform,float x) => rectTransform.anchoredPosition = new Vector2(x, rectTransform.anchoredPosition.y);
         public static void ChangeY(this RectTransform rectTransform,float y) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, y);
         public static void ChangeX(this Transform transform,float x,bool local = true)
