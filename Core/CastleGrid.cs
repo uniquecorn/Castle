@@ -67,8 +67,8 @@ namespace Castle.Core
         public override int GetHashCode() => GetHashCode(this);
         public Vector3 GetPosition(int positionIndex=0, int totalPositions=1)
         {
-            var rng = new System.Random(GetHashCode());
-            var startAngle = (float) rng.NextDouble() * 360f;
+            Random.InitState(GetHashCode());
+            var startAngle = Random.value * 360f;
             if (totalPositions <= 1)
             {
                 return new Vector3(x, y) + Quaternion.Euler(0, 0, startAngle) * (Vector3.up / (7 - totalPositions));
