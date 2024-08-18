@@ -135,6 +135,7 @@ namespace Castle
             te.Copy();
         }
         public static IEnumerable<int> RandomNumEnumerable(int length) => Enumerable.Range(0, length).Shuffle();
+        public static IEnumerable<int> RandomNumEnumerable(int length, System.Random rng) => Enumerable.Range(0, length).Shuffle(rng);
         #region Vectors
         public static Vector2 CenterOfVectors(params Vector2[] vectors)
         {

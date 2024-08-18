@@ -23,7 +23,11 @@ namespace Castle.Core
             x = Mathf.RoundToInt(vector.x);
             y = Mathf.RoundToInt(vector.y);
         }
+
+        public int Length => x + y;
         public int Size => x * y;
+        public CastleGrid Abs() => new(Mathf.Abs(x), Mathf.Abs(y));
+        public CastleGrid Clamp(int min = 0, int max = 1) => new(Mathf.Clamp(x, min, max), Mathf.Clamp(y, min, max));
         public int Flatten(int height) => x * height + y;
         public static CastleGrid FromFlat(int index, int height) =>
             new(index / height, index % height);
@@ -39,11 +43,16 @@ namespace Castle.Core
         public CastleGrid Dist(CastleGrid other,bool abs = true) => abs ?  new CastleGrid(Mathf.Abs(other.x - x), Mathf.Abs(other.y - y)) : new CastleGrid(other.x - x, other.y - y);
         public int Distance(CastleGrid other) => Mathf.Abs(other.x - x) + Mathf.Abs(other.y - y);
         public static CastleGrid Zero() => new(0, 0);
+        public static CastleGrid One() => new(1, 1);
+        public static CastleGrid Right() => new(1, 0);
+        public static CastleGrid Up() => new(0, 1);
         public override string ToString() => x + "," + y;
-        public static CastleGrid FromVector(Vector2 position) => new(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
+        public static CastleGrid FromVector(Vector2 position) => new(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
         public override bool Equals(object obj) => obj is CastleGrid other && Equals(other);
         public bool Equals(CastleGrid other) => other.x == x && other.y == y;
         public bool Equals(CastleGrid a, CastleGrid b) => a.x == b.x && a.y == b.y;
+
+        public static CastleGrid operator *(CastleGrid a, CastleGrid b) => new(a.x*b.x,a.y*b.y);
         public static CastleGrid operator *(CastleGrid grid, int factor)
             => new(grid.x*factor,grid.y*factor);
         public static CastleGrid operator *(int factor, CastleGrid grid)
@@ -75,7 +84,6 @@ namespace Castle.Core
             }
 
             var angleDiff = 360 / totalPositions;
-
             return new Vector3(x, y) +
                    Quaternion.Euler(0, 0, startAngle + (angleDiff * positionIndex)) * (Vector3.up * Mathf.Lerp(0.1f, 0.4f, Tools.InverseLerp(0, 5, totalPositions)));
         }
@@ -83,7 +91,7 @@ namespace Castle.Core
         public List<CastleGrid> Line(CastleGrid end)
         {
             if (end == this) return new List<CastleGrid>{end};
-            var list = new List<CastleGrid>(Distance(end));
+            var list = new List<CastleGrid>(Distance(end)+ 4);
             var d = 0;
 
             var dx = Mathf.Abs(end.x - x);

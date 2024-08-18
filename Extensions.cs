@@ -426,6 +426,10 @@ namespace Castle
             var rng = seeded ? new System.Random(seed) : new System.Random();
             return source.Select(x => new {Number = rng.Next(), Item = x}).OrderBy(x => x.Number).Select(x => x.Item);
         }
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source,System.Random rng)
+        {
+            return source.Select(x => new {Number = rng.Next(), Item = x}).OrderBy(x => x.Number).Select(x => x.Item);
+        }
         public static T[] ShuffleArray<T>(this IList<T> list,bool seeded= false,int seed = 0)
         {
             var arr = new T[list.Count];
