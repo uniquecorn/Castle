@@ -11,7 +11,9 @@ namespace Castle.Core
         public int x;
         [HorizontalGroup("Coords"), HideLabel, SuffixLabel("Y", true)]
         public int y;
-        private static CastleGrid[] _gridsAlloc;
+        private static CastleGrid[] _gridsAlloc,_smallAlloc;
+        private static List<CastleGrid> _lineAlloc;
+        private static Vector3[] _posAlloc;
         public CastleGrid(int x, int y)
         {
             this.x = x;
@@ -26,7 +28,11 @@ namespace Castle.Core
 
         public int Length => x + y;
         public int Size => x * y;
-        public CastleGrid Abs() => new(Mathf.Abs(x), Mathf.Abs(y));
+        public CastleGrid Abs()
+        {
+            return new CastleGrid((x + (x >> 31)) ^ (x >> 31), (y + (y >> 31)) ^ (y >> 31));
+        }
+
         public CastleGrid Clamp(int min = 0, int max = 1) => new(Mathf.Clamp(x, min, max), Mathf.Clamp(y, min, max));
         public int Flatten(int height) => x * height + y;
         public static CastleGrid FromFlat(int index, int height) =>
@@ -41,7 +47,14 @@ namespace Castle.Core
         public CastleGrid Reverse() => new(-x, -y);
         public CastleGrid Flip() => new(y, x);
         public CastleGrid Dist(CastleGrid other,bool abs = true) => abs ?  new CastleGrid(Mathf.Abs(other.x - x), Mathf.Abs(other.y - y)) : new CastleGrid(other.x - x, other.y - y);
-        public int Distance(CastleGrid other) => Mathf.Abs(other.x - x) + Mathf.Abs(other.y - y);
+        public int Distance(CastleGrid other)
+        {
+            var dx = other.x - x;
+            var dy = other.y - y;
+            return ((dx + (dx >> 31)) ^ (dx >> 31)) + ((dy + (dy >> 31)) ^ (dy >> 31));
+        }
+
+        public int SquareDistance(CastleGrid other) => (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y);
         public static CastleGrid Zero() => new(0, 0);
         public static CastleGrid One() => new(1, 1);
         public static CastleGrid Right() => new(1, 0);
@@ -77,26 +90,70 @@ namespace Castle.Core
         public Vector3 GetPosition(int positionIndex=0, int totalPositions=1)
         {
             Random.InitState(GetHashCode());
-            var startAngle = Random.value * 360f;
+            var tau = Mathf.PI * 2;
+            var startAngle = Random.value * tau;
             if (totalPositions <= 1)
             {
-                return new Vector3(x, y) + Quaternion.Euler(0, 0, startAngle) * (Vector3.up / (7 - totalPositions));
+                var yAxis = 1f / (7 - totalPositions);
+                float s = Mathf.Sin(startAngle);
+                float c = Mathf.Cos(startAngle);
+                return new Vector3(-(yAxis * s) + x, (yAxis * c) + y);
             }
-
-            var angleDiff = 360 / totalPositions;
-            return new Vector3(x, y) +
-                   Quaternion.Euler(0, 0, startAngle + (angleDiff * positionIndex)) * (Vector3.up * Mathf.Lerp(0.1f, 0.4f, Tools.InverseLerp(0, 5, totalPositions)));
+            else
+            {
+                var angleDiff = tau / totalPositions;
+                var yAxis = Mathf.Lerp(0.1f, 0.4f, Tools.InverseLerp(0, 5, totalPositions));
+                float s = Mathf.Sin(startAngle+ (angleDiff * positionIndex));
+                float c = Mathf.Cos(startAngle + (angleDiff * positionIndex));
+                return new Vector3(-(yAxis * s) + x, (yAxis * c) + y);
+            }
         }
 
+        public void GetPositions(int totalPositions, out Vector3[] positions)
+        {
+            if (_posAlloc == null) _posAlloc = new Vector3[10];
+            positions = _posAlloc;
+            Random.InitState(GetHashCode());
+            var tau = Mathf.PI * 2;
+            var startAngle = Random.value * tau;
+            if (totalPositions <= 1)
+            {
+                var yAxis = 1f / (7 - totalPositions);
+
+                float s = Mathf.Sin(startAngle);
+                float c = Mathf.Cos(startAngle);
+                _posAlloc[0] = new Vector3(-(yAxis * s) + x, (yAxis * c) + y);
+            }
+            else
+            {
+                var angleDiff = tau / totalPositions;
+                var yAxis = Mathf.Lerp(0.1f, 0.4f, Tools.InverseLerp(0, 5, totalPositions));
+                for (var i = 0; i < totalPositions; i++)
+                {
+                    float s = Mathf.Sin(startAngle+ (angleDiff * i));
+                    float c = Mathf.Cos(startAngle + (angleDiff * i));
+                    _posAlloc[i] = new Vector3(-(yAxis * s) + x, (yAxis * c) + y);
+                }
+            }
+        }
         public List<CastleGrid> Line(CastleGrid end)
         {
-            if (end == this) return new List<CastleGrid>{end};
-            var list = new List<CastleGrid>(Distance(end)+ 4);
+            if (_lineAlloc == null)
+            {
+                _lineAlloc = new List<CastleGrid>(64);
+            }
+            _lineAlloc.Clear();
+            if (end == this)
+            {
+                _lineAlloc.Add(end);
+                return _lineAlloc;
+            }
             var d = 0;
 
-            var dx = Mathf.Abs(end.x - x);
-            var dy = Mathf.Abs(end.y - y);
-
+            var dx = end.x - x;
+            var dy = end.y - y;
+            dx = (dx + (dx >> 31)) ^ (dx >> 31);
+            dy = (dy + (dy >> 31)) ^ (dy >> 31);
             var dx2 = 2 * dx; // slope scaling factors to
             var dy2 = 2 * dy; // avoid floating point
 
@@ -108,7 +165,7 @@ namespace Castle.Core
 
             if (dx >= dy) {
                 while (true) {
-                    list.Add(new CastleGrid(sX,sY));
+                    _lineAlloc.Add(new CastleGrid(sX,sY));
                     if (sX == end.x)
                         break;
                     sX += ix;
@@ -120,7 +177,7 @@ namespace Castle.Core
                 }
             } else {
                 while (true) {
-                    list.Add(new CastleGrid(sX,sY));
+                    _lineAlloc.Add(new CastleGrid(sX,sY));
                     if (sY == end.y)
                         break;
                     sY += iy;
@@ -131,7 +188,7 @@ namespace Castle.Core
                     }
                 }
             }
-            return list;
+            return _lineAlloc;
         }
         public static int GetGridsAroundNonAlloc(CastleGrid grid, out CastleGrid[] grids, int width = 1, int height = 1)
         {

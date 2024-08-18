@@ -410,7 +410,18 @@ namespace Castle
             // put element from position 1 to destination
             list[newIndex] = tmp;
         }
-        public static void Shuffle(this IList list,bool seeded= false,int seed = 0)
+        public static IList<T> Shuffle<T>(this IList<T> list,System.Random rng)
+        {
+            var n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                var k = rng.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+            return list;
+        }
+        public static IList Shuffle(this IList list,bool seeded= false,int seed = 0)
         {
             var rng = seeded ? new System.Random(seed) : new System.Random();
             var n = list.Count;
@@ -420,15 +431,7 @@ namespace Castle
                 var k = rng.Next(n + 1);
                 (list[k], list[n]) = (list[n], list[k]);
             }
-        }
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source,bool seeded= false,int seed = 0)
-        {
-            var rng = seeded ? new System.Random(seed) : new System.Random();
-            return source.Select(x => new {Number = rng.Next(), Item = x}).OrderBy(x => x.Number).Select(x => x.Item);
-        }
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source,System.Random rng)
-        {
-            return source.Select(x => new {Number = rng.Next(), Item = x}).OrderBy(x => x.Number).Select(x => x.Item);
+            return list;
         }
         public static T[] ShuffleArray<T>(this IList<T> list,bool seeded= false,int seed = 0)
         {
