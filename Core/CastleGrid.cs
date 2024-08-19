@@ -214,5 +214,34 @@ namespace Castle.Core
             grids = _gridsAlloc;
             return num;
         }
+        public CastleGrid Spiral(int n)
+        {
+            var r = 0;
+            var x = 0;
+            var y = 0;
+            for (var i = 0; i < n; i++)
+            {
+                switch (r % 4)
+                {
+                    case 0:
+                        x++;
+                        if (x > r / 4) r++;
+                        break;
+                    case 1:
+                        y++;
+                        if (y > r / 4) r++;
+                        break;
+                    case 2:
+                        x--;
+                        if (x < -(r / 4)) r++;
+                        break;
+                    case 3:
+                        y--;
+                        if (y < -(r / 4)) r++;
+                        break;
+                }
+            }
+            return new CastleGrid(this.x + x, this.y + y);
+        }
     }
 }

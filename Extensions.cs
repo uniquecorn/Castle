@@ -228,6 +228,14 @@ namespace Castle
                 SetSorting(getRenderer(controller), sortingLayerID, sortingOrder);
             }
         }
+        public static void SetProperty<T>(this T renderer, System.Action<MaterialPropertyBlock> action) where T : Renderer
+        {
+            Tools.Block.Clear();
+            renderer.GetPropertyBlock(Tools.Block);
+            action(Tools.Block);
+            renderer.SetPropertyBlock(Tools.Block);
+            Tools.Block.Clear();
+        }
         public static void SetProperty<T>(this IList<T> renderers, System.Action<MaterialPropertyBlock> action) where T : Renderer
         {
             if (!renderers.IsSafe()) return;
