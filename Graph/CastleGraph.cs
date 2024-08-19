@@ -129,9 +129,4 @@ namespace Castle.Graph
             }
         }
     }
-    [CreateAssetMenu(menuName = "Castle/Graph", order = 0)]
-    public class CastleGraph : BaseGraph<BaseNodeData>
-    {
-
-    }
 }

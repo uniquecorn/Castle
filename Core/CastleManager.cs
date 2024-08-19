@@ -96,8 +96,8 @@ namespace Castle.Core
             }
         }
         public static bool QuickTapped => CurrentTapState is TapState.Released &&
-                                          (lastTappedPos - firstTappedPos).sqrMagnitude < Settings.Instance.QuickTapDistanceThreshold &&
-                                          _tapTimer < Settings.Instance.QuickTapTimerThreshold;
+                                          (lastTappedPos - firstTappedPos).sqrMagnitude < 3.5f &&
+                                          _tapTimer < 0.2f;
         private static void StartTap(Vector2 tapPosition)
         {
             CurrentTapState = TapState.Tapped;
@@ -179,13 +179,6 @@ namespace Castle.Core
             CurrentTapState != TapState.NotTapped && (IsMobile
                 ? EventSystem.current.IsPointerOverGameObject(_fingerId)
                 : EventSystem.current.IsPointerOverGameObject());
-        public static bool IsMobile
-        {
-#if UNITY_EDITOR || UNITY_STANDALONE
-            get => false;
-#else
-            get => true;
-#endif
-        }
+        public static bool IsMobile => !Input.mousePresent && Input.touchSupported;
     }
 }

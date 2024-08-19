@@ -16,11 +16,11 @@ namespace Castle.Core
         {
             get
             {
-#if UNITY_EDITOR
-                return System.DateTime.UtcNow;
-#else
+#if UNITY_IOS && !UNITY_EDITOR
                 return System.DateTime.SpecifyKind(System.DateTime.UnixEpoch.AddMilliseconds(_GetDate()),
                     System.DateTimeKind.Utc);
+#else
+                return System.DateTime.UtcNow;
 #endif
             }
         }

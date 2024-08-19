@@ -14,7 +14,15 @@ namespace Castle
     {
         #if UNITY_EDITOR
         private static Editor editor;
-        #endif
+        public static string Identifier => ZString.Format(IdentifierFormat, PlayerSettings.companyName.Slugged(), ProductName);
+        public static string XCodeTeamID => Instance.UseAltXcodeTeam ? Instance.altXcodeTeamID : PlayerSettings.iOS.appleDeveloperTeamID;
+        [ShowInInspector,HideIf("UseAltXcodeTeam"),PropertyOrder(0)]
+        public bool UseAltXcodeTeam
+        {
+            get => !string.IsNullOrEmpty(altXcodeTeamID);
+            set => altXcodeTeamID = true ? (string.IsNullOrEmpty(PlayerSettings.iOS.appleDeveloperTeamID) ? "TEAM" : PlayerSettings.iOS.appleDeveloperTeamID) : "";
+        }
+#endif
         public float QuickTapTimerThreshold = 0.2f;
         public float QuickTapDistanceThreshold = 3.5f;
         public int HourOfDayStart = 8;
@@ -24,7 +32,7 @@ namespace Castle
         public static string ProductName => (Instance.UseAltProductName ? Instance.altProductName : Application.productName).Slugged();
 
         private const string IdentifierFormat = "com.{0}.{1}";
-        public static string Identifier => ZString.Format(IdentifierFormat, PlayerSettings.companyName.Slugged(), ProductName);
+
         [ShowInInspector,HideIf("UseAltProductName"),PropertyOrder(-1)]
         public bool UseAltProductName
         {
@@ -33,15 +41,10 @@ namespace Castle
         }
         [ShowIf("UseAltProductName"),Delayed]
         public string altProductName;
-        [ShowInInspector,HideIf("UseAltXcodeTeam"),PropertyOrder(0)]
-        public bool UseAltXcodeTeam
-        {
-            get => !string.IsNullOrEmpty(altXcodeTeamID);
-            set => altXcodeTeamID = true ? (string.IsNullOrEmpty(PlayerSettings.iOS.appleDeveloperTeamID) ? "TEAM" : PlayerSettings.iOS.appleDeveloperTeamID) : "";
-        }
+
         [ShowIf("UseAltXcodeTeam"),Delayed]
         public string altXcodeTeamID;
-        public static string XCodeTeamID => Instance.UseAltXcodeTeam ? Instance.altXcodeTeamID : PlayerSettings.iOS.appleDeveloperTeamID;
+
         public string[] frameworks;
         public Target EmbedSwiftStandardLibraries;
         public bool autoOpenXcode;
