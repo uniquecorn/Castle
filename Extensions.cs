@@ -504,6 +504,18 @@ namespace Castle
             }
             return arr.ToArray();
         }
+        public static bool TryGetPooledObject<T>(this IList<T> array, out T obj) where T : Component
+        {
+            foreach (var o in array)
+            {
+                if(o.gameObject.activeSelf)continue;
+                obj = o;
+                obj.gameObject.SetActive(true);
+                return true;
+            }
+            obj = default;
+            return false;
+        }
     }
 
     public static class StringExtensions
