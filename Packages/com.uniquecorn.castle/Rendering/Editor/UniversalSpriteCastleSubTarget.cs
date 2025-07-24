@@ -115,7 +115,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                     useInPreview = true,
 
                     // Template
-                    passTemplatePath = castleTemplatePath,
+                    passTemplatePath = UniversalTarget.kUberTemplatePath,
                     sharedTemplateDirectories = UniversalTarget.kSharedTemplateDirectories,
 
                     // Port Mask
@@ -196,7 +196,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                     useInPreview = false,
 
                     // Template
-                    passTemplatePath = UniversalTarget.kUberTemplatePath,
+                    passTemplatePath = castleTemplatePath,
                     sharedTemplateDirectories = UniversalTarget.kSharedTemplateDirectories,
 
                     // Port Mask
