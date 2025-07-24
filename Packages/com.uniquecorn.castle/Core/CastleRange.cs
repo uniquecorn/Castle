@@ -8,16 +8,14 @@ namespace Castle.Core
     {
         public abstract string Label { get; }
         [Title("$Label"), ShowInInspector, ShowIf("UseRangeEnum"), PropertyOrder(-3), HideReferenceObjectPicker,
-         InlineButton("DebugCheck", ShowIf = "InPlayMode")]
+         InlineButton("DebugCheck", ShowIf = "@Application.isPlaying")]
         protected virtual System.Enum RangeType
         {
             get => null;
             set => _ = value;
         }
-        public bool InPlayMode => Application.isPlaying;
         private bool UseRangeEnum => RangeType != null;
         public virtual bool Check() => false;
-        
     }
     [System.Serializable]
     public abstract class CastleValueRange : CastleRange
@@ -28,7 +26,6 @@ namespace Castle.Core
             Equal,
             Less
         }
-
         public enum ValueTypeCheck
         {
             None,
@@ -46,12 +43,10 @@ namespace Castle.Core
         bool Check();
         void DebugCheck() => Debug.Log(Label +" is "+Check());
     }
-
     public interface IConditionalCastleRange<in T> : ICastleRange
     {
         bool Check(T variable);
     }
-
     public interface ICastleRange
     {
         string Label { get; }

@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53fb8d16-b9d7-4f5d-ab41-88a287a1e3d8" name="Changes" comment="" />
+    <list default="true" id="53fb8d16-b9d7-4f5d-ab41-88a287a1e3d8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Castle/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Castle/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/CastleGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/CastleGrid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/CastleRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/CastleRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/UI/CastleMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Core/UI/CastleMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Editor/SlicingExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Editor/SlicingExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Tools.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Tools.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,7 +33,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../TsukiOdyssey/Assets/Scripts/TsukiExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../TsukiOdyssey/Assets/Scripts/TsukiExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ff121436f2734fa5be51ab2072f25332200000/bd/38fc708e/VisualElement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ff121436f2734fa5be51ab2072f25332200000/cc/568ebd4c/VisualElementExtensions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -34,17 +41,21 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="30GMbH6GP5vR3T3HvT4LFGqoARD" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.1.13f1/Unity.app/Contents/MacOS/Unity" />
@@ -107,6 +118,7 @@
       <workItem from="1753249527348" duration="895000" />
       <workItem from="1753251437049" duration="8870000" />
       <workItem from="1753368865468" duration="7616000" />
+      <workItem from="1753382431893" duration="945000" />
     </task>
     <servers />
   </component>

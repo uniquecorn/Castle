@@ -17,10 +17,10 @@ namespace Castle
                 var lines = Application.version.Split('.');
                 if (lines.Length == 2)
                 {
-                    return int.Parse(lines[0]) * 10000 + int.Parse(lines[1]) * 100;
+                    return (int.Parse(lines[0]) * 10000) + (int.Parse(lines[1]) * 100);
                 }
                 var (MajorVersion, MinorVersion, PatchVersion) = (int.Parse(lines[0]), int.Parse(lines[1]), int.Parse(lines[2]));
-                return MajorVersion * 10000 + MinorVersion * 100 + PatchVersion;
+                return (MajorVersion * 10000) + (MinorVersion * 100) + PatchVersion;
             }
         }
         public static readonly string[] Letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
@@ -195,7 +195,7 @@ namespace Castle
                 return false;
             }
 
-            intersection = new Vector2(A.x+alpha * (B.x-A.x),A.y+alpha * (B.y-A.y));
+            intersection = new Vector2(A.x + (alpha * (B.x - A.x)), A.y + (alpha * (B.y - A.y)));
             return true;
         }
         #endregion

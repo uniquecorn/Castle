@@ -34,7 +34,7 @@ namespace Castle.Core
         }
 
         public CastleGrid Clamp(int min = 0, int max = 1) => new(Mathf.Clamp(x, min, max), Mathf.Clamp(y, min, max));
-        public int Flatten(int height) => x * height + y;
+        public int Flatten(int height) => (x * height) + y;
         public static CastleGrid FromFlat(int index, int height) =>
             new(index / height, index % height);
         public CastleGrid Index(int i) => new(i % x, Mathf.FloorToInt((float)i / x));
@@ -42,7 +42,7 @@ namespace Castle.Core
         public CastleGrid Shift(int dx, int dy) => new(x + dx, y + dy);
         public CastleGrid Subtract(CastleGrid subtract) => Subtract(subtract.x, subtract.y);
         public CastleGrid Subtract(int dx, int dy) => new(x - dx, y - dy);
-        public int SqrMag() => (x * x + y * y);
+        public int SqrMag() => (x * x) + (y * y);
         public float Mag() => Mathf.Sqrt(SqrMag());
         public CastleGrid Reverse() => new(-x, -y);
         public CastleGrid Flip() => new(y, x);
@@ -54,7 +54,7 @@ namespace Castle.Core
             return ((dx + (dx >> 31)) ^ (dx >> 31)) + ((dy + (dy >> 31)) ^ (dy >> 31));
         }
 
-        public int SquareDistance(CastleGrid other) => (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y);
+        public int SquareDistance(CastleGrid other) => ((other.x - x) * (other.x - x)) + ((other.y - y) * (other.y - y));
         public static CastleGrid Zero() => new(0, 0);
         public static CastleGrid One() => new(1, 1);
         public static CastleGrid Right() => new(1, 0);

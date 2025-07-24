@@ -35,7 +35,6 @@ namespace Castle.Editor
                 allSprites[i].pivot -= new Vector2(localPosToPixelPivot.x / allSprites[i].rect.width,
                     localPosToPixelPivot.y / allSprites[i].rect.height);
             }
-
             dataProvider.SetSpriteRects(allSprites);
             dataProvider.Apply();
             texImport.SaveAndReimport();
@@ -68,7 +67,6 @@ namespace Castle.Editor
             textureImporter = texImport;
             if (texImport.spriteImportMode == SpriteImportMode.Single) return true;
             return Selection.activeObject is Sprite;
-
         }
         [MenuItem("Assets/Slicing/Paste Pivot",priority = 1)]
         public static void PastePivot()
@@ -141,8 +139,7 @@ namespace Castle.Editor
         {
             if (!Sirenix.Utilities.Editor.Clipboard.CanPaste<SpriteData>()) return false;
             if (Selection.count == 1 && Selection.activeObject is Sprite) return true;
-            else if (Selection.count > 1 && Selection.objects.All(x => x is Sprite)) return true;
-            return false;
+            return Selection.count > 1 && Selection.objects.All(x => x is Sprite);
         }
         [MenuItem("Assets/Slicing/Copy Sheet",priority = 50)]
         public static void CopySheet()
@@ -201,7 +198,6 @@ namespace Castle.Editor
             }
             return true;
         }
-
         [MenuItem("Assets/Slicing/Flip Sprite",priority = 76)]
         public static void FlipSingleSprite()
         {
@@ -245,7 +241,6 @@ namespace Castle.Editor
                 });
             }
         }
-
         public static void PasteSliceFromClipboard(this Sprite sprite, SpriteData data)
         {
             var localOutline = new List<Vector2[]>(data.outline.Count);
@@ -277,7 +272,6 @@ namespace Castle.Editor
             dataProvider.Apply();
             texImport.SaveAndReimport();
         }
-
         public static void PasteSliceFromClipboard(Sprite[] sprites, SpriteData data)
         {
             var assetPath = AssetDatabase.GetAssetPath(sprites[0].texture);
@@ -312,7 +306,6 @@ namespace Castle.Editor
             dataProvider.Apply();
             texImport.SaveAndReimport();
         }
-
         public static void CopySheetFormat(Texture texture)
         {
             var assetPath = AssetDatabase.GetAssetPath(texture);
@@ -330,7 +323,6 @@ namespace Castle.Editor
             }
             Sirenix.Utilities.Editor.Clipboard.Copy(rects);
         }
-
         public static void PasteSheetFormat(Texture texture,SpriteRect[] data)
         {
             var assetPath = AssetDatabase.GetAssetPath(texture);
@@ -348,7 +340,6 @@ namespace Castle.Editor
             dataProvider.Apply();
             texImport.SaveAndReimport();
         }
-
         public static void FlipSprites(TextureImporter textureImporter)
         {
             var dataProvider = GetSpriteData(textureImporter,out var outlineProvider);
