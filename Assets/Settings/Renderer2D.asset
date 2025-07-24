@@ -72,8 +72,8 @@ MonoBehaviour:
   m_Active: 1
   settings:
     ambientLighting: {r: 0, g: 0, b: 0, a: 0}
-    bloom: 0
-    additiveBloom: 0
+    bloom: 5
+    additiveBloom: 0.182
     layerMask:
       serializedVersion: 2
       m_Bits: 55

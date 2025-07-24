@@ -191,12 +191,12 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                 {
                     // Definition
                     displayName = "LightOcclusion",
-                    referenceName = "SHADERPASS_LIGHTOCCLUSION",
+                    referenceName = "SHADERPASS_SPRITEUNLIT",
                     lightMode = "CastleLighting",
                     useInPreview = false,
 
                     // Template
-                    passTemplatePath = castleTemplatePath,
+                    passTemplatePath = UniversalTarget.kUberTemplatePath,
                     sharedTemplateDirectories = UniversalTarget.kSharedTemplateDirectories,
 
                     // Port Mask
@@ -210,10 +210,17 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
 
                     // Conditional State
                     renderStates = CoreRenderStates.Default,
-                    pragmas = CorePragmas._2DDefault,
+                    pragmas = new PragmaCollection
+                    {
+                        { Pragma.Target(ShaderModel.Target20) },
+                        { Pragma.ExcludeRenderers(new[] { Platform.D3D9 }) },
+                        { Pragma.MultiCompileInstancing },
+                        { Pragma.Vertex("vert") },
+                        { Pragma.Fragment("fragblack") },
+                    },
                     defines = new(),
                     keywords = SpriteUnlitKeywords.Unlit,
-                    includes = SpriteUnlitIncludes.Unlit,
+                    includes = SpriteCastleIncludes.Unlit,
 
                     // Custom Interpolator Support
                     customInterpolators = CoreCustomInterpDescriptors.Common
@@ -268,6 +275,23 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
         static class SpriteUnlitIncludes
         {
             const string kSpriteUnlitPass = "Packages/com.unity.render-pipelines.universal/Editor/2D/ShaderGraph/Includes/SpriteUnlitPass.hlsl";
+
+            public static IncludeCollection Unlit = new IncludeCollection
+            {
+                // Pre-graph
+                { CoreIncludes.FogPregraph },
+                { CoreIncludes.CorePregraph },
+                { CoreIncludes.ShaderGraphPregraph },
+
+                // Post-graph
+                { CoreIncludes.CorePostgraph },
+                { kSpriteUnlitPass, IncludeLocation.Postgraph },
+            };
+        }
+        static class SpriteCastleIncludes
+        {
+            //const string kSpriteUnlitPass = "Packages/com.unity.render-pipelines.universal/Editor/2D/ShaderGraph/Includes/SpriteUnlitPass.hlsl";
+            const string kSpriteUnlitPass = "Packages/com.uniquecorn.castle/Rendering/Editor/Includes/SpriteCastlePass.hlsl";
 
             public static IncludeCollection Unlit = new IncludeCollection
             {

@@ -115,9 +115,8 @@ $splice(GraphVertex)
 // Custom interpolators, pre surface
 $splice(CustomInterpolatorPreSurface)
 
-// Graph Pixel
+// Graph Pixel - Test Injection
 $splice(GraphPixel)
-
 // --------------------------------------------------
 // Build Graph Inputs
 #ifdef HAVE_VFX_MODIFICATION
@@ -133,7 +132,32 @@ $features.graphPixel: $include("SharedCode.template.hlsl")
 // Main
 
 $splice(PostGraphIncludes)
+half4 fragDarken(PackedVaryings packedInput) : SV_TARGET
+{
+    Varyings unpacked = UnpackVaryings(packedInput);
+    UNITY_SETUP_INSTANCE_ID(unpacked);
+    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(unpacked);
+    SurfaceDescription surfaceDescription = BuildSurfaceDescription(unpacked);
+    #ifdef UNIVERSAL_USELEGACYSPRITEBLOCKS
+        half4 color = surfaceDescription.SpriteColor;
+    #else
+        half4 color = half4(surfaceDescription.BaseColor, surfaceDescription.Alpha);
+    #endif
 
+    if (color.a == 0.0)
+            discard;
+
+    #if ALPHA_CLIP_THRESHOLD
+        clip(color.a - surfaceDescription.AlphaClipThreshold);
+    #endif
+        // Disable vertex color multiplication. Users can get the color from VertexColor node
+    #if !defined(HAVE_VFX_MODIFICATION) && !defined(_DISABLE_COLOR_TINT)
+        color *= unpacked.color;
+    #endif
+
+    color.rgb = 0;
+    return color;
+}
 // --------------------------------------------------
 // Visual Effect Vertex Invocations
 #ifdef HAVE_VFX_MODIFICATION
