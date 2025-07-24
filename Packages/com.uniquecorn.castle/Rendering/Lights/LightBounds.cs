@@ -3,8 +3,7 @@ using UnityEngine;
 namespace Castle.Rendering.Lights
 {
     public class LightBounds : MonoBehaviour
-{
-    public Vector2 testPoint;
+    {
         public Vector2[] points;
         public float minX,maxX,minY,maxY;
         void Reset()
@@ -19,8 +18,8 @@ namespace Castle.Rendering.Lights
             int j = points.Length - 1;
             for (var i = 0; i < points.Length; i++)
             {
-                if (points[i].y < point.y && points[j].y >= point.y ||
-                    points[j].y < point.y && points[i].y >= point.y)
+                if ((points[i].y < point.y && points[j].y >= point.y) ||
+                    (points[j].y < point.y && points[i].y >= point.y))
                 {
                     if (points[i].x + (point.y - points[i].y) /
                         (points[j].y - points[i].y) *
@@ -45,17 +44,15 @@ namespace Castle.Rendering.Lights
             for (var i = 0; i < points.Length; i++)
             {
                 if (!Tools.Intersect(transform.InverseTransformPoint(origin), transform.InverseTransformPoint(dest),
-                        points[i], points[
-                            (i + 1) % points.Length], out var intersect,out alpha)) continue;
-                //Debug.Log(det);
+                        points[i], points[(i + 1) % points.Length], out var intersect,out alpha)) continue;
                 intersection = transform.position.Translate(intersect);
                 return true;
             }
             alpha = 0;
             intersection = dest;
             return false;
-
         }
+        public Vector3 TransformedPointWrapped(int index) => transform.TransformPoint(points[index % points.Length]);
         void OnValidate() => CalculateBounds();
         public void CalculateBounds()
         {

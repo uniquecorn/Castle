@@ -1,27 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5754352734025062664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba548eff089462587473c58acf091f3, type: 3}
-  m_Name: LightingRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  settings:
-    ambientLighting: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
-    bloom: 1.47
-    additiveBloom: 0.084
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 55
-  multiplyShader: {fileID: 4800000, guid: 46d6237b0f3cf4f379224d9427374b16, type: 3}
-  blurShader: {fileID: 4800000, guid: d60afb73133064eb490b90ac47807526, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,8 +25,8 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: -5754352734025062664}
-  m_RendererFeatureMap: f8662320ad6e24b0
+  - {fileID: 2240757618578530436}
+  m_RendererFeatureMap: 84a01f9b2ec5181f
   m_UseNativeRenderPass: 0
   m_LayerMask:
     serializedVersion: 2
@@ -79,3 +57,25 @@ MonoBehaviour:
   m_PostProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   m_DefaultMaterialType: 0
   m_DefaultCustomMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+--- !u!114 &2240757618578530436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba548eff089462587473c58acf091f3, type: 3}
+  m_Name: LightingRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    ambientLighting: {r: 0, g: 0, b: 0, a: 0}
+    bloom: 0
+    additiveBloom: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 55
+  multiplyShader: {fileID: 4800000, guid: 46d6237b0f3cf4f379224d9427374b16, type: 3}
+  blurShader: {fileID: 4800000, guid: d60afb73133064eb490b90ac47807526, type: 3}
