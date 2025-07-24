@@ -9,7 +9,6 @@ namespace Castle.Editor
     {
         private const float handleSize = 0.04f;
         private const float pickSize = 0.06f;
-        private int selectedIndex = -1;
         public void OnSceneGUI()
         {
             if (target is not LightBounds lightBounds) return;
@@ -21,12 +20,8 @@ namespace Castle.Editor
             for (var i = 0; i < lightBounds.points.Length; i++)
             {
                 var point = lightBounds.TransformedPointWrapped(i);
-                var size = HandleUtility.GetHandleSize(point);
-                if (!snapped && (point - mouseWorldPoint).sqrMagnitude < 0.01f)
-                {
-                    snapped = true;
-                    size *= 1.5f;
-                }
+                if (!snapped) snapped = (point - mouseWorldPoint).sqrMagnitude < 0.01f;
+                var size = HandleUtility.GetHandleSize(point) * (snapped ? 1.5f : 1f);
                 var next = lightBounds.TransformedPointWrapped(i + 1);
                 var mouseEdgePoint = ClosestPointInEdge(point,next,mouseWorldPoint, out var sqrDistanceToMouse);
                 if (i == 0 || closestEdgeDistance > sqrDistanceToMouse)
@@ -36,7 +31,7 @@ namespace Castle.Editor
                     closestEdgeDistance = sqrDistanceToMouse;
                 }
                 Handles.DrawLine(point, next);
-                if (Event.current.command)
+                if (Event.current.alt)
                 {
                     if (!Handles.Button(point, Quaternion.identity, size * handleSize, size * pickSize,
                             Handles.DotHandleCap)) continue;
@@ -51,18 +46,16 @@ namespace Castle.Editor
                     Undo.RecordObject(lightBounds, "Move Point");
                     lightBounds.points[i] = lightBounds.transform.InverseTransformPoint(point);
                 }
-                EditorUtility.SetDirty(lightBounds);
-                lightBounds.CalculateBounds();
+                lightBounds.SetDirty();
             }
-
-            if (!snapped && !Event.current.command && closestEdgeIndex >= 0)
+            if (!snapped && !Event.current.alt && closestEdgeIndex >= 0)
             {
                 var size = HandleUtility.GetHandleSize(closestEdgePoint);
                 if (!Handles.Button(closestEdgePoint, Quaternion.identity, size * handleSize, size * pickSize,
                         Handles.DotHandleCap)) return;
-                EditorUtility.SetDirty(lightBounds);
-                ArrayUtility.Insert(ref lightBounds.points, closestEdgeIndex+1,closestEdgePoint - lightBounds.transform.position);
-                lightBounds.CalculateBounds();
+                ArrayUtility.Insert(ref lightBounds.points, closestEdgeIndex + 1,
+                    closestEdgePoint - lightBounds.transform.position);
+                lightBounds.SetDirty();
             }
         }
         Vector3 ClosestPointInEdge(Vector2 p0,Vector2 p1,Vector2 mouseWorldPoint, out float sqrDistanceToMouse)
@@ -82,8 +75,7 @@ namespace Castle.Editor
             planeNormal = Handles.matrix.MultiplyVector(planeNormal);
             planePos = Handles.matrix.MultiplyPoint(planePos);
             var plane = new Plane(planeNormal, planePos);
-            var distance = 0f;
-            if (plane.Raycast(ray, out distance))
+            if (plane.Raycast(ray, out var distance))
             {
                 worldPos = Handles.inverseMatrix.MultiplyPoint(ray.GetPoint(distance));
             }

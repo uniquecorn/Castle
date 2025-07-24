@@ -71,5 +71,12 @@ namespace Castle.Rendering.Lights
                 Gizmos.DrawLine(transform.position.Translate(points[i]), transform.position.Translate(points[(i + 1) % points.Length]));
             }
         }
-}
+#if UNITY_EDITOR
+        public void SetDirty()
+        {
+            UnityEditor.EditorUtility.SetDirty(this);
+            CalculateBounds();
+        }
+#endif
+    }
 }

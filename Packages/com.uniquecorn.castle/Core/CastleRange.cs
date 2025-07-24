@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Castle.Core
 {
@@ -16,45 +15,5 @@ namespace Castle.Core
         }
         private bool UseRangeEnum => RangeType != null;
         public virtual bool Check() => false;
-    }
-    [System.Serializable]
-    public abstract class CastleValueRange : CastleRange
-    {
-        public enum ConditionCheck
-        {
-            MoreOrEqual,
-            Equal,
-            Less
-        }
-        public enum ValueTypeCheck
-        {
-            None,
-            Simple,
-            SimpleValue,
-            Value
-        }
-        [ShowIf("UseValue",ValueTypeCheck.Value)]
-        public ConditionCheck checkType;
-        public int value;
-        protected virtual ValueTypeCheck UseValue => ValueTypeCheck.None;
-    }
-    public interface ISimpleCastleRange : ICastleRange
-    {
-        bool Check();
-        void DebugCheck() => Debug.Log(Label +" is "+Check());
-    }
-    public interface IConditionalCastleRange<in T> : ICastleRange
-    {
-        bool Check(T variable);
-    }
-    public interface ICastleRange
-    {
-        string Label { get; }
-        ConditionOp ArrayCheck => ConditionOp.And;
-    }
-    public enum ConditionOp
-    {
-        And,
-        Or
     }
 }
