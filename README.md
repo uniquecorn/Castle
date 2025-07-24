@@ -7,9 +7,10 @@ A framework for making 2D games in Unity. It's being used in my games in product
 This library is not for beginners and is provided as-is. I update this semi regularly, with new features and tools. You probably don't want to have this auto update in your project. Some of the features are extremely WIP, specifically the Graph systems and Rendering.
 
 **Requirements**
-- Odin Inspector and Serializer
-- ZString
-- UniTask
+- [Odin Inspector and Serializer](https://odininspector.com)
+- [ZString](https://github.com/Cysharp/ZString)
+- [UniTask](https://github.com/Cysharp/UniTask)
+- [GraphViewBase](https://github.com/Gentlymad-Studios/GraphViewBase)
 
 **NOTE:** You should probably install those first before installing this.
 
