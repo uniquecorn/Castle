@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53fb8d16-b9d7-4f5d-ab41-88a287a1e3d8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Packages/com.uniquecorn.castle/Rendering/Shaders/DualKawaseBlur.hlsl" beforeDir="false" />
-    </list>
+    <list default="true" id="53fb8d16-b9d7-4f5d-ab41-88a287a1e3d8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,18 +13,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "uniquecorn"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;uniquecorn&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/uniquecorn/Castle.git",
-    "accountId": "c2de3933-ffa2-434d-b0d1-ee59864e9a7d"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/uniquecorn/Castle.git&quot;,
+    &quot;accountId&quot;: &quot;c2de3933-ffa2-434d-b0d1-ee59864e9a7d&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../TsukiOdyssey/Assets/Scripts/TsukiExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ff121436f2734fa5be51ab2072f25332200000/bd/38fc708e/VisualElement.cs" root0="FORCE_HIGHLIGHTING" />
@@ -40,13 +38,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/6000.1.13f1/Unity.app/Contents/MacOS/Unity" />
@@ -108,7 +106,7 @@
       <updated>1753249526233</updated>
       <workItem from="1753249527348" duration="895000" />
       <workItem from="1753251437049" duration="8870000" />
-      <workItem from="1753368865468" duration="6353000" />
+      <workItem from="1753368865468" duration="7616000" />
     </task>
     <servers />
   </component>
