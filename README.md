@@ -1,5 +1,7 @@
 # Castle
 
+[![CodeFactor](https://www.codefactor.io/repository/github/uniquecorn/castle/badge/master)](https://www.codefactor.io/repository/github/uniquecorn/castle/overview/master)
+
 A framework for making 2D games in Unity. It's being used in my games in production, including Tsuki's Odyssey.
 
 **IMPORTANT**
