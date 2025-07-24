@@ -146,9 +146,9 @@ namespace Castle.Core.UI
         protected bool ImmediateCloseActions => (immediateActionTriggers & ImmediateActionTriggers.Close) != 0;
         [ShowIf("UseVisibleTimer")]
         public ImmediateActionTriggers immediateActionTriggers;
-        public string InSuffixLabel => 1 / transitionInSpeed + "sec";
-        public string OutSuffixLabel => 1 / transitionOutSpeed + "sec";
-        public string StateSuffixLabel => "("+visibleTimer + ") sec  ";
+        public string InSuffixLabel => (1 / transitionInSpeed) + "sec";
+        public string OutSuffixLabel => (1 / transitionOutSpeed) + "sec";
+        public string StateSuffixLabel => $"({visibleTimer}) sec  ";
         public virtual BackButtonAction BackButtonAffected => BackButtonAction.Close;
         protected bool HasCanvasGroup => canvasGroup != null;
         protected bool HasHandler => handler != null;

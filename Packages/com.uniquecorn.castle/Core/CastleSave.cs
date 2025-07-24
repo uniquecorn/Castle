@@ -123,10 +123,7 @@ namespace Castle.Core
         {
             await using var sourceStream =
                 new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true);
-            if (cts.IsCancellationRequested)
-            {
-                throw new System.OperationCanceledException();
-            }
+            cts.ThrowIfCancellationRequested();
             return RawStreamToSave<T>(sourceStream);
         }
         
@@ -136,10 +133,7 @@ namespace Castle.Core
             var path = hasExistingSave ? TempSavePath : SavePath;
             await using var sourceStream =
                 new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Delete | FileShare.ReadWrite, 4096, true);
-            if (cts.IsCancellationRequested)
-            {
-                throw new System.OperationCanceledException();
-            }
+            cts.ThrowIfCancellationRequested();
             await sourceStream.WriteAsync(bytes, 0, bytes.Length,cts);
             await sourceStream.FlushAsync(cts);
             if (hasExistingSave)
@@ -185,10 +179,7 @@ namespace Castle.Core
         {
             await using var sourceStream =
                 new FileStream(loadBackup? BackupSavePath : SavePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite, 4096, true);
-            if (cts.IsCancellationRequested)
-            {
-                throw new System.OperationCanceledException();
-            }
+            cts.ThrowIfCancellationRequested();
             try
             {
                 Save<T>.SaveInstance = RawStreamToSave<T>(sourceStream);
