@@ -1,0 +1,21 @@
+{
+    "name": "Castle.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1941daf67b50b42828d18820d0187260",
+        "GUID:33661e06c33d31b4c9223810bf503247",
+        "GUID:2c573e6b271651846a79655161004c5b",
+        "GUID:073f1895bf9494935a39e59430c90de9"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

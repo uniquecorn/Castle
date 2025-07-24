@@ -1,0 +1,13 @@
+{
+  "name": "com.uniquecorn.castle",
+  "version": "0.1.0",
+  "displayName": "Castle",
+  "author": {
+    "name": "uniquecorn",
+    "url": "https://github.com/uniquecorn/Castle"
+  },
+  "description": "2D Framework for Unity",
+  "unity": "6000.1",
+  "dependencies": {
+  }
+}
