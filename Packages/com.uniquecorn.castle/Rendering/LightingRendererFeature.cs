@@ -42,5 +42,18 @@ namespace Castle.Rendering
             if(renderingData.cameraData.cameraType == CameraType.SceneView && !renderingData.cameraData.postProcessEnabled)return;
             renderer.EnqueuePass(lightingRendererPass);
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(multiplyMaterial);
+                Destroy(blurMaterial);
+            }
+            else
+            {
+                DestroyImmediate(multiplyMaterial);
+                DestroyImmediate(blurMaterial);
+            }
+        }
     }
 }
