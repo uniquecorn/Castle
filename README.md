@@ -1,6 +1,6 @@
 # Castle
 
-A framework for making 2D games in Unity.
+A framework for making 2D games in Unity. It's being used in my games in production, including Tsuki's Odyssey.
 
 **IMPORTANT**
 
