@@ -15,4 +15,5 @@ A framework for making 2D games in Unity.
 - Or just clone and copy the stuff into your project like a neanderthal.
 
 **License**
+
 This library is under the MIT License.
