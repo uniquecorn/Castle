@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Castle.Core
         }
         public static bool SavingInProgress => saveState != SaveState.Idle;
         private static SaveState saveState;
-        [System.Serializable]
+        [Serializable]
         public abstract class Save<T> : Save where T : Save<T>, new()
         {
             static T save;
@@ -43,7 +44,7 @@ namespace Castle.Core
                 return SaveInstance;
             }
         }
-        [System.Serializable]
+        [Serializable]
         public abstract class Save
         {
             public int cloudSaveID;
@@ -71,43 +72,43 @@ namespace Castle.Core
             public virtual bool DisableCloudSave => false;
             public Save()
             {
-                cloudSaveID = System.Guid.NewGuid().GetHashCode();
+                cloudSaveID = Guid.NewGuid().GetHashCode();
                 musicVolume = sfxVolume = 1;
-                firstSaved = System.DateTime.UtcNow.ToOADate();
+                firstSaved = DateTime.UtcNow.ToOADate();
             }
 
             public virtual void InitializeNewSave() { }
-            public System.DateTime FirstSaved
+            public DateTime FirstSaved
             {
-                get => System.DateTime.FromOADate(firstSaved);
+                get => DateTime.FromOADate(firstSaved);
                 set => firstSaved = value.ToOADate();
             }
-            public System.DateTime LastCloudSave
+            public DateTime LastCloudSave
             {
-                get => System.DateTime.FromOADate(lastCloudSaveOA);
+                get => DateTime.FromOADate(lastCloudSaveOA);
                 set => lastCloudSaveOA = value.ToOADate();
             }
-            public System.DateTime LastSaved
+            public DateTime LastSaved
             {
-                get => System.DateTime.FromOADate(lastSaved);
+                get => DateTime.FromOADate(lastSaved);
                 set => lastSaved = value.ToOADate();
             }
-            public System.DateTime LastKnownLegitTime
+            public DateTime LastKnownLegitTime
             {
-                get => System.DateTime.FromOADate(lastLegitTimeOA);
+                get => DateTime.FromOADate(lastLegitTimeOA);
                 set => lastLegitTimeOA = value.ToOADate();
             }
             public virtual void PreSaveActions()
             {
                 lastSavedVersion = Tools.VersionNum;
-                lastSaved = System.DateTime.UtcNow.ToOADate();
+                lastSaved = DateTime.UtcNow.ToOADate();
                 LastKnownLegitTime = CastleClock.UTC;
             }
             public virtual void LoadActions()
             {
                 if (cloudSaveID == 0)
                 {
-                    cloudSaveID = System.Guid.NewGuid().GetHashCode();
+                    cloudSaveID = Guid.NewGuid().GetHashCode();
                 }
                 UpgradeSave(lastSavedVersion,Tools.VersionNum);
             }
@@ -134,7 +135,7 @@ namespace Castle.Core
             await using var sourceStream =
                 new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Delete | FileShare.ReadWrite, 4096, true);
             cts.ThrowIfCancellationRequested();
-            await sourceStream.WriteAsync(bytes, 0, bytes.Length,cts);
+            await sourceStream.WriteAsync(bytes.AsMemory(0,bytes.Length),cts);
             await sourceStream.FlushAsync(cts);
             if (hasExistingSave)
             {
@@ -142,7 +143,7 @@ namespace Castle.Core
                 {
                     File.Replace(TempSavePath,SavePath,BackupSavePath);
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
                     Debug.LogException(e);
                     return false;
@@ -159,7 +160,7 @@ namespace Castle.Core
             var path = hasExistingSave ? TempSavePath : SavePath;
             using var sourceStream =
                 new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Delete | FileShare.ReadWrite, 4096);
-            sourceStream.Write(bytes,0,bytes.Length);
+            sourceStream.Write(bytes.AsSpan(0, bytes.Length));
             sourceStream.Flush();
             if (hasExistingSave)
             {
@@ -167,7 +168,7 @@ namespace Castle.Core
                 {
                     File.Replace(TempSavePath,SavePath,BackupSavePath);
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
                     Debug.LogException(e);
                     return false;
@@ -184,7 +185,7 @@ namespace Castle.Core
             {
                 Save<T>.SaveInstance = RawStreamToSave<T>(sourceStream);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogException(e);
                 return false;
