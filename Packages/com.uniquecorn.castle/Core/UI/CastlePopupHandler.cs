@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
@@ -55,6 +56,15 @@ namespace Castle.Core.UI
                 uiPopups.Add(p[i]);
             }
             popups = uiPopups.ToArray();
+        }
+        public virtual bool BuildValidation()
+        {
+            if (popups.Any(x => x == null))
+            {
+                Debug.LogError("Popup is null");
+                return false;
+            }
+            return true;
         }
 #endif
     }

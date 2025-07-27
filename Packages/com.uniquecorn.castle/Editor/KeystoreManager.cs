@@ -63,7 +63,6 @@ namespace Castle.Editor
         {
             if (!File.Exists(KeyDetailsPath)) return false;
             if (!File.Exists(KeystorePath) && !CreateKeystore()) return false;
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.FromBuildTargetGroup(EditorUserBuildSettings.selectedBuildTargetGroup),Settings.Identifier);
             var details = JsonUtility.FromJson<Key>(Tools.ReadTextFile(KeyDetailsPath));
             PlayerSettings.Android.useCustomKeystore=true;
             PlayerSettings.Android.keystoreName = ShortKeystorePath;

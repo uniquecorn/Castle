@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Sirenix.Serialization;
+using Sirenix.Utilities;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -349,6 +351,82 @@ namespace Castle
             var fieldInfo = parentComponentType.GetField(property.propertyPath);
             // ... using that we can return the raw .net type!
             return fieldInfo.FieldType;
+        }
+        public static void ForceClearDirectory(string directory)
+        {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+                return;
+            }
+
+            var files = Directory.GetFiles(directory);
+            var dirs = Directory.GetDirectories(directory);
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                ForceDeleteDirectory(dir);
+            }
+        }
+        public static void ForceDeleteDirectory(string directory)
+        {
+            if (!Directory.Exists(directory)) return;
+            var files = Directory.GetFiles(directory);
+            var dirs = Directory.GetDirectories(directory);
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+
+            foreach (string dir in dirs)
+            {
+                ForceDeleteDirectory(dir);
+            }
+
+            try
+            {
+                Directory.Delete(directory, true);
+            }
+            catch (IOException)
+            {
+                System.Threading.Thread.Sleep(50);
+                Directory.Delete(directory, true);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                Directory.Delete(directory, true);
+            }
+        }
+        public static void GetAllReferencedTypes(System.Type typeToSupport, ref HashSet<System.Type> allTypes)
+        {
+            if (allTypes.Contains(typeToSupport)) return;
+            allTypes.Add(typeToSupport);
+            if (FormatterUtilities.IsPrimitiveType(typeToSupport))
+                return;
+            if (typeToSupport.IsGenericType)
+                foreach (var a in typeToSupport.GenericTypeArguments)
+                    GetAllReferencedTypes(a, ref allTypes);
+            if (typeToSupport.HasElementType)
+            {
+                GetAllReferencedTypes(typeToSupport.GetElementType(), ref allTypes);
+            }
+            else
+            {
+                foreach (var t in typeToSupport.Assembly.GetTypes().Where(childType =>
+                             typeToSupport.IsAssignableFrom(childType) && !childType.ContainsGenericParameters))
+                    GetAllReferencedTypes(t, ref allTypes);
+                foreach (var serializableMember in FormatterUtilities.GetSerializableMembers(typeToSupport,
+                             SerializationPolicies.Unity))
+                {
+                    GetAllReferencedTypes(serializableMember.GetReturnType(), ref allTypes);
+                }
+            }
         }
         public static bool RunSh(string path, params string[] arguments)
         {
