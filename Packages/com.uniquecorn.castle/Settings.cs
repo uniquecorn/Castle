@@ -38,7 +38,7 @@ namespace Castle
         [TypeDrawerSettings(BaseType = typeof(CastleSave)),ShowInInspector]
         public System.Type SaveTypeForAot
         {
-            get => System.Type.GetType(saveTypeString);
+            get => string.IsNullOrEmpty(saveTypeString) ? null : System.Type.GetType(saveTypeString);
             set => saveTypeString = value == null ? "" : value.AssemblyQualifiedName;
         }
         [HideInInspector]
