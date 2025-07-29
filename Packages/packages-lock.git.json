@@ -1,0 +1,19 @@
+{
+    "dependencies": [
+        {
+            "name": "com.cysharp.unitask",
+            "hash": "f213ff497e4ff462a77319cf677cf20cc0860ca9",
+            "url": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+        },
+        {
+            "name": "com.cysharp.zstring",
+            "hash": "5fefbaa7df300643e53954cf07a73b3299665883",
+            "url": "https://github.com/Cysharp/ZString.git?path=src/ZString.Unity/Assets/Scripts/ZString"
+        },
+        {
+            "name": "com.gentlymad.graphviewbase",
+            "hash": "",
+            "url": "https://github.com/Gentlymad-Studios/GraphViewBase.git"
+        }
+    ]
+}

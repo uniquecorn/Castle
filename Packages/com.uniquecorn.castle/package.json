@@ -1,6 +1,6 @@
 {
   "name": "com.uniquecorn.castle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "displayName": "Castle",
   "author": {
     "name": "uniquecorn",
@@ -9,5 +9,10 @@
   "description": "2D Framework for Unity",
   "unity": "6000.1",
   "dependencies": {
+  },
+  "gitDependencies": {
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.cysharp.zstring": "https://github.com/Cysharp/ZString.git?path=src/ZString.Unity/Assets/Scripts/ZString",
+    "com.gentlymad.graphviewbase": "https://github.com/Gentlymad-Studios/GraphViewBase.git"
   }
 }
