@@ -58,6 +58,7 @@ namespace Castle.Graph
         public void AddNode(Vector2 position) => AddNode<TNode>(position);
         public override bool AddNode(System.Type nodeType, Vector2 position,out BaseNodeData n)
         {
+            Debug.Log(position);
             Undo.RecordObject(this,"CreateNode");
             var o = CreateInstance(nodeType);
             if (o is not TNode node)
@@ -126,6 +127,16 @@ namespace Castle.Graph
                     AssetDatabase.SaveAssets();
                 }
             }
+        }
+
+        public override void RemoveNode(BaseNodeData node)
+        {
+            nodeDictionary.Remove(node.nodeID);
+            var path = AssetDatabase.GetAssetPath(node);
+            //AssetDatabase.DeleteAsset(path);
+            AssetDatabase.RemoveObjectFromAsset(node);
+            //EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
 #endif
         public void OnBeforeSerialize()

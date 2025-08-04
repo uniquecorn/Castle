@@ -11,7 +11,7 @@ namespace Castle.Graph
         public BaseGraph graph;
         [HideInInspector]
         public long nodeID;
-        //[HideInInspector]
+        [HideInInspector]
         public Vector2 position;
         [HideInInspector]
         public CastleDictionary<string,BasePortData> inputs;

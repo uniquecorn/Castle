@@ -23,6 +23,7 @@ namespace Castle.Graph
         }
         public abstract void AddNode<T>(Vector2 position,bool batchEdit=false) where T : BaseNodeData;
         public abstract bool AddNode(System.Type nodeType, Vector2 position,out BaseNodeData node);
+        public abstract void RemoveNode(BaseNodeData node);
         public abstract bool IsDirty();
         [Button,ShowIf("IsDirty")]
         public void Save()

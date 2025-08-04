@@ -1,29 +1,25 @@
 {
   "dependencies": {
-    "com.coffee.git-dependency-resolver": {
-      "version": "https://github.com/mob-sakai/GitDependencyResolverForUnity.git",
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "d4fc38c92fb139b4184912f20556ab27a3b519fa"
-    },
-    "com.cysharp.unitask": {
-      "version": "file:.com.cysharp.unitask@2.5.10",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
+      "hash": "f213ff497e4ff462a77319cf677cf20cc0860ca9"
     },
     "com.cysharp.zstring": {
-      "version": "file:.com.cysharp.zstring@2.6.0",
+      "version": "https://github.com/Cysharp/ZString.git?path=src/ZString.Unity/Assets/Scripts/ZString",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "5fefbaa7df300643e53954cf07a73b3299665883"
     },
     "com.gentlymad.graphviewbase": {
-      "version": "file:.com.gentlymad.graphviewbase@0.1.7",
+      "version": "https://github.com/Gentlymad-Studios/GraphViewBase.git",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "7bd2aaa6b7a85bcc5f96720c309e286358a794bb"
     },
     "com.uniquecorn.castle": {
       "version": "file:com.uniquecorn.castle",

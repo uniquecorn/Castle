@@ -14,13 +14,10 @@ namespace Castle.Graph.Editor
             this.node = node;
             userData = node;
             viewDataKey = node.nodeID.ToString();
-            transform.position = node.position;
-            //style.backgroundColor = new Color(0.1f,0.1f,0.1f,1f);
             style.width = node.NodeWidth;
             style.position = Position.Absolute;
-            style.left = node.position.x;
-            style.top = node.position.y;
-            this.AddManipulator(new ContextualMenuManipulator(OpenContextualMenu));
+            // style.left = node.position.x;
+            // style.top = node.position.y;
             if(UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(node,out _,out long localId))
             {
                 name = node.GetType().ToString() + localId;
@@ -29,7 +26,34 @@ namespace Castle.Graph.Editor
             {
                 name = node.GetType().ToString();
             }
+            ElementAt(0).style.backgroundColor = new Color(0.2196078f, 0.2196078f, 0.2196078f, 1f);
+            var inspector = new InspectorElement(node);
+            var container = inspector.Q<IMGUIContainer>();
+            container.cullingEnabled = true;
+            ExtensionContainer.Add(inspector);
+        }
 
+        public override void SetPosition(Vector2 newPos)
+        {
+            base.SetPosition(newPos);
+            node.position = newPos;
+        }
+        public virtual void OpenContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.AppendAction("Delete",a=>
+            {
+                Graph.RemoveElement(this);
+                node.graph.RemoveNode(node);
+                //Debug.Log(node.bigText);
+            });
+            evt.StopImmediatePropagation();
+        }
+
+        protected override void OnAddedToGraphView()
+        {
+            base.OnAddedToGraphView();
+            transform.position = Graph.WorldToLocal(node.position);
+            this.AddManipulator(new ContextualMenuManipulator(OpenContextualMenu));
             if (node.inputs.IsSafe())
             {
                 foreach (var i in node.inputs)
@@ -51,41 +75,6 @@ namespace Castle.Graph.Editor
                     AddPort(port);
                 }
             }
-
-
-            ElementAt(0).style.backgroundColor = new Color(0.2196078f, 0.2196078f, 0.2196078f, 1f);
-            var inspector = new InspectorElement(node);
-            var container = inspector.Q<IMGUIContainer>();
-            container.cullingEnabled = true;
-            ExtensionContainer.Add(inspector);
-            // using (var tree = PropertyTree.Create(node))
-            // {
-            //     var container = new IMGUIContainer(() =>
-            //     {
-            //         Sirenix.Utilities.Editor.GUIHelper.PushLabelWidth(100);
-            //         tree.BeginDraw(true);
-            //         foreach (var property in tree.EnumerateTree(true, true))
-            //         {
-            //             property.Draw();
-            //         }
-            //         tree.EndDraw();
-            //         Sirenix.Utilities.Editor.GUIHelper.PopLabelWidth();
-            //     }) {name = "OdinTree"};
-            //     container.style.marginBottom = container.style.marginLeft =
-            //         container.style.marginRight = container.style.marginTop = 4;
-            //     extensionContainer.Add(container);
-            // }
-        }
-
-        public override void SetPosition(Vector2 newPos)
-        {
-            base.SetPosition(newPos);
-            node.position = newPos;
-        }
-        public virtual void OpenContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.AppendAction("Delete",a=>Debug.Log(node.bigText));
-            evt.StopImmediatePropagation();
         }
     }
 }

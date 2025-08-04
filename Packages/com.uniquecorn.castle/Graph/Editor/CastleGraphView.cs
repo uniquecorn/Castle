@@ -25,14 +25,16 @@ namespace Castle.Graph.Editor
                     var view = new NodeView(node);
                     AddElement(view);
                 }
-
-                foreach (var connection in graph.connections)
+                if (graph.connections.IsSafe())
                 {
-                    if (connection.TryGetInput(graph, out var input) && connection.TryGetOutput(graph, out var output))
+                    foreach (var connection in graph.connections)
                     {
-                        ContentContainer.Q<BasePort>(input.name).ConnectTo(ContentContainer.Q<BasePort>(output.name));
-                        // n.MarkDirtyRepaint();
-                        // c.MarkDirtyRepaint();
+                        if (connection.TryGetInput(graph, out var input) && connection.TryGetOutput(graph, out var output))
+                        {
+                            ContentContainer.Q<BasePort>(input.name).ConnectTo(ContentContainer.Q<BasePort>(output.name));
+                            // n.MarkDirtyRepaint();
+                            // c.MarkDirtyRepaint();
+                        }
                     }
                 }
             }
@@ -60,7 +62,7 @@ namespace Castle.Graph.Editor
             {
                 evt.menu.AppendAction($"Create/{t.Name}", a =>
                 {
-                    if (graph.AddNode(t, this.LocalToWorld(mousePosition), out var node))
+                    if (graph.AddNode(t, this.WorldToLocal(mousePosition), out var node))
                     {
                         var nodeView = new NodeView(node);
                         AddElement(nodeView);
