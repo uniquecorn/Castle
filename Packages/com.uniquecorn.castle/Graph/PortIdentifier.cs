@@ -1,7 +1,9 @@
+using System;
+
 namespace Castle.Graph
 {
     [System.Serializable]
-    public struct PortIdentifier
+    public struct PortIdentifier : System.IEquatable<PortIdentifier>
     {
         public long nodeID;
         public string portName;
@@ -10,6 +12,21 @@ namespace Castle.Graph
         {
             this.nodeID = nodeID;
             this.portName = portName;
+        }
+
+        public bool Equals(PortIdentifier other)
+        {
+            return nodeID == other.nodeID && portName == other.portName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PortIdentifier other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(nodeID, portName);
         }
     }
     [System.Serializable]

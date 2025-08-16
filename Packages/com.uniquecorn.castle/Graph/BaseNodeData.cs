@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Castle.Graph
@@ -27,11 +30,6 @@ namespace Castle.Graph
         {
             //SetInputs();
             //SetOutputs();
-        }
-
-        private void OnValidate()
-        {
-            CreatePorts();
         }
 
         public void SetInputs(params BasePortData[] ports)
@@ -72,5 +70,35 @@ namespace Castle.Graph
         {
             CreatePorts();
         }
+        public virtual bool CanConnectFrom(string input, PortIdentifier output)
+        {
+            return true;
+        }
+        public virtual bool CanConnectTo(string output, PortIdentifier input)
+        {
+            return true;
+        }
+#if UNITY_EDITOR
+        public void GetPorts(out List<PortIdentifier> inputs, out List<PortIdentifier> outputs)
+        {
+            inputs = new List<PortIdentifier>(2);
+            outputs = new List<PortIdentifier>(2);
+            foreach (var attr in GetType().GetCustomAttributes<PortAttribute>(true))
+            {
+                foreach (var port in attr.ports)
+                {
+                    switch (attr)
+                    {
+                        case InputPortAttribute:
+                            inputs.Add(new PortIdentifier(nodeID, port));
+                            break;
+                        case OutputPortAttribute:
+                            outputs.Add(new PortIdentifier(nodeID, port));
+                            break;
+                    }
+                }
+            }
+        }
+#endif
     }
 }

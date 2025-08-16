@@ -29,12 +29,7 @@ namespace Castle.Graph.Editor
                 {
                     foreach (var connection in graph.connections)
                     {
-                        if (connection.TryGetInput(graph, out var input) && connection.TryGetOutput(graph, out var output))
-                        {
-                            ContentContainer.Q<BasePort>(input.name).ConnectTo(ContentContainer.Q<BasePort>(output.name));
-                            // n.MarkDirtyRepaint();
-                            // c.MarkDirtyRepaint();
-                        }
+                        TryConnect(connection);
                     }
                 }
             }
@@ -42,17 +37,36 @@ namespace Castle.Graph.Editor
 
         public override void OnActionExecuted(Actions actionType, object data = null)
         {
-            if (actionType == Actions.EdgeCreate && data is Edge edge)
+            Debug.Log(actionType);
+            switch (actionType)
             {
-                var inputNode = edge.Input.userData as BasePortData;
-                var outputNode = edge.Output.userData as BasePortData;
-                var connection = new Connection()
-                {
-                    input = new PortIdentifier(inputNode.node.nodeID, inputNode.name),
-                    output = new PortIdentifier(outputNode.node.nodeID, outputNode.name)
-                };
-                graph.connections = graph.connections.AddToArray(connection);
+                case Actions.EdgeCreate or Actions.EdgeDrop or Actions.EdgeDelete when data is Edge edge:
+                    if (actionType == Actions.EdgeCreate)
+                    {
+                        var connection = new Connection()
+                        {
+                            input = (PortIdentifier)edge.Input.userData,
+                            output = (PortIdentifier)edge.Output.userData
+                        };
+                        UnityEditor.ArrayUtility.Add(ref graph.connections, connection);
+                        //graph.connections = graph.connections.AddToArray(connection);
+                        AddElement(edge);
+                    }
+                    else if (actionType == Actions.EdgeDelete)
+                    {
+                        //edge.Input.userData
+                        for (var i = 0; i < graph.connections.Length; i++)
+                        {
+                            if(!graph.connections[i].input.Equals(edge.Input.userData))continue;
+                            if(!graph.connections[i].output.Equals(edge.Output.userData))continue;
+                            UnityEditor.ArrayUtility.RemoveAt(ref graph.connections, i);
+                            edge.RemoveFromHierarchy();
+                            break;
+                        }
+                    }
+                    break;
             }
+
         }
 
         public virtual void OpenContextualMenu(ContextualMenuPopulateEvent evt)
@@ -86,6 +100,11 @@ namespace Castle.Graph.Editor
                 edge.RemoveFromHierarchy();
             }
         }
+
+        public bool GetNode(long nodeId,out BaseNodeData node)
+        {
+            return graph.GetNode(nodeId, out node);
+        }
         // public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         // {
         //     return ports.ToList()!.Where(endPort =>
@@ -94,7 +113,41 @@ namespace Castle.Graph.Editor
         //             endPort.portType == startPort.portType)
         //         .ToList();
         // }
-
+        public void TryConnect(Connection connection)
+        {
+            var found = false;
+            BasePort foundPort = null;
+            foreach (var port in ContentContainer.Ports)
+            {
+                if (!found)
+                {
+                    if (connection.input.Equals(port.userData) || connection.output.Equals(port.userData))
+                    {
+                        found = true;
+                        foundPort = port;
+                    }
+                }
+                else
+                {
+                    if (foundPort.Direction == Direction.Input)
+                    {
+                        if (connection.output.Equals(port.userData))
+                        {
+                            ConnectPorts(foundPort,port);
+                            return;
+                        }
+                    }
+                    else if (foundPort.Direction == Direction.Output)
+                    {
+                        if (connection.input.Equals(port.userData))
+                        {
+                            ConnectPorts(port,foundPort);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

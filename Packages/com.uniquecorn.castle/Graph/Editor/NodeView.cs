@@ -54,24 +54,25 @@ namespace Castle.Graph.Editor
             base.OnAddedToGraphView();
             transform.position = Graph.WorldToLocal(node.position);
             this.AddManipulator(new ContextualMenuManipulator(OpenContextualMenu));
-            if (node.inputs.IsSafe())
+            node.GetPorts(out var inputs,out var outputs);
+            if (inputs.IsSafe())
             {
-                foreach (var i in node.inputs)
+                foreach (var i in inputs)
                 {
-                    var port = new BasePort(Orientation.Horizontal, Direction.Input, PortCapacity.Multi);
-                    port.userData = i.Value;
-                    port.PortName = i.Key;
+                    var port = new PortView(Orientation.Horizontal, Direction.Input, PortCapacity.Multi);
+                    port.userData = i;
+                    port.PortName = i.portName;
                     AddPort(port);
                 }
             }
 
-            if (node.outputs.IsSafe())
+            if (outputs.IsSafe())
             {
-                foreach (var o in node.outputs)
+                foreach (var o in outputs)
                 {
-                    var port = new BasePort(Orientation.Horizontal, Direction.Output, PortCapacity.Multi);
-                    port.userData = o.Value;
-                    port.PortName = o.Key;
+                    var port = new PortView(Orientation.Horizontal, Direction.Output, PortCapacity.Multi);
+                    port.userData = o;
+                    port.PortName = o.portName;
                     AddPort(port);
                 }
             }

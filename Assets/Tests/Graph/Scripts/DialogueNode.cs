@@ -1,6 +1,7 @@
 using Castle.Graph;
 
-public class DialogueNode : BaseNodeData
+[InputPort("Input"),OutputPort("Output")]
+public abstract class DialogueNode : BaseNodeData
 {
-    
+
 }

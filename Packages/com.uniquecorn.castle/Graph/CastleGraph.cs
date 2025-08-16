@@ -52,7 +52,12 @@ namespace Castle.Graph
         public override System.Type[] GetNodeTypes()
         {
             var types = TypeCache.GetTypesDerivedFrom<TNode>().ToList();
-            types.Insert(0,typeof(TNode));
+            for (var i = types.Count - 1; i >= 0; i--)
+            {
+                if (!types[i].IsAbstract) continue;
+                types.RemoveAt(i);
+            }
+            if (!typeof(TNode).IsAbstract) types.Insert(0,typeof(TNode));
             return types.ToArray();
         }
         public void AddNode(Vector2 position) => AddNode<TNode>(position);
