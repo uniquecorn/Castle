@@ -8,10 +8,12 @@ namespace Castle.Graph.Editor
     public class NodeView : BaseNode
     {
         public BaseNodeData node;
+        public Label TitleLabel { get; }
         //public Port[] ports;
         public NodeView(BaseNodeData node) : base()
         {
             this.node = node;
+            name = node.GetType().Name;
             userData = node;
             viewDataKey = node.nodeID.ToString();
             style.width = node.NodeWidth;
@@ -31,6 +33,9 @@ namespace Castle.Graph.Editor
             var container = inspector.Q<IMGUIContainer>();
             container.cullingEnabled = true;
             ExtensionContainer.Add(inspector);
+            TitleLabel = new(node.GetType().Name) {pickingMode = PickingMode.Ignore};
+            TitleLabel.AddToClassList("node-title-label");
+            TitleContainer.Add(TitleLabel);
         }
 
         public override void SetPosition(Vector2 newPos)
@@ -42,9 +47,10 @@ namespace Castle.Graph.Editor
         {
             evt.menu.AppendAction("Delete",a=>
             {
-                Graph.RemoveElement(this);
-                node.graph.RemoveNode(node);
-                //Debug.Log(node.bigText);
+                if (Graph is CastleGraphView graphView)
+                {
+                    graphView.RemoveNode(this);
+                }
             });
             evt.StopImmediatePropagation();
         }

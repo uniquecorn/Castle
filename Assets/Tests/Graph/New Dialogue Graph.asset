@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5319993369035188005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f7d7598ac24faf9e7a709fe9ba3cc2, type: 3}
+  m_Name: TalkNode
+  m_EditorClassIdentifier: 
+  nodeID: -5319993369035188005
+  position: {x: 780, y: 567}
+  inputs:
+    m_Keys: []
+    m_Values: []
+  outputs:
+    m_Keys: []
+    m_Values: []
+  testField: 
+  bigText: 
+  testArray: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,17 +40,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connections:
   - output:
-      nodeID: 5885528107613579250
+      nodeID: 8406478395642444154
       portName: Output
     input:
-      nodeID: -2109447387703044422
+      nodeID: 2096189925312593641
+      portName: Input
+  - output:
+      nodeID: 2096189925312593641
+      portName: Output
+    input:
+      nodeID: -5319993369035188005
       portName: Input
   nodeDictionary:
-    m_Keys: f267e289a198ad51dd8dc1fc5c1a4c4c
+    m_Keys: 7a7943b88fcfa974e97e0288a129171ddb5839a737962bb6
     m_Values:
-    - {fileID: 5885528107613579250}
-    - {fileID: 5497798231792389597}
---- !u!114 &5497798231792389597
+    - {fileID: 8406478395642444154}
+    - {fileID: 2096189925312593641}
+    - {fileID: -5319993369035188005}
+--- !u!114 &2096189925312593641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,8 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c238afd9704dd994bb3346fd4cf7cd, type: 3}
   m_Name: ReplyNode
   m_EditorClassIdentifier: 
-  nodeID: 5497798231792389597
-  position: {x: 575, y: 641}
+  nodeID: 2096189925312593641
+  position: {x: 613, y: 103}
   inputs:
     m_Keys: []
     m_Values: []
@@ -50,7 +83,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &5885528107613579250
+--- !u!114 &8406478395642444154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,11 +92,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7c238afd9704dd994bb3346fd4cf7cd, type: 3}
-  m_Name: ReplyNode
+  m_Script: {fileID: 11500000, guid: 59f7d7598ac24faf9e7a709fe9ba3cc2, type: 3}
+  m_Name: TalkNode
   m_EditorClassIdentifier: 
-  nodeID: 5885528107613579250
-  position: {x: 81.48743, y: 205}
+  nodeID: 8406478395642444154
+  position: {x: 122, y: 492}
   inputs:
     m_Keys: []
     m_Values: []

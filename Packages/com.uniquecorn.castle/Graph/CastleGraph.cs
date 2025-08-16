@@ -136,6 +136,13 @@ namespace Castle.Graph
 
         public override void RemoveNode(BaseNodeData node)
         {
+            for (var i = connections.Length - 1; i >= 0; i--)
+            {
+                if (connections[i].input.nodeID == node.nodeID || connections[i].output.nodeID == node.nodeID)
+                {
+                    ArrayUtility.RemoveAt(ref connections, i);
+                }
+            }
             nodeDictionary.Remove(node.nodeID);
             var path = AssetDatabase.GetAssetPath(node);
             //AssetDatabase.DeleteAsset(path);

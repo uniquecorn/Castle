@@ -37,7 +37,7 @@ namespace Castle.Graph.Editor
 
         public override void OnActionExecuted(Actions actionType, object data = null)
         {
-            Debug.Log(actionType);
+            //Debug.Log(actionType);
             switch (actionType)
             {
                 case Actions.EdgeCreate or Actions.EdgeDrop or Actions.EdgeDelete when data is Edge edge:
@@ -101,10 +101,6 @@ namespace Castle.Graph.Editor
             }
         }
 
-        public bool GetNode(long nodeId,out BaseNodeData node)
-        {
-            return graph.GetNode(nodeId, out node);
-        }
         // public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         // {
         //     return ports.ToList()!.Where(endPort =>
@@ -113,6 +109,16 @@ namespace Castle.Graph.Editor
         //             endPort.portType == startPort.portType)
         //         .ToList();
         // }
+        public void RemoveNode(NodeView node)
+        {
+            foreach (var edge in ContentContainer.Edges)
+            {
+                if (edge.Input.ParentNode != node && edge.Output.ParentNode != node) continue;
+                edge.RemoveFromHierarchy();
+            }
+            graph.RemoveNode(node.node);
+            RemoveElement(node);
+        }
         public void TryConnect(Connection connection)
         {
             var found = false;
